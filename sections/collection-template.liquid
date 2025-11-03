@@ -11,441 +11,442 @@
       background: #FBFAF7;
       color: #2B2A27;
       font-family: 'Montserrat', sans-serif;
-      padding-bottom: 5rem;
     }
 
-    .fpd-container {
-      width: min(1100px, 92vw);
+    .fpd-shell {
+      max-width: 1200px;
       margin: 0 auto;
+      padding: 48px 32px 96px;
     }
 
-    .fpd-header {
-      padding: 4rem 0 2rem;
-      text-align: center;
-    }
-
-    .fpd-header h1 {
-      font-size: clamp(2.25rem, 2vw + 2rem, 3rem);
-      letter-spacing: 0.02em;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-
-    .fpd-description {
-      max-width: 720px;
-      margin: 0 auto;
-      font-size: 1rem;
-      line-height: 1.7;
-      color: rgba(43, 42, 39, 0.85);
-    }
-
-    .fpd-description p + p {
-      margin-top: 1rem;
-    }
-
-    .fpd-body {
+    .fpd-headline {
       display: grid;
-      grid-template-columns: 300px 1fr;
-      gap: 3.5rem;
-      align-items: start;
+      gap: 16px;
+      margin-bottom: 24px;
     }
 
-    .fpd-sidebar {
-      position: sticky;
-      top: 6rem;
-      align-self: start;
-      padding: 2rem;
-      border-radius: 20px;
-      background: #FAF7F2;
-      box-shadow: 0 16px 45px rgba(44, 40, 34, 0.08);
-    }
-
-    .fpd-sidebar h2 {
-      font-size: 1.1rem;
+    .fpd-headline h1 {
+      font-size: clamp(18px, 2vw, 20px);
+      letter-spacing: 0.2px;
       font-weight: 700;
-      margin-bottom: 1.5rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: #7C2C1D;
-    }
-
-    .fpd-filter-list {
-      list-style: none;
-      padding: 0;
       margin: 0;
-      display: grid;
-      gap: 0.75rem;
-    }
-
-    .fpd-filter-button {
-      width: 100%;
-      text-align: left;
-      background: transparent;
-      border: 1px solid #E7DECD;
       color: #2B2A27;
-      padding: 0.8rem 1rem;
-      border-radius: 999px;
+    }
+
+    .fpd-collection__description {
+      font-size: 15px;
+      line-height: 1.6;
       font-weight: 500;
-      letter-spacing: 0.02em;
-      transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+      color: #5D5A56;
+      max-width: 680px;
     }
 
-    .fpd-filter-button:hover,
-    .fpd-filter-button:focus {
-      border-color: #A44334;
-      color: #A44334;
-      outline: none;
-      transform: translateY(-2px);
-    }
-
-    .fpd-filter-button.is-active {
-      background: #7C2C1D;
-      color: #FBFAF7;
-      border-color: #7C2C1D;
-    }
-
-    .fpd-main {
+    .fpd-toolbar {
       display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .fpd-controls {
-      display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 1.5rem;
-      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 8px;
     }
 
     .fpd-sort {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 0.75rem;
-      font-size: 0.95rem;
+      gap: 16px;
+      font-size: 15px;
+      font-weight: 500;
+      color: #5D5A56;
     }
 
     .fpd-sort label {
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      font-size: 0.75rem;
-      color: rgba(43, 42, 39, 0.7);
+      letter-spacing: 0.2px;
     }
 
     .fpd-sort select {
-      background: #FAF7F2;
-      border: 1px solid #D4C6A7;
-      border-radius: 999px;
-      padding: 0.6rem 1.4rem 0.6rem 1rem;
-      font-size: 0.95rem;
+      appearance: none;
+      -webkit-appearance: none;
+      font-family: inherit;
+      font-size: 15px;
       font-weight: 500;
       color: #2B2A27;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%232B2A27'%3E%3Cpath d='M4.47 6.22a.75.75 0 0 1 1.06 0L8 8.69l2.47-2.47a.75.75 0 1 1 1.06 1.06L8.53 10.28a.75.75 0 0 1-1.06 0L4.47 7.28a.75.75 0 0 1 0-1.06z'/%3E%3C/svg%3E");
+      background: #FFFFFF;
+      border: 1px solid #E8E0D6;
+      border-radius: 999px;
+      padding: 12px 44px 12px 18px;
+      position: relative;
+      cursor: pointer;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M4.5 6L8 9.5L11.5 6' stroke='%232B2A27' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 1rem center;
+      background-position: right 18px center;
+      min-width: 180px;
     }
 
     .fpd-sort select:focus {
-      outline: 2px solid #CFA650;
-      outline-offset: 2px;
-    }
-
-    .fpd-mobile-filter-trigger {
-      display: none;
-      align-items: center;
-      gap: 0.5rem;
-      background: #FAF7F2;
-      border: 1px solid #D4C6A7;
-      border-radius: 999px;
-      padding: 0.65rem 1.2rem;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-    }
-
-    .fpd-mobile-filter-trigger:hover,
-    .fpd-mobile-filter-trigger:focus {
-      background: #CFA650;
-      color: #FBFAF7;
-      border-color: #CFA650;
       outline: none;
+      border-color: #0B5FFF;
+      box-shadow: 0 0 0 3px rgba(11, 95, 255, 0.25);
+    }
+
+    .fpd-layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+
+    .fpd-nav {
+      background: #FFFFFF;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(24, 22, 20, 0.06), 0 1px 0 rgba(24, 22, 20, 0.03);
+      padding: 32px 28px;
+      position: sticky;
+      top: 96px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .fpd-nav__title {
+      font-size: clamp(18px, 2vw, 20px);
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      margin: 0;
+    }
+
+    .fpd-nav__pills {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .fpd-nav__pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 1px solid #E8E0D6;
+      background: #F5F1EA;
+      color: #5D5A56;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      cursor: pointer;
+      transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+      width: 100%;
+    }
+
+    .fpd-nav__pill:hover {
+      border-color: #CFA650;
+      color: #2B2A27;
+      transform: translateY(-1px);
+    }
+
+    .fpd-nav__pill:focus-visible {
+      outline: none;
+      border-color: #0B5FFF;
+      box-shadow: 0 0 0 3px rgba(11, 95, 255, 0.25);
+      color: #2B2A27;
+      transform: translateY(-1px);
+    }
+
+    .fpd-nav__pill.is-active {
+      background: #7C2C1D;
+      color: #FFFFFF;
+      border-color: #7C2C1D;
+    }
+
+    .fpd-nav__pill.is-active:hover {
+      color: #FFFFFF;
+      border-color: #7C2C1D;
+      transform: translateY(-1px);
+    }
+
+    .fpd-nav__pill.is-active:focus-visible {
+      color: #FFFFFF;
+      border-color: #7C2C1D;
+      box-shadow: 0 0 0 3px rgba(11, 95, 255, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .fpd-content {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
     }
 
     .fpd-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 2.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 28px;
     }
 
     .fpd-card {
-      position: relative;
+      background: #FFFFFF;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(24, 22, 20, 0.06), 0 1px 0 rgba(24, 22, 20, 0.03);
+      padding: 24px;
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
-      padding: 2rem;
-      border-radius: 26px;
-      background: #FAF7F2;
-      box-shadow: 0 18px 40px rgba(44, 40, 34, 0.1);
-      transform: translateY(20px);
+      gap: 0;
+      transition: transform 200ms ease, box-shadow 200ms ease, opacity 240ms ease;
+      transform: translateY(18px);
       opacity: 0;
-      transition: transform 0.5s ease, box-shadow 0.5s ease, opacity 0.5s ease;
     }
 
     .fpd-card.is-visible {
-      opacity: 1;
       transform: translateY(0);
+      opacity: 1;
     }
 
     .fpd-card:hover {
-      transform: translateY(-8px) scale(1.01);
-      box-shadow: 0 26px 55px rgba(44, 40, 34, 0.18);
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 8px 24px rgba(24, 22, 20, 0.10), 0 1px 0 rgba(24, 22, 20, 0.04);
     }
 
-    .fpd-card-image {
+    .fpd-card:focus-within {
+      box-shadow: 0 0 0 3px rgba(11, 95, 255, 0.25), 0 8px 24px rgba(24, 22, 20, 0.06), 0 1px 0 rgba(24, 22, 20, 0.03);
+    }
+
+    .fpd-card__media {
       position: relative;
-      border-radius: 20px;
+      display: block;
+      border-radius: 16px;
       overflow: hidden;
-      background: #F1E7D6;
+      background: #F1E9DD;
+      margin-bottom: 24px;
     }
 
-    .fpd-card-image::before {
+    .fpd-card__media::before {
       content: '';
       display: block;
       padding-top: 75%;
     }
 
-    .fpd-card-image img {
+    .fpd-card__media img {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.6s ease;
-      opacity: 0;
+      transition: transform 300ms ease;
     }
 
-    .fpd-card:hover .fpd-card-image img {
+    .fpd-card:hover .fpd-card__media img {
       transform: scale(1.03);
     }
 
-    .fpd-card-image img.fpd-loaded {
-      opacity: 1;
-      transition: opacity 0.6s ease;
-    }
-
-    .fpd-card-body {
+    .fpd-card__body {
       display: flex;
       flex-direction: column;
-      gap: 0.85rem;
+      gap: 12px;
+      flex: 1;
     }
 
-    .fpd-card-title {
-      font-size: 1.2rem;
+    .fpd-card__title {
+      font-size: clamp(18px, 2vw, 20px);
       font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      margin: 0;
     }
 
-    .fpd-card-title a {
+    .fpd-card__title a {
       color: inherit;
       text-decoration: none;
     }
 
-    .fpd-card-title a:hover,
-    .fpd-card-title a:focus {
-      color: #A44334;
+    .fpd-card__title a:hover,
+    .fpd-card__title a:focus-visible {
+      color: #7C2C1D;
       outline: none;
     }
 
-    .fpd-card-description {
-      font-size: 0.98rem;
-      line-height: 1.7;
-      color: rgba(43, 42, 39, 0.85);
+    .fpd-card__excerpt {
+      font-size: 15px;
+      line-height: 1.6;
+      font-weight: 500;
+      color: #5D5A56;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
-    .fpd-card-footer {
-      margin-top: auto;
+    .fpd-hr {
+      height: 1px;
+      background: #E8E0D6;
+      margin: 20px 0;
+    }
+
+    .fpd-card__footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-top: 1px solid #D4C6A7;
-      padding-top: 1.2rem;
+      gap: 16px;
     }
 
     .fpd-price {
       font-weight: 700;
-      font-size: 1.05rem;
-      letter-spacing: 0.04em;
+      font-size: 15px;
+      letter-spacing: 0.2px;
     }
 
     .fpd-quick-add-form {
       margin: 0;
     }
 
-    .fpd-quick-add {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 1px solid #CFA650;
-      background: transparent;
-      color: #CFA650;
+    .fpd-add {
+      min-height: 44px;
+      min-width: 56px;
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: 1.5px solid #CFA650;
+      background: #FFFFFF;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.3rem;
-      transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+      transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
     }
 
-    .fpd-quick-add:hover,
-    .fpd-quick-add:focus {
-      background: #CFA650;
-      color: #FBFAF7;
-      transform: translateY(-2px);
+    .fpd-add__icon svg {
+      width: 16px;
+      height: 16px;
+      stroke: #CFA650;
+      stroke-width: 2;
+      fill: none;
+      transition: stroke 160ms ease;
+    }
+
+    .fpd-add:hover,
+    .fpd-add:focus-visible {
+      background: rgba(207, 166, 80, 0.12);
+      border-color: #B48E42;
+    }
+
+    .fpd-add:hover .fpd-add__icon svg,
+    .fpd-add:focus-visible .fpd-add__icon svg {
+      stroke: #7C2C1D;
+    }
+
+    .fpd-add:focus-visible {
       outline: none;
+      box-shadow: 0 0 0 3px rgba(11, 95, 255, 0.3);
     }
 
     .fpd-pagination {
-      margin-top: 4rem;
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      padding-top: 16px;
     }
 
     .fpd-empty {
+      font-size: 15px;
+      font-weight: 500;
       text-align: center;
-      padding: 6rem 0;
-      font-size: 1.1rem;
-      letter-spacing: 0.03em;
+      padding: 96px 0;
+      color: #5D5A56;
     }
 
-    .fpd-filter-modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(21, 18, 14, 0.65);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 30;
-      padding: 2rem;
-    }
-
-    .fpd-filter-modal.is-active {
-      display: flex;
-    }
-
-    .fpd-filter-modal-panel {
-      background: #FAF7F2;
-      border-radius: 24px;
-      padding: 2.5rem 1.8rem;
-      width: min(420px, 90vw);
-      box-shadow: 0 24px 60px rgba(44, 40, 34, 0.25);
-      display: grid;
-      gap: 1.5rem;
-    }
-
-    .fpd-filter-modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .fpd-filter-modal-title {
-      font-size: 1.2rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: #7C2C1D;
-    }
-
-    .fpd-filter-modal-close {
-      background: transparent;
-      border: none;
-      font-size: 1.4rem;
-      line-height: 1;
-      cursor: pointer;
-      color: #A44334;
+    .fpd-no-clamp .fpd-card__excerpt {
+      display: block;
+      max-height: 72px;
+      overflow: hidden;
     }
 
     @media (max-width: 1024px) {
-      .fpd-body {
-        grid-template-columns: 1fr;
+      .fpd-layout {
+        grid-template-columns: minmax(0, 1fr);
       }
 
-      .fpd-sidebar {
-        display: none;
+      .fpd-nav {
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 24px;
       }
 
-      .fpd-mobile-filter-trigger {
-        display: inline-flex;
+      .fpd-nav__title {
+        width: 100%;
       }
 
-      .fpd-grid {
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      .fpd-nav__pills {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      .fpd-nav__pill {
+        flex: 1 1 auto;
       }
     }
 
-    @media (max-width: 720px) {
-      .fpd-header {
-        padding: 3rem 0 1.5rem;
+    @media (max-width: 768px) {
+      .fpd-shell {
+        padding: 32px 20px 72px;
       }
 
-      .fpd-controls {
+      .fpd-toolbar {
         flex-direction: column;
-        align-items: stretch;
+        align-items: flex-start;
+      }
+
+      .fpd-sort select {
+        width: 100%;
       }
 
       .fpd-grid {
-        grid-template-columns: 1fr;
-        gap: 1.8rem;
+        grid-template-columns: minmax(0, 1fr);
       }
 
-      .fpd-card {
-        padding: 1.6rem;
-        box-shadow: 0 18px 38px rgba(44, 40, 34, 0.12);
+      .fpd-nav {
+        padding: 20px;
+      }
+
+      .fpd-nav__pill {
+        width: auto;
       }
     }
   </style>
 
-  <div class="fpd-container">
-    <header class="fpd-header">
+  <div class="fpd-shell">
+    <div class="fpd-headline">
       <h1>{{ collection.title | escape }}</h1>
       {% if collection.description != blank %}
-        <div class="fpd-description">{{ collection.description }}</div>
+        <div class="fpd-collection__description">{{ collection.description }}</div>
       {% endif %}
-    </header>
-  </div>
+      <div class="fpd-toolbar">
+        <div class="fpd-sort">
+          <label for="fpd-sort-select">Sort by</label>
+          <select id="fpd-sort-select" data-current-sort="{{ current_sort }}">
+            <option value="manual" {% if current_sort == 'manual' %}selected{% endif %}>Featured</option>
+            <option value="price-ascending" {% if current_sort == 'price-ascending' %}selected{% endif %}>Price (low → high)</option>
+            <option value="price-descending" {% if current_sort == 'price-descending' %}selected{% endif %}>Price (high → low)</option>
+            <option value="best-selling" {% if current_sort == 'best-selling' %}selected{% endif %}>Popularity</option>
+          </select>
+        </div>
+      </div>
+    </div>
 
-  <div class="fpd-container">
-    <div class="fpd-body">
-      <aside class="fpd-sidebar" aria-label="Collection filters">
-        <h2>Explore the Menu</h2>
-        <ul class="fpd-filter-list">
+    <div class="fpd-layout">
+      <aside class="fpd-nav" aria-label="Explore the menu">
+        <h2 class="fpd-nav__title">Explore the menu</h2>
+        <ul class="fpd-nav__pills">
           {% for category in fpd_categories %}
             {% assign parts = category | split: '::' %}
             {% assign label = parts[0] %}
             {% assign handle = parts[1] %}
             <li>
-              <button class="fpd-filter-button{% if forloop.first %} is-active{% endif %}" data-category="{{ handle }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ label }}</button>
+              <button type="button" class="fpd-nav__pill{% if forloop.first %} is-active{% endif %}" data-category="{{ handle }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ label }}</button>
             </li>
           {% endfor %}
         </ul>
       </aside>
 
-      <main class="fpd-main">
-        <div class="fpd-controls">
-          <button class="fpd-mobile-filter-trigger" data-modal-target="fpd-filter-modal" aria-controls="fpd-filter-modal" aria-expanded="false">
-            <span>Filter Menu</span>
-          </button>
-          <div class="fpd-sort">
-            <label for="fpd-sort-select">Sort by</label>
-            <select id="fpd-sort-select" class="fpd-sort-select" data-current-sort="{{ current_sort }}">
-              <option value="manual" {% if current_sort == 'manual' %}selected{% endif %}>Featured</option>
-              <option value="price-ascending" {% if current_sort == 'price-ascending' %}selected{% endif %}>Price (low → high)</option>
-              <option value="price-descending" {% if current_sort == 'price-descending' %}selected{% endif %}>Price (high → low)</option>
-              <option value="best-selling" {% if current_sort == 'best-selling' %}selected{% endif %}>Popularity</option>
-            </select>
-          </div>
-        </div>
-
+      <div class="fpd-content">
         {% if collection.products_count == 0 %}
           <p class="fpd-empty">Our kitchen is preparing something special. Please check back soon.</p>
         {% else %}
@@ -462,25 +463,31 @@
               {% endfor %}
               {% assign card_description = product.description | strip_html | truncate: 150, '…' %}
               <article class="fpd-card" data-tags="{{ fpd_tag_handles }}" data-title="{{ product.title | escape }}">
-                <a class="fpd-card-image" href="{{ product.url }}" aria-label="View {{ product.title | escape }}">
+                <a class="fpd-card__media" href="{{ product.url }}" aria-label="View {{ product.title | escape }}">
                   {% if product.featured_image %}
-                    <img src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy" />
+                    <img src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy">
                   {% endif %}
                 </a>
-                <div class="fpd-card-body">
-                  <h2 class="fpd-card-title"><a href="{{ product.url }}">{{ product.title | escape }}</a></h2>
+                <div class="fpd-card__body">
+                  <h2 class="fpd-card__title"><a href="{{ product.url }}">{{ product.title | escape }}</a></h2>
                   {% if card_description != blank %}
-                    <p class="fpd-card-description">{{ card_description }}</p>
+                    <p class="fpd-card__excerpt">{{ card_description }}</p>
                   {% endif %}
                 </div>
-                <div class="fpd-card-footer">
+                <div class="fpd-hr" aria-hidden="true"></div>
+                <div class="fpd-card__footer">
                   <span class="fpd-price">{{ product.price | money }}</span>
                   {% assign default_variant = product.first_available_variant %}
                   {% if default_variant %}
                     <form method="post" action="/cart/add" class="fpd-quick-add-form">
                       <input type="hidden" name="id" value="{{ default_variant.id }}">
-                      <button type="submit" class="fpd-quick-add" aria-label="Add {{ product.title | escape }} to cart">
-                        <span aria-hidden="true">+</span>
+                      <button type="submit" class="fpd-add" aria-label="Add {{ product.title | escape }}">
+                        <span class="fpd-add__icon" aria-hidden="true">
+                          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                            <path d="M8 3.5V12.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M3.5 8H12.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                          </svg>
+                        </span>
                       </button>
                     </form>
                   {% endif %}
@@ -493,26 +500,7 @@
         <div class="fpd-pagination">
           {% include 'pagination-control' %}
         </div>
-      </main>
-    </div>
-  </div>
-
-  <div class="fpd-filter-modal" id="fpd-filter-modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="fpd-filter-modal-panel">
-      <div class="fpd-filter-modal-header">
-        <span class="fpd-filter-modal-title">Filter Menu</span>
-        <button type="button" class="fpd-filter-modal-close" aria-label="Close filters">&times;</button>
       </div>
-      <ul class="fpd-filter-list">
-        {% for category in fpd_categories %}
-          {% assign parts = category | split: '::' %}
-          {% assign label = parts[0] %}
-          {% assign handle = parts[1] %}
-          <li>
-            <button class="fpd-filter-button{% if forloop.first %} is-active{% endif %}" data-category="{{ handle }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ label }}</button>
-          </li>
-        {% endfor %}
-      </ul>
     </div>
   </div>
 
@@ -521,23 +509,19 @@
       var container = document.querySelector('.fpd-collection');
       if (!container) return;
 
-      var filterButtons = container.querySelectorAll('.fpd-filter-button');
+      var navPills = container.querySelectorAll('.fpd-nav__pill');
       var cards = container.querySelectorAll('.fpd-card');
-      var modal = container.querySelector('#fpd-filter-modal');
-      var modalClose = modal ? modal.querySelector('.fpd-filter-modal-close') : null;
-      var mobileTrigger = container.querySelector('.fpd-mobile-filter-trigger');
       var sortSelect = container.querySelector('#fpd-sort-select');
       var observer = null;
 
       function setActiveFilter(button) {
         var category = button.getAttribute('data-category');
-        filterButtons.forEach(function(btn) {
-          var isActive = btn.getAttribute('data-category') === category;
-          btn.classList.toggle('is-active', isActive);
-          btn.setAttribute('aria-pressed', isActive);
+        navPills.forEach(function(pill) {
+          var isActive = pill === button;
+          pill.classList.toggle('is-active', isActive);
+          pill.setAttribute('aria-pressed', isActive);
         });
         filterCards(category);
-        closeModal();
       }
 
       function filterCards(category) {
@@ -546,65 +530,19 @@
             card.hidden = false;
             return;
           }
-          var tags = card.getAttribute('data-tags');
-          if (!tags) {
-            card.hidden = true;
-            return;
-          }
+          var tags = card.getAttribute('data-tags') || '';
           var tagArray = tags.split(',');
           card.hidden = tagArray.indexOf(category) === -1;
         });
       }
 
-      function openModal() {
-        if (!modal) return;
-        modal.classList.add('is-active');
-        modal.setAttribute('aria-hidden', 'false');
-        if (mobileTrigger) {
-          mobileTrigger.setAttribute('aria-expanded', 'true');
-        }
-      }
-
-      function closeModal() {
-        if (!modal) return;
-        modal.classList.remove('is-active');
-        modal.setAttribute('aria-hidden', 'true');
-        if (mobileTrigger) {
-          mobileTrigger.setAttribute('aria-expanded', 'false');
-        }
-      }
-
-      filterButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-          setActiveFilter(button);
+      navPills.forEach(function(pill) {
+        pill.addEventListener('click', function() {
+          setActiveFilter(pill);
         });
       });
 
       filterCards('all');
-
-      if (mobileTrigger && modal) {
-        mobileTrigger.addEventListener('click', function() {
-          if (modal.classList.contains('is-active')) {
-            closeModal();
-          } else {
-            openModal();
-          }
-        });
-      }
-
-      if (modal && modalClose) {
-        modalClose.addEventListener('click', closeModal);
-        modal.addEventListener('click', function(event) {
-          if (event.target === modal) {
-            closeModal();
-          }
-        });
-        document.addEventListener('keydown', function(event) {
-          if (event.key === 'Escape' && modal.classList.contains('is-active')) {
-            closeModal();
-          }
-        });
-      }
 
       if (sortSelect) {
         sortSelect.addEventListener('change', function(event) {
@@ -623,9 +561,7 @@
               observer.unobserve(entry.target);
             }
           });
-        }, {
-          threshold: 0.2
-        });
+        }, { threshold: 0.2 });
 
         cards.forEach(function(card) {
           observer.observe(card);
@@ -636,16 +572,11 @@
         });
       }
 
-      var images = container.querySelectorAll('.fpd-card-image img');
-      images.forEach(function(img) {
-        if (img.complete) {
-          img.classList.add('fpd-loaded');
-        } else {
-          img.addEventListener('load', function() {
-            img.classList.add('fpd-loaded');
-          });
-        }
-      });
+      var supportsAPI = window.CSS && window.CSS.supports;
+      var excerptSupportsClamp = supportsAPI && (window.CSS.supports('-webkit-line-clamp', '3') || window.CSS.supports('line-clamp', '3'));
+      if (!excerptSupportsClamp) {
+        container.classList.add('fpd-no-clamp');
+      }
     })();
   </script>
 
