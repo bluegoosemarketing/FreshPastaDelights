@@ -93,9 +93,15 @@
 
     .fpd-layout {
       display: grid;
-      grid-template-columns: 280px minmax(0, 1fr);
+      grid-template-columns: minmax(240px, 280px) 1fr;
       gap: 32px;
       align-items: start;
+    }
+
+    .fpd-sidebar {
+      max-width: 280px;
+      width: 100%;
+      overflow: hidden;
     }
 
     .fpd-nav {
@@ -110,16 +116,11 @@
       gap: 20px;
     }
 
-    .fpd-filter-list {
-      list-style: none !important;
-      margin-left: 0 !important;
-      padding-left: 0 !important;
-    }
-
+    .fpd-filter-list,
     .fpd-filter-list li {
-      list-style: none !important;
-      margin-left: 0 !important;
-      padding-left: 0 !important;
+      list-style: none;
+      margin: 0;
+      padding: 0;
     }
 
     .fpd-filter-list li::marker {
@@ -142,21 +143,31 @@
       gap: 12px;
     }
 
+    .fpd-nav__pills li {
+      width: 100%;
+    }
+
+    .fpd-filter-button {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px 16px;
+      border-radius: 9999px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
     .fpd-nav__pill {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 18px;
-      border-radius: 999px;
       border: 1px solid #E8E0D6;
-      background: #F5F1EA;
+      background: #FFFFFF;
       color: #5D5A56;
       font-size: 15px;
       font-weight: 500;
       letter-spacing: 0.2px;
+      text-align: center;
       cursor: pointer;
       transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
-      width: 100%;
     }
 
     .fpd-nav__pill:hover {
@@ -271,6 +282,7 @@
       flex-direction: column;
       gap: 12px;
       flex: 1;
+      margin-bottom: 16px;
     }
 
     .fpd-card__title {
@@ -312,7 +324,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 12px;
     }
 
     .fpd-price {
@@ -326,44 +338,37 @@
     }
 
     .fpd-add {
-      min-height: 44px;
-      min-width: 56px;
-      padding: 10px 20px;
-      border-radius: 999px;
+      inline-size: 44px;
+      block-size: 44px;
+      border-radius: 50%;
       border: 1.5px solid #CFA650;
       background: #FFFFFF;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      color: #7C2C1D;
+      display: inline-grid;
+      place-items: center;
+      padding: 0;
+      margin-left: auto;
       cursor: pointer;
-      transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
     }
 
-    .fpd-add__icon svg {
+    .fpd-add__icon {
       width: 16px;
       height: 16px;
-      stroke: #CFA650;
-      stroke-width: 2;
-      fill: none;
-      transition: stroke 160ms ease;
     }
 
-    .fpd-add:hover,
-    .fpd-add:focus-visible {
-      background: rgba(207, 166, 80, 0.12);
-      border-color: #B48E42;
+    .fpd-add:hover {
+      background: rgba(207, 166, 80, 0.10);
+      border-color: #B79244;
     }
 
-    .fpd-add:hover .fpd-add__icon svg,
-    .fpd-add:focus-visible .fpd-add__icon svg {
-      stroke: #7C2C1D;
+    .fpd-add:focus {
+      outline: 2px solid #0B5FFF;
+      outline-offset: 2px;
     }
 
-    .fpd-add:focus-visible,
-    .fpd-quick-add:focus-visible {
-      outline: none;
-      border-color: #7C2C1D;
-      box-shadow: 0 0 0 3px rgba(124, 44, 29, 0.35);
+    .fpd-add:active {
+      transform: translateY(1px);
     }
 
     .fpd-pagination {
@@ -391,6 +396,10 @@
         grid-template-columns: minmax(0, 1fr);
       }
 
+      .fpd-sidebar {
+        max-width: 100%;
+      }
+
       .fpd-nav {
         position: static;
         flex-direction: row;
@@ -408,8 +417,8 @@
         flex-wrap: wrap;
       }
 
-      .fpd-nav__pill {
-        flex: 1 1 auto;
+      .fpd-nav__pills li {
+        flex: 1 1 200px;
       }
     }
 
@@ -435,8 +444,9 @@
         padding: 20px;
       }
 
-      .fpd-nav__pill {
-        width: auto;
+      .fpd-add {
+        inline-size: 40px;
+        block-size: 40px;
       }
     }
   </style>
@@ -461,7 +471,7 @@
     </div>
 
     <div class="fpd-layout">
-      <aside class="fpd-nav" aria-label="Explore the menu">
+      <aside class="fpd-nav fpd-sidebar" aria-label="Explore the menu">
         <h2 class="fpd-nav__title">Explore the menu</h2>
         <ul class="fpd-nav__pills fpd-filter-list">
           {% for category in fpd_categories %}
@@ -469,7 +479,7 @@
             {% assign label = parts[0] %}
             {% assign handle = parts[1] %}
             <li>
-              <button type="button" class="fpd-nav__pill{% if forloop.first %} is-active{% endif %}" data-category="{{ handle }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ label }}</button>
+              <button type="button" class="fpd-nav__pill fpd-filter-button{% if forloop.first %} is-active{% endif %}" data-category="{{ handle }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ label }}</button>
             </li>
           {% endfor %}
         </ul>
@@ -510,13 +520,11 @@
                   {% if default_variant %}
                     <form method="post" action="/cart/add" class="fpd-quick-add-form">
                       <input type="hidden" name="id" value="{{ default_variant.id }}">
-                      <button type="submit" class="fpd-add fpd-quick-add" aria-label="Add {{ product.title | escape }}">
-                        <span class="fpd-add__icon" aria-hidden="true">
-                          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                            <path d="M8 3.5V12.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                            <path d="M3.5 8H12.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                          </svg>
-                        </span>
+                      <button type="submit" class="fpd-add" aria-label="Add {{ product.title | escape }}">
+                        <svg class="fpd-add__icon" viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="M12 5v14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                          <path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                        </svg>
                       </button>
                     </form>
                   {% endif %}
