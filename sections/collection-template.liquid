@@ -1,51 +1,62 @@
-<div class="fpd-collection" data-section-type="collection-template">
-  {% paginate collection.products by section.settings.products_per_page %}
-  {% assign fpd_category_string = "All::all|Long Pasta::long-pasta|Short Pasta::short-pasta|Stuffed Pasta::stuffed-pasta|Sauces::sauces|Bundles::bundles" %}
-  {% assign fpd_categories = fpd_category_string | split: '|' %}
-  {% assign current_sort = collection.sort_by | default: collection.default_sort_by %}
+<div class="fpd-collection-wrapper" data-section-type="collection-template">
+  {%- paginate collection.products by section.settings.products_per_page -%}
+  {%- assign fpd_category_string = "All::all|Long Pasta::long-pasta|Short Pasta::short-pasta|Stuffed Pasta::stuffed-pasta|Sauces::sauces|Bundles::bundles" -%}
+  {%- assign fpd_categories = fpd_category_string | split: '|' -%}
+  {%- assign current_sort = collection.sort_by | default: collection.default_sort_by -%}
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap');
 
-    .fpd-collection {
-      background: #FBFAF7;
-      color: #2B2A27;
+    /* --- Base & Variables --- */
+    .fpd-collection-wrapper {
+      --gutter: clamp(16px, 2.5vw, 36px);
+      --border-radius: 20px;
+      --border-color: #E8E0D6;
+      --brand-primary: #7C2C1D;
+      --brand-secondary: #CFA650;
+      --text-body: #5D5A56;
+      --text-heading: #2B2A27;
+      --surface-background: #FFFFFF;
+      --page-background: #FBFAF7;
+
+      background: var(--page-background);
+      color: var(--text-body);
       font-family: 'Montserrat', sans-serif;
     }
 
-    .fpd-shell {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 48px 32px 96px;
+    /* --- Fluid Container --- */
+    .fpd-container {
+      max-width: clamp(1040px, 92vw, 1440px);
+      margin-inline: auto;
+      padding-inline: clamp(16px, 3vw, 40px);
+      padding-block: clamp(48px, 6vh, 96px);
     }
 
+    /* --- Headline & Toolbar --- */
     .fpd-headline {
-      display: grid;
-      gap: 16px;
-      margin-bottom: 24px;
+      margin-bottom: clamp(24px, 4vw, 48px);
     }
 
     .fpd-headline h1 {
-      font-size: clamp(18px, 2vw, 20px);
+      font-size: clamp(24px, 3vw, 36px);
       letter-spacing: 0.2px;
       font-weight: 700;
-      margin: 0;
-      color: #2B2A27;
+      margin: 0 0 12px 0;
+      color: var(--text-heading);
     }
 
     .fpd-collection__description {
-      font-size: 15px;
+      font-size: 16px;
       line-height: 1.6;
       font-weight: 500;
-      color: #5D5A56;
       max-width: 680px;
+      margin-bottom: 24px;
     }
 
     .fpd-toolbar {
       display: flex;
       align-items: center;
       gap: 16px;
-      margin-top: 8px;
     }
 
     .fpd-sort {
@@ -54,7 +65,6 @@
       gap: 16px;
       font-size: 15px;
       font-weight: 500;
-      color: #5D5A56;
     }
 
     .fpd-sort label {
@@ -67,12 +77,11 @@
       font-family: inherit;
       font-size: 15px;
       font-weight: 500;
-      color: #2B2A27;
-      background: #FFFFFF;
-      border: 1px solid #E8E0D6;
+      color: var(--text-heading);
+      background: var(--surface-background);
+      border: 1px solid var(--border-color);
       border-radius: 999px;
       padding: 12px 44px 12px 18px;
-      position: relative;
       cursor: pointer;
       transition: border-color 160ms ease, box-shadow 160ms ease;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M4.5 6L8 9.5L11.5 6' stroke='%232B2A27' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
@@ -80,60 +89,44 @@
       background-position: right 18px center;
       min-width: 180px;
     }
-
-    .fpd-sort select:focus {
-      outline: none;
-    }
-
     .fpd-sort select:focus-visible {
       outline: none;
-      border-color: #7C2C1D;
+      border-color: var(--brand-primary);
       box-shadow: 0 0 0 3px rgba(124, 44, 29, 0.35);
     }
 
+    /* --- Main Layout Grid (Owns the Gutter) --- */
     .fpd-layout {
       display: grid;
-      grid-template-columns: minmax(240px, 280px) 1fr;
-      gap: 32px;
+      grid-template-columns: minmax(260px, 300px) 1fr;
+      column-gap: var(--gutter);
       align-items: start;
     }
 
+    /* --- Sidebar (Sticky & Safe) --- */
     .fpd-sidebar {
-      max-width: 280px;
-      width: 100%;
-      overflow: hidden;
+      position: sticky;
+      top: clamp(64px, 10vh, 96px); /* Sticky offset sanity */
+      overflow: clip; /* Prevents shadow from leaking into gutter */
+      margin: 0;
     }
 
     .fpd-nav {
-      background: #FFFFFF;
-      border-radius: 20px;
-      box-shadow: 0 10px 28px rgba(24, 22, 20, 0.06);
+      background: var(--surface-background);
+      border-radius: var(--border-radius);
+      box-shadow: 0 8px 24px rgba(24,22,20,.06), 0 1px 0 rgba(24,22,20,.03);
       padding: 32px 28px;
-      position: sticky;
-      top: 96px;
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
-
-    .fpd-filter-list,
-    .fpd-filter-list li {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    .fpd-filter-list li::marker {
-      content: '';
-    }
-
     .fpd-nav__title {
       font-size: clamp(18px, 2vw, 20px);
       font-weight: 700;
       letter-spacing: 0.2px;
       margin: 0;
+      color: var(--text-heading);
     }
-
     .fpd-nav__pills {
       list-style: none;
       padding: 0;
@@ -142,490 +135,377 @@
       flex-direction: column;
       gap: 12px;
     }
-
-    .fpd-nav__pills li {
-      width: 100%;
+    
+    /* -- Sidebar list hard reset (scoped) -- */
+    .fpd-collection-wrapper .fpd-nav__pills,
+    .fpd-collection-wrapper .fpd-nav__pills ul,
+    .fpd-collection-wrapper .fpd-nav__pills li {
+      list-style: none !important;
+      margin-left: 0 !important;
+      padding-left: 0 !important;
     }
+    .fpd-collection-wrapper .fpd-nav__pills li::marker { content: '' !important; }
+    .fpd-collection-wrapper .fpd-nav__pills li::before { content: none !important; }
+    .fpd-collection-wrapper .fpd-nav__pills li { display: block; }
 
     .fpd-filter-button {
       display: block;
       width: 100%;
       box-sizing: border-box;
       padding: 12px 16px;
+      border: 1px solid var(--border-color);
       border-radius: 9999px;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-
-    .fpd-nav__pill {
-      border: 1px solid #E8E0D6;
-      background: #FFFFFF;
-      color: #5D5A56;
+      background: var(--surface-background);
+      color: var(--text-body);
       font-size: 15px;
       font-weight: 500;
-      letter-spacing: 0.2px;
       text-align: center;
       cursor: pointer;
-      transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+      transition: all 160ms ease;
     }
-
-    .fpd-nav__pill:hover {
-      border-color: #CFA650;
-      color: #2B2A27;
+    .fpd-filter-button:hover {
+      border-color: var(--brand-secondary);
+      color: var(--text-heading);
       transform: translateY(-1px);
     }
-
-    .fpd-nav__pill:focus-visible {
+    .fpd-filter-button:focus-visible {
       outline: none;
-      border-color: #7C2C1D;
+      border-color: var(--brand-primary);
       box-shadow: 0 0 0 3px rgba(124, 44, 29, 0.25);
-      color: #2B2A27;
+      color: var(--text-heading);
       transform: translateY(-1px);
     }
-
-    .fpd-nav__pill.is-active {
-      background: #7C2C1D;
+    .fpd-filter-button.is-active {
+      background: var(--brand-primary);
       color: #FFFFFF;
-      border-color: #7C2C1D;
+      border-color: var(--brand-primary);
     }
 
-    .fpd-nav__pill.is-active:hover {
-      color: #FFFFFF;
-      border-color: #7C2C1D;
-      transform: translateY(-1px);
-    }
-
-    .fpd-nav__pill.is-active:focus-visible {
-      color: #FFFFFF;
-      border-color: #7C2C1D;
-      box-shadow: 0 0 0 3px rgba(124, 44, 29, 0.35);
-      transform: translateY(-1px);
-    }
-
-    .fpd-content {
-      display: flex;
-      flex-direction: column;
-      gap: 32px;
-    }
-
+    /* --- Product Grid --- */
     .fpd-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 28px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--gutter);
+      margin: 0;
     }
 
+    /* --- Product Card --- */
     .fpd-card {
-      background: #FFFFFF;
-      border-radius: 20px;
-      box-shadow: 0 10px 28px rgba(24, 22, 20, 0.08);
-      padding: 24px;
+      background: var(--surface-background);
+      border-radius: var(--border-radius);
+      box-shadow: 0 8px 24px rgba(24,22,20,.06), 0 1px 0 rgba(24,22,20,.03);
       display: flex;
       flex-direction: column;
-      gap: 0;
-      transition: transform 200ms ease, box-shadow 200ms ease, opacity 240ms ease;
-      transform: translateY(18px);
-      opacity: 0;
+      overflow: hidden;
+      transition: transform 200ms ease, box-shadow 200ms ease;
     }
-
-    .fpd-card.is-visible {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
     .fpd-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 18px 40px rgba(24, 22, 20, 0.12);
-    }
-
-    .fpd-card:focus-within {
-      box-shadow: 0 0 0 3px rgba(124, 44, 29, 0.3), 0 18px 40px rgba(24, 22, 20, 0.12);
+      transform: translateY(-4px);
+      box-shadow: 0 18px 40px rgba(24, 22, 20, 0.1);
     }
 
     .fpd-card__media {
-      position: relative;
       display: block;
-      border-radius: 20px;
+      aspect-ratio: 4/3;
       overflow: hidden;
       background: #F1E9DD;
-      margin-bottom: 24px;
-      aspect-ratio: 4 / 3;
     }
-
-    .fpd-card__media::before {
-      content: '';
-      display: block;
-      padding-top: 75%;
-    }
-
-    @supports (aspect-ratio: 4 / 3) {
-      .fpd-card__media::before {
-        display: none;
-      }
-    }
-
     .fpd-card__media img {
-      position: absolute;
-      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
       transition: transform 300ms ease;
     }
-
     .fpd-card:hover .fpd-card__media img {
-      transform: scale(1.03);
+      transform: scale(1.05);
     }
 
-    .fpd-card__body {
+    .fpd-card__content {
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      flex: 1;
-      margin-bottom: 16px;
+      flex-grow: 1;
     }
-
+    .fpd-card__body {
+      flex-grow: 1;
+    }
     .fpd-card__title {
       font-size: clamp(18px, 2vw, 20px);
       font-weight: 700;
-      letter-spacing: 0.2px;
-      margin: 0;
+      margin: 0 0 12px 0;
     }
-
     .fpd-card__title a {
-      color: inherit;
+      color: var(--text-heading);
       text-decoration: none;
+      transition: color 160ms ease;
     }
-
     .fpd-card__title a:hover,
     .fpd-card__title a:focus-visible {
-      color: #7C2C1D;
+      color: var(--brand-primary);
       outline: none;
     }
-
     .fpd-card__excerpt {
       font-size: 15px;
       line-height: 1.6;
-      font-weight: 500;
-      color: #5D5A56;
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-
-    .fpd-hr {
-      height: 1px;
-      background: #E8E0D6;
-      margin: 20px 0;
-    }
-
     .fpd-card__footer {
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-color);
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       gap: 12px;
     }
-
     .fpd-price {
       font-weight: 700;
       font-size: 15px;
       letter-spacing: 0.2px;
+      color: var(--text-heading);
     }
-
-    .fpd-quick-add-form {
-      margin: 0;
-    }
-
+    
+    /* --- Aesthetic Add to Cart Button (Outline Style) --- */
     .fpd-add {
-      inline-size: 44px;
-      block-size: 44px;
-      border-radius: 50%;
-      border: 1.5px solid #CFA650;
-      background: #FFFFFF;
-      color: #7C2C1D;
-      display: inline-grid;
-      place-items: center;
-      padding: 0;
-      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background-color: transparent;
+      border: 1.5px solid var(--brand-secondary);
+      color: var(--brand-primary);
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 10.5px 18.5px; /* Adjusted for border */
+      border-radius: 9999px;
       cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+      transition: all 150ms ease;
+      -webkit-tap-highlight-color: transparent;
     }
-
+    .fpd-add:hover,
+    .fpd-add:focus-visible {
+      background-color: var(--brand-primary);
+      border-color: var(--brand-primary);
+      color: #FFFFFF;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      outline: none;
+    }
+    .fpd-add:active {
+      transform: translateY(0);
+      box-shadow: none;
+      background-color: #612115;
+    }
     .fpd-add__icon {
       width: 16px;
       height: 16px;
     }
 
-    .fpd-add:hover {
-      background: rgba(207, 166, 80, 0.10);
-      border-color: #B79244;
-    }
-
-    .fpd-add:focus {
-      outline: 2px solid #0B5FFF;
-      outline-offset: 2px;
-    }
-
-    .fpd-add:active {
-      transform: translateY(1px);
-    }
-
+    /* --- Pagination & Empty State --- */
     .fpd-pagination {
       display: flex;
       justify-content: center;
-      padding-top: 16px;
+      padding-top: calc(var(--gutter) * 1.5);
     }
-
     .fpd-empty {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 500;
       text-align: center;
       padding: 96px 0;
-      color: #5D5A56;
+      color: var(--text-body);
     }
 
-    .fpd-no-clamp .fpd-card__excerpt {
-      display: block;
-      max-height: 72px;
-      overflow: hidden;
-    }
-
-    @media (max-width: 1024px) {
+    /* --- Responsive Overrides --- */
+    @media (max-width: 980px) {
       .fpd-layout {
-        grid-template-columns: minmax(0, 1fr);
+        grid-template-columns: 1fr;
+        row-gap: var(--gutter);
       }
-
       .fpd-sidebar {
-        max-width: 100%;
-      }
-
-      .fpd-nav {
         position: static;
+        order: -1;
+      }
+      .fpd-nav {
         flex-direction: row;
         flex-wrap: wrap;
+        align-items: center;
         gap: 12px;
-        padding: 24px;
       }
-
       .fpd-nav__title {
         width: 100%;
+        margin-bottom: 8px;
       }
-
       .fpd-nav__pills {
         flex-direction: row;
         flex-wrap: wrap;
-      }
-
-      .fpd-nav__pills li {
-        flex: 1 1 200px;
+        gap: 12px;
       }
     }
 
     @media (max-width: 768px) {
-      .fpd-shell {
-        padding: 32px 20px 72px;
-      }
-
       .fpd-toolbar {
         flex-direction: column;
         align-items: flex-start;
       }
-
-      .fpd-sort select {
+      .fpd-sort {
         width: 100%;
       }
-
-      .fpd-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .fpd-nav {
-        padding: 20px;
-      }
-
-      .fpd-add {
-        inline-size: 40px;
-        block-size: 40px;
+      .fpd-sort select {
+        width: 100%;
       }
     }
   </style>
 
-  <div class="fpd-shell">
-    <div class="fpd-headline">
-      <h1>{{ collection.title | escape }}</h1>
-      {% if collection.description != blank %}
-        <div class="fpd-collection__description">{{ collection.description }}</div>
-      {% endif %}
-      <div class="fpd-toolbar">
-        <div class="fpd-sort">
-          <label for="fpd-sort-select">Sort by</label>
-          <select id="fpd-sort-select" data-current-sort="{{ current_sort }}">
-            <option value="manual" {% if current_sort == 'manual' %}selected{% endif %}>Featured</option>
-            <option value="price-ascending" {% if current_sort == 'price-ascending' %}selected{% endif %}>Price (low → high)</option>
-            <option value="price-descending" {% if current_sort == 'price-descending' %}selected{% endif %}>Price (high → low)</option>
-            <option value="best-selling" {% if current_sort == 'best-selling' %}selected{% endif %}>Popularity</option>
-          </select>
+  <div class="fpd-collection">
+    <div class="fpd-container">
+
+      <div class="fpd-headline">
+        <h1>{{ collection.title | escape }}</h1>
+        {% if collection.description != blank %}
+          <div class="fpd-collection__description">{{ collection.description }}</div>
+        {% endif %}
+        <div class="fpd-toolbar">
+          <div class="fpd-sort">
+            <label for="fpd-sort-select">Sort by</label>
+            <select id="fpd-sort-select" data-current-sort="{{ current_sort }}">
+              <option value="manual" {% if current_sort == 'manual' %}selected{% endif %}>Featured</option>
+              <option value="price-ascending" {% if current_sort == 'price-ascending' %}selected{% endif %}>Price (low → high)</option>
+              <option value="price-descending" {% if current_sort == 'price-descending' %}selected{% endif %}>Price (high → low)</option>
+              <option value="best-selling" {% if current_sort == 'best-selling' %}selected{% endif %}>Popularity</option>
+            </select>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="fpd-layout">
-      <aside class="fpd-nav fpd-sidebar" aria-label="Explore the menu">
-        <h2 class="fpd-nav__title">Explore the menu</h2>
-        <ul class="fpd-nav__pills fpd-filter-list">
-          {% for category in fpd_categories %}
-            {% assign parts = category | split: '::' %}
-            {% assign label = parts[0] %}
-            {% assign handle = parts[1] %}
-            <li>
-              <button type="button" class="fpd-nav__pill fpd-filter-button{% if forloop.first %} is-active{% endif %}" data-category="{{ handle }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ label }}</button>
-            </li>
-          {% endfor %}
-        </ul>
-      </aside>
-
-      <div class="fpd-content">
-        {% if collection.products_count == 0 %}
-          <p class="fpd-empty">Our kitchen is preparing something special. Please check back soon.</p>
-        {% else %}
-          <div class="fpd-grid" data-category-grid>
-            {% for product in collection.products %}
-              {% assign fpd_tag_handles = '' %}
-              {% for tag in product.tags %}
-                {% assign tag_handle = tag | handleize %}
-                {% if fpd_tag_handles == '' %}
-                  {% assign fpd_tag_handles = tag_handle %}
-                {% else %}
-                  {% assign fpd_tag_handles = fpd_tag_handles | append: ',' | append: tag_handle %}
-                {% endif %}
+      <div class="fpd-layout">
+        <aside class="fpd-sidebar" aria-label="Explore the menu">
+          <nav class="fpd-nav">
+            <h2 class="fpd-nav__title">Explore the menu</h2>
+            <ul class="fpd-nav__pills">
+              {% for category in fpd_categories %}
+                {% assign parts = category | split: '::' %}
+                {% assign label = parts[0] %}
+                {% assign handle = parts[1] %}
+                <li>
+                  <button type="button" class="fpd-filter-button{% if forloop.first %} is-active{% endif %}" data-category="{{ handle }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ label }}</button>
+                </li>
               {% endfor %}
-              {% assign card_description = product.description | strip_html | truncate: 150, '…' %}
-              <article class="fpd-card" data-tags="{{ fpd_tag_handles }}" data-title="{{ product.title | escape }}">
-                <a class="fpd-card__media" href="{{ product.url }}" aria-label="View {{ product.title | escape }}">
-                  {% if product.featured_image %}
-                    <img src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy">
-                  {% endif %}
-                </a>
-                <div class="fpd-card__body">
-                  <h2 class="fpd-card__title"><a href="{{ product.url }}">{{ product.title | escape }}</a></h2>
-                  {% if card_description != blank %}
-                    <p class="fpd-card__excerpt">{{ card_description }}</p>
-                  {% endif %}
-                </div>
-                <div class="fpd-hr" aria-hidden="true"></div>
-                <div class="fpd-card__footer">
-                  <span class="fpd-price">{{ product.price | money }}</span>
-                  {% assign default_variant = product.first_available_variant %}
-                  {% if default_variant %}
-                    <form method="post" action="/cart/add" class="fpd-quick-add-form">
-                      <input type="hidden" name="id" value="{{ default_variant.id }}">
-                      <button type="submit" class="fpd-add" aria-label="Add {{ product.title | escape }}">
-                        <svg class="fpd-add__icon" viewBox="0 0 24 24" aria-hidden="true">
-                          <path d="M12 5v14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-                          <path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-                        </svg>
-                      </button>
-                    </form>
-                  {% endif %}
-                </div>
-              </article>
-            {% endfor %}
-          </div>
-        {% endif %}
+            </ul>
+          </nav>
+        </aside>
 
-        <div class="fpd-pagination">
-          {% include 'pagination-control' %}
-        </div>
+        <main>
+          {% if collection.products_count == 0 %}
+            <p class="fpd-empty">Our kitchen is preparing something special. Please check back soon.</p>
+          {% else %}
+            <div class="fpd-grid" data-category-grid>
+              {% for product in collection.products %}
+                {%- assign fpd_tag_handles = product.tags | join: ',' | handleize | replace: '-_','-' -%}
+                {%- assign card_description = product.description | strip_html | truncate: 150, '…' -%}
+                
+                <article class="fpd-card" data-tags="{{ fpd_tag_handles }}" data-title="{{ product.title | escape }}">
+                  <a class="fpd-card__media" href="{{ product.url }}" aria-label="View {{ product.title | escape }}">
+                    {% if product.featured_image %}
+                      <img src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy" width="800" height="600">
+                    {% endif %}
+                  </a>
+                  <div class="fpd-card__content">
+                    <div class="fpd-card__body">
+                      <h2 class="fpd-card__title"><a href="{{ product.url }}">{{ product.title | escape }}</a></h2>
+                      {% if card_description != blank %}
+                        <p class="fpd-card__excerpt">{{ card_description }}</p>
+                      {% endif %}
+                    </div>
+                    <div class="fpd-card__footer">
+                      <span class="fpd-price">{{ product.price | money }}</span>
+                      {% assign default_variant = product.first_available_variant %}
+                      {% if default_variant %}
+                        <form method="post" action="/cart/add" class="fpd-quick-add-form">
+                          <input type="hidden" name="id" value="{{ default_variant.id }}">
+                          <button type="submit" class="fpd-add" aria-label="Add {{ product.title | escape }} to cart">
+                            <svg class="fpd-add__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                              <path d="M12 5v14m-7-7h14"/>
+                            </svg>
+                            <span>Add to Cart</span>
+                          </button>
+                        </form>
+                      {% endif %}
+                    </div>
+                  </div>
+                </article>
+              {% endfor %}
+            </div>
+
+            {% if paginate.pages > 1 %}
+              <div class="fpd-pagination">
+                {% include 'pagination-control' %}
+              </div>
+            {% endif %}
+          {% endif %}
+        </main>
       </div>
     </div>
   </div>
 
   <script>
     (function() {
-      var container = document.querySelector('.fpd-collection');
+      const container = document.querySelector('.fpd-collection-wrapper');
       if (!container) return;
 
-      var navPills = container.querySelectorAll('.fpd-nav__pill');
-      var cards = container.querySelectorAll('.fpd-card');
-      var sortSelect = container.querySelector('#fpd-sort-select');
-      var observer = null;
+      const filterButtons = container.querySelectorAll('.fpd-filter-button');
+      const cards = container.querySelectorAll('.fpd-card');
+      const sortSelect = container.querySelector('#fpd-sort-select');
 
       function setActiveFilter(button) {
-        var category = button.getAttribute('data-category');
-        navPills.forEach(function(pill) {
-          var isActive = pill === button;
-          pill.classList.toggle('is-active', isActive);
-          pill.setAttribute('aria-pressed', isActive);
+        const category = button.dataset.category;
+        filterButtons.forEach(btn => {
+          const isActive = btn === button;
+          btn.classList.toggle('is-active', isActive);
+          btn.setAttribute('aria-pressed', isActive);
         });
         filterCards(category);
       }
 
       function filterCards(category) {
-        cards.forEach(function(card) {
+        cards.forEach(card => {
           if (!category || category === 'all') {
             card.hidden = false;
             return;
           }
-          var tags = card.getAttribute('data-tags') || '';
-          var tagArray = tags.split(',');
-          card.hidden = tagArray.indexOf(category) === -1;
+          const tags = card.dataset.tags || '';
+          card.hidden = !tags.split(',').includes(category);
         });
       }
 
-      navPills.forEach(function(pill) {
-        pill.addEventListener('click', function() {
-          setActiveFilter(pill);
-        });
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => setActiveFilter(button));
       });
 
-      filterCards('all');
+      const initialActiveButton = container.querySelector('.fpd-filter-button.is-active');
+      if (initialActiveButton) {
+        filterCards(initialActiveButton.dataset.category);
+      }
 
       if (sortSelect) {
-        var currentSort = sortSelect.getAttribute('data-current-sort');
+        const currentSort = sortSelect.dataset.currentSort;
         if (currentSort && sortSelect.value !== currentSort) {
           sortSelect.value = currentSort;
         }
-
-        sortSelect.addEventListener('change', function(event) {
-          var value = event.target.value;
-          var url = new URL(window.location.href);
-          var params = new URLSearchParams(url.search);
-          params.set('sort_by', value);
-          params.delete('page');
-          url.search = params.toString();
+        sortSelect.addEventListener('change', (event) => {
+          const url = new URL(window.location.href);
+          url.searchParams.set('sort_by', event.target.value);
+          url.searchParams.delete('page');
           window.location.assign(url.toString());
         });
-      }
-
-      if ('IntersectionObserver' in window) {
-        observer = new IntersectionObserver(function(entries) {
-          entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible');
-              observer.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.2 });
-
-        cards.forEach(function(card) {
-          observer.observe(card);
-        });
-      } else {
-        cards.forEach(function(card) {
-          card.classList.add('is-visible');
-        });
-      }
-
-      var supportsAPI = window.CSS && window.CSS.supports;
-      var excerptSupportsClamp = supportsAPI && (window.CSS.supports('-webkit-line-clamp', '3') || window.CSS.supports('line-clamp', '3'));
-      if (!excerptSupportsClamp) {
-        container.classList.add('fpd-no-clamp');
       }
     })();
   </script>
 
-  {% endpaginate %}
+  {%- endpaginate -%}
 </div>
 
 {% schema %}
