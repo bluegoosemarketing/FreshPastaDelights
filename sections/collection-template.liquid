@@ -237,7 +237,10 @@
                             <div class="fpd-flavor-swatches__viewport" data-swatches-viewport>
                               <div class="fpd-flavor-swatches__track" data-swatches-track>
                                 {% for variant in product.variants %}
-                                  {% assign is_selected = variant.id == selected_variant.id %}
+                                  {% assign is_selected = false %}
+                                  {% if variant.id == selected_variant.id %}
+                                    {% assign is_selected = true %}
+                                  {% endif %}
                                   <button type="button" class="fpd-flavor-swatch {% if is_selected %}is-selected{% endif %}" data-variant-id="{{ variant.id }}" data-variant-title="{{ variant.title | escape }}" aria-label="Select {{ variant.title | escape }} flavor" aria-pressed="{% if is_selected %}true{% else %}false{% endif %}">
                                     {%- if variant.image -%}
                                       <img class="fpd-flavor-swatch-img" src="{{ variant.image | img_url: '56x56' }}" alt="{{ variant.title | escape }}" loading="lazy" width="32" height="32">
