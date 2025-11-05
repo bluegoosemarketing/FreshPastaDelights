@@ -225,7 +225,10 @@
                         <div class="fpd-variant-selector">
                           <label class="fpd-flavor-label">Flavor: <span class="fpd-selected-flavor-name" data-flavor-name>{{ selected_variant.title | escape }}</span></label>
                           <div class="fpd-flavor-swatches" data-swatches>
-                            {% assign show_nav = product.variants.size > 4 %}
+                            {% assign show_nav = false %}
+                            {% if product.variants.size > 4 %}
+                              {% assign show_nav = true %}
+                            {% endif %}
                             {% if show_nav %}
                               <button type="button" class="fpd-swatches-nav fpd-swatches-nav--prev" data-swatches-prev aria-label="Show previous flavor options">
                                 <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 3.5 5.5 8 10 12.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
