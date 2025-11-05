@@ -11,7 +11,7 @@
     .fpd-collection-wrapper {
       --gutter: clamp(16px, 2.5vw, 36px);
       --border-radius: 20px;
-      --border-color: #E8E0D6;
+      --border-color: #E8EE0D6;
       --brand-primary: #7C2C1D;
       --brand-secondary: #CFA650;
       --text-body: #5D5A56;
@@ -24,179 +24,34 @@
       font-family: 'Montserrat', sans-serif;
     }
 
-    /* --- Fluid Container --- */
-    .fpd-container {
-      max-width: clamp(1040px, 92vw, 1440px);
-      margin-inline: auto;
-      padding-inline: clamp(16px, 3vw, 40px);
-      padding-block: clamp(48px, 6vh, 96px);
-    }
-
-    /* --- Headline & Toolbar --- */
-    .fpd-headline {
-      margin-bottom: clamp(24px, 4vw, 48px);
-    }
-
-    .fpd-headline h1 {
-      font-size: clamp(24px, 3vw, 36px);
-      letter-spacing: 0.2px;
-      font-weight: 700;
-      margin: 0 0 12px 0;
-      color: var(--text-heading);
-    }
-
-    .fpd-collection__description {
-      font-size: 16px;
-      line-height: 1.6;
-      font-weight: 500;
-      max-width: 680px;
-      margin-bottom: 24px;
-    }
-
-    .fpd-toolbar {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .fpd-sort {
-      display: inline-flex;
-      align-items: center;
-      gap: 16px;
-      font-size: 15px;
-      font-weight: 500;
-    }
-
-    .fpd-sort label {
-      letter-spacing: 0.2px;
-    }
-
+    /* --- Fluid Container & Typography --- */
+    .fpd-container { max-width: clamp(1040px, 92vw, 1440px); margin-inline: auto; padding-inline: clamp(16px, 3vw, 40px); padding-block: clamp(48px, 6vh, 96px); }
+    .fpd-headline { margin-bottom: clamp(24px, 4vw, 48px); }
+    .fpd-headline h1 { font-size: clamp(24px, 3vw, 36px); letter-spacing: 0.2px; font-weight: 700; margin: 0 0 12px 0; color: var(--text-heading); }
+    .fpd-collection__description { font-size: 16px; line-height: 1.6; font-weight: 500; max-width: 680px; margin-bottom: 24px; }
+    .fpd-toolbar { display: flex; align-items: center; gap: 16px; }
+    .fpd-sort { display: inline-flex; align-items: center; gap: 16px; font-size: 15px; font-weight: 500; }
     .fpd-sort select {
-      appearance: none;
-      -webkit-appearance: none;
-      font-family: inherit;
-      font-size: 15px;
-      font-weight: 500;
-      color: var(--text-heading);
-      background: var(--surface-background);
-      border: 1px solid var(--border-color);
-      border-radius: 999px;
-      padding: 12px 44px 12px 18px;
-      cursor: pointer;
-      transition: border-color 160ms ease, box-shadow 160ms ease;
+      appearance: none; -webkit-appearance: none; font-family: inherit; font-size: 15px; font-weight: 500; color: var(--text-heading);
+      background: var(--surface-background); border: 1px solid var(--border-color); border-radius: 999px; padding: 12px 44px 12px 18px;
+      cursor: pointer; transition: border-color 160ms ease, box-shadow 160ms ease;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M4.5 6L8 9.5L11.5 6' stroke='%232B2A27' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 18px center;
-      min-width: 180px;
-    }
-    .fpd-sort select:focus-visible {
-      outline: none;
-      border-color: var(--brand-primary);
-      box-shadow: 0 0 0 3px rgba(124, 44, 29, 0.35);
+      background-repeat: no-repeat; background-position: right 18px center; min-width: 180px;
     }
 
-    /* --- Main Layout Grid (Owns the Gutter) --- */
-    .fpd-layout {
-      display: grid;
-      grid-template-columns: minmax(260px, 300px) 1fr;
-      column-gap: var(--gutter);
-      align-items: start;
-    }
-
-    /* --- Sidebar (Sticky & Safe) --- */
-    .fpd-sidebar {
-      position: sticky;
-      top: clamp(64px, 10vh, 96px); /* Sticky offset sanity */
-      overflow: clip; /* Prevents shadow from leaking into gutter */
-      margin: 0;
-    }
-
-    .fpd-nav {
-      background: var(--surface-background);
-      border-radius: var(--border-radius);
-      box-shadow: 0 8px 24px rgba(24,22,20,.06), 0 1px 0 rgba(24,22,20,.03);
-      padding: 32px 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .fpd-nav__title {
-      font-size: clamp(18px, 2vw, 20px);
-      font-weight: 700;
-      letter-spacing: 0.2px;
-      margin: 0;
-      color: var(--text-heading);
-    }
-    .fpd-nav__pills {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    
-    /* -- Sidebar list hard reset (scoped) -- */
-    .fpd-collection-wrapper .fpd-nav__pills,
-    .fpd-collection-wrapper .fpd-nav__pills ul,
-    .fpd-collection-wrapper .fpd-nav__pills li {
-      list-style: none !important;
-      margin-left: 0 !important;
-      padding-left: 0 !important;
-    }
-    .fpd-collection-wrapper .fpd-nav__pills li::marker { content: '' !important; }
-    .fpd-collection-wrapper .fpd-nav__pills li::before { content: none !important; }
-    .fpd-collection-wrapper .fpd-nav__pills li { display: block; }
-
-    .fpd-filter-button {
-      display: block;
-      width: 100%;
-      box-sizing: border-box;
-      padding: 12px 16px;
-      border: 1px solid var(--border-color);
-      border-radius: 9999px;
-      background: var(--surface-background);
-      color: var(--text-body);
-      font-size: 15px;
-      font-weight: 500;
-      text-align: center;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
-    }
-    .fpd-filter-button:hover {
-      border-color: var(--brand-secondary);
-      background-color: var(--brand-secondary);
-      color: #FFFFFF;
-      transform: translateY(-1px);
-    }
-    .fpd-filter-button:focus-visible {
-      outline: none;
-      border-color: var(--brand-secondary);
-      background-color: var(--brand-secondary);
-      box-shadow: 0 0 0 3px rgba(207, 166, 80, 0.35);
-      color: #FFFFFF;
-      transform: translateY(-1px);
-    }
-    .fpd-filter-button.is-active {
-      background: var(--brand-primary);
-      color: #FFFFFF;
-      border-color: var(--brand-primary);
-    }
-    .fpd-filter-button.is-active:hover,
-    .fpd-filter-button.is-active:focus-visible {
-      background: var(--brand-primary);
-      border-color: var(--brand-primary);
-      box-shadow: 0 0 0 3px rgba(124, 44, 29, 0.25);
-    }
+    /* --- Layout & Sidebar --- */
+    .fpd-layout { display: grid; grid-template-columns: minmax(260px, 300px) 1fr; column-gap: var(--gutter); align-items: start; }
+    .fpd-sidebar { position: sticky; top: clamp(64px, 10vh, 96px); }
+    .fpd-nav { background: var(--surface-background); border-radius: var(--border-radius); box-shadow: 0 8px 24px rgba(24,22,20,.06), 0 1px 0 rgba(24,22,20,.03); padding: 32px 28px; display: flex; flex-direction: column; gap: 20px; }
+    .fpd-nav__title { font-size: clamp(18px, 2vw, 20px); font-weight: 700; margin: 0; color: var(--text-heading); }
+    .fpd-nav__pills { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+    .fpd-collection-wrapper .fpd-nav__pills li { list-style: none !important; margin: 0 !important; padding: 0 !important; }
+    .fpd-filter-button { display: block; width: 100%; box-sizing: border-box; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 9999px; background: var(--surface-background); color: var(--text-body); font-size: 15px; font-weight: 500; text-align: center; text-decoration: none; cursor: pointer; transition: all 160ms ease; }
+    .fpd-filter-button:hover { border-color: var(--brand-secondary); background-color: var(--brand-secondary); color: #FFFFFF; transform: translateY(-1px); }
+    .fpd-filter-button.is-active { background: var(--brand-primary); color: #FFFFFF; border-color: var(--brand-primary); }
 
     /* --- Product Grid --- */
-    .fpd-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: var(--gutter);
-      margin: 0;
-    }
+    .fpd-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--gutter); }
 
     /* --- Product Card --- */
     .fpd-card {
@@ -205,375 +60,165 @@
       box-shadow: 0 8px 24px rgba(24,22,20,.06), 0 1px 0 rgba(24,22,20,.03);
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      overflow: hidden; /* CORRECTED: Ensures child elements respect the border-radius */
       transition: transform 200ms ease, box-shadow 200ms ease;
-      position: relative;
     }
-    .fpd-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 18px 40px rgba(24, 22, 20, 0.1);
-    }
+    .fpd-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(24, 22, 20, 0.1); }
+    .fpd-card__media { display: block; aspect-ratio: 4/3; background: #F1E9DD; }
+    .fpd-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 300ms ease; }
+    .fpd-card:hover .fpd-card__media img { transform: scale(1.05); }
+    .fpd-card__content { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+    .fpd-card__body { flex-grow: 1; }
+    .fpd-card__title { font-size: clamp(18px, 2vw, 20px); font-weight: 700; margin: 0 0 12px 0; }
+    .fpd-card__title a { color: var(--text-heading); text-decoration: none; }
+    .fpd-card__excerpt { font-size: 15px; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-    .fpd-card__media {
-      display: block;
-      aspect-ratio: 4/3;
-      overflow: hidden;
-      background: #F1E9DD;
-    }
-    .fpd-card__media img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 300ms ease;
-    }
-    .fpd-card:hover .fpd-card__media img {
-      transform: scale(1.05);
-    }
-
-    .fpd-card__content {
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
-    .fpd-card__body {
-      flex-grow: 1;
-    }
-    .fpd-card__title {
-      font-size: clamp(18px, 2vw, 20px);
-      font-weight: 700;
-      margin: 0 0 12px 0;
-    }
-    .fpd-card__title a {
-      color: var(--text-heading);
-      text-decoration: none;
-      transition: color 160ms ease;
-    }
-    .fpd-card__title a:hover,
-    .fpd-card__title a:focus-visible {
-      color: var(--brand-primary);
-      outline: none;
-    }
-    .fpd-card__excerpt {
-      font-size: 15px;
-      line-height: 1.6;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-    .fpd-card__footer {
-      margin-top: auto;
-      padding-top: 16px;
-      border-top: 1px solid var(--border-color);
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
-    }
-    .fpd-price {
-      font-weight: 700;
-      font-size: 15px;
-      letter-spacing: 0.2px;
-      color: var(--text-heading);
-    }
-
-    .fpd-card__meta {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      flex: 1;
-    }
-
-    .fpd-flavor-text {
-      font-size: 14px;
-      color: var(--text-body);
-      font-weight: 600;
-      letter-spacing: 0.2px;
-    }
-
-    .fpd-flavor-chips {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .fpd-flavor-chip {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--chip-color, var(--brand-secondary));
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-    }
-
-    /* --- Aesthetic Add to Cart Button (Outline Style) --- */
-    .fpd-add {
+    /* --- Card Footer & Variant Selection --- */
+    .fpd-card__footer { margin-top: auto; padding-top: 16px; }
+    .fpd-variant-selector { margin-bottom: 16px; min-height: 54px; }
+    .fpd-flavor-label { font-size: 14px; font-weight: 500; color: var(--text-body); margin-bottom: 10px; display: block; }
+    .fpd-selected-flavor-name { font-weight: 700; color: var(--text-heading); }
+    
+    .fpd-flavor-swatches { display: flex; flex-wrap: nowrap; gap: 8px; align-items: center; }
+    .fpd-flavor-swatch {
+      padding: 0;
+      cursor: pointer;
+      width: 28px; /* CORRECTED: Equal width and height for a circle */
+      height: 28px;
+      border-radius: 50%; /* CORRECTED: Ensures a perfect circle */
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      background-color: transparent;
-      border: 1.5px solid var(--brand-secondary);
-      color: var(--brand-primary);
-      font-family: inherit;
-      font-size: 15px;
-      font-weight: 700;
-      padding: 10.5px 18.5px; /* Adjusted for border */
-      border-radius: 9999px;
-      cursor: pointer;
+      border: 2px solid var(--border-color);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
       transition: all 150ms ease;
-      -webkit-tap-highlight-color: transparent;
       flex-shrink: 0;
+      overflow: hidden; /* CORRECTED: Clips the inner image to the circle shape */
+      background-color: var(--surface-background);
     }
-    .fpd-add:hover,
-    .fpd-add:focus-visible {
-      background-color: var(--brand-primary);
+    .fpd-flavor-swatch-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .fpd-flavor-swatch--color {
+       background-color: var(--chip-color);
+    }
+    .fpd-flavor-swatch:hover { transform: scale(1.1); }
+    .fpd-flavor-swatch.is-selected {
       border-color: var(--brand-primary);
-      color: #FFFFFF;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      outline: none;
+      transform: scale(1.1);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
-    .fpd-add:active {
-      transform: translateY(0);
-      box-shadow: none;
-      background-color: #612115;
+    
+    .fpd-swatch-more { background-color: #F1E9DD; color: var(--text-heading); font-size: 11px; font-weight: 700; }
+    .fpd-flavor-swatches.is-expanded .fpd-swatch-more { display: none; }
+    .fpd-flavor-swatches:not(.is-expanded) .fpd-flavor-swatch:nth-child(n+5) { display: none; }
+    
+    .fpd-card__purchase-row { border-top: 1px solid var(--border-color); padding-top: 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .fpd-price { font-weight: 700; font-size: 16px; color: var(--text-heading); }
+    .fpd-add {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background-color: var(--brand-primary); border: 1.5px solid var(--brand-primary);
+      color: #FFFFFF; font-family: inherit; font-size: 15px; font-weight: 700;
+      padding: 10.5px 18.5px; border-radius: 9999px; cursor: pointer; flex-shrink: 0;
     }
-    .fpd-add__icon {
-      width: 16px;
-      height: 16px;
-    }
+    .fpd-add:hover { background-color: #612115; border-color: #612115; transform: translateY(-2px); }
 
-    .fpd-card__flavor-overlay {
-      position: absolute;
-      inset: auto 0 0 0;
-      padding: 14px 20px;
-      background: linear-gradient(0deg, rgba(124, 44, 29, 0.9), rgba(124, 44, 29, 0.76));
-      color: #FFFFFF;
-      font-size: 14px;
-      font-weight: 600;
-      text-align: center;
-      letter-spacing: 0.3px;
-      transform: translateY(100%);
-      transition: transform 220ms ease;
-      pointer-events: none;
-    }
-
-    .fpd-card:hover .fpd-card__flavor-overlay {
-      transform: translateY(0);
-    }
-
-    /* --- Pagination & Empty State --- */
-    .fpd-pagination {
-      display: flex;
-      justify-content: center;
-      padding-top: calc(var(--gutter) * 1.5);
-    }
-    .fpd-empty {
-      font-size: 16px;
-      font-weight: 500;
-      text-align: center;
-      padding: 96px 0;
-      color: var(--text-body);
-    }
-
-    /* --- Responsive Overrides --- */
-    @media (max-width: 980px) {
-      .fpd-layout {
-        grid-template-columns: 1fr;
-        row-gap: var(--gutter);
-      }
-      .fpd-sidebar {
-        position: static;
-        order: -1;
-      }
-      .fpd-nav {
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 12px;
-      }
-      .fpd-nav__title {
-        width: 100%;
-        margin-bottom: 8px;
-      }
-      .fpd-nav__pills {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 12px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .fpd-toolbar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .fpd-sort {
-        width: 100%;
-      }
-      .fpd-sort select {
-        width: 100%;
-      }
-    }
+    /* --- Responsive --- */
+    @media (max-width: 980px) { .fpd-layout { grid-template-columns: 1fr; row-gap: var(--gutter); } .fpd-sidebar { position: static; order: -1; } .fpd-nav { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; } .fpd-nav__title { width: 100%; margin-bottom: 8px; } .fpd-nav__pills { flex-direction: row; flex-wrap: wrap; gap: 12px; } }
+    @media (max-width: 768px) { .fpd-toolbar { flex-direction: column; align-items: flex-start; } .fpd-sort, .fpd-sort select { width: 100%; } }
   </style>
 
   <div class="fpd-collection">
     <div class="fpd-container">
-
       <div class="fpd-headline">
         <h1>{{ collection.title | escape }}</h1>
-        {% if collection.description != blank %}
-          <div class="fpd-collection__description">{{ collection.description }}</div>
-        {% endif %}
+        {% if collection.description != blank %}<div class="fpd-collection__description">{{ collection.description }}</div>{% endif %}
         <div class="fpd-toolbar">
           <div class="fpd-sort">
             <label for="fpd-sort-select">Sort by</label>
-            <select id="fpd-sort-select" data-current-sort="{{ current_sort }}">
-              <option value="manual" {% if current_sort == 'manual' %}selected{% endif %}>Featured</option>
-              <option value="price-ascending" {% if current_sort == 'price-ascending' %}selected{% endif %}>Price (low → high)</option>
-              <option value="price-descending" {% if current_sort == 'price-descending' %}selected{% endif %}>Price (high → low)</option>
-              <option value="best-selling" {% if current_sort == 'best-selling' %}selected{% endif %}>Popularity</option>
+            <select id="fpd-sort-select">
+              <option value="manual"{% if current_sort == 'manual' %} selected{% endif %}>Featured</option>
+              <option value="price-ascending"{% if current_sort == 'price-ascending' %} selected{% endif %}>Price (low → high)</option>
+              <option value="price-descending"{% if current_sort == 'price-descending' %} selected{% endif %}>Price (high → low)</option>
+              <option value="best-selling"{% if current_sort == 'best-selling' %} selected{% endif %}>Popularity</option>
             </select>
           </div>
         </div>
       </div>
 
       <div class="fpd-layout">
-        <aside class="fpd-sidebar" aria-label="Explore the menu">
+        <aside class="fpd-sidebar">
           <nav class="fpd-nav">
             <h2 class="fpd-nav__title">Explore the menu</h2>
             <ul class="fpd-nav__pills">
               {% for category in fpd_categories %}
-                {% assign parts = category | split: '::' %}
-                {% assign label = parts[0] %}
-                {% assign handle = parts[1] %}
-                {% assign destination = routes.collections_url | append: '/' | append: handle %}
-                {% if handle == 'all' %}
-                  {% assign destination = routes.all_products_collection_url %}
-                {% endif %}
-                {% assign is_current = false %}
-                {% if handle == collection.handle %}
-                  {% assign is_current = true %}
-                {% endif %}
-                {% assign button_classes = 'fpd-filter-button' %}
-                {% if is_current %}
-                  {% assign button_classes = button_classes | append: ' is-active' %}
-                {% endif %}
-                <li>
-                  <a class="{{ button_classes }}" href="{{ destination }}"{% if is_current %} aria-current="page"{% endif %}>{{ label }}</a>
-                </li>
+                {%- assign parts = category | split: '::' -%}
+                {%- assign label = parts[0] -%}
+                {%- assign handle = parts[1] -%}
+                {%- assign destination = routes.collections_url | append: '/' | append: handle -%}
+                {%- if handle == 'all' %}{%- assign destination = routes.all_products_collection_url -%}{% endif -%}
+                <li><a class="fpd-filter-button {% if handle == collection.handle %}is-active{% endif %}" href="{{ destination }}"{% if handle == collection.handle %} aria-current="page"{% endif %}>{{ label }}</a></li>
               {% endfor %}
             </ul>
           </nav>
         </aside>
 
         <main>
-          {% if collection.products_count == 0 %}
-            <p class="fpd-empty">Our kitchen is preparing something special. Please check back soon.</p>
-          {% else %}
-            <div class="fpd-grid" data-category-grid>
+          {% if collection.products_count > 0 %}
+            <div class="fpd-grid">
               {% for product in collection.products %}
-                {%- assign fpd_tag_handles = product.tags | join: ',' | handleize | replace: '-_','-' -%}
-                {%- assign card_description = product.description | strip_html | truncate: 150, '…' -%}
-                {% assign options_count = product.options_with_values | size %}
-                {% assign flavor_option = nil %}
-                {% if options_count > 0 %}
-                  {% for option in product.options_with_values %}
-                    {% assign option_name_downcase = option.name | downcase %}
-                    {% if option_name_downcase contains 'flavor' or option_name_downcase contains 'flavour' %}
-                      {% assign flavor_option = option %}
-                      {% break %}
-                    {% endif %}
-                  {% endfor %}
-                  {% if flavor_option == nil %}
-                    {% assign flavor_option = product.options_with_values | first %}
-                  {% endif %}
-                {% endif %}
+                {%- assign has_flavors = false -%}
+                {%- if product.variants.size > 1 or product.variants.first.title != 'Default Title' -%}{%- assign has_flavors = true -%}{% endif -%}
 
-                {% assign flavor_values = '' %}
-                {% assign flavor_count = 0 %}
-                {% if flavor_option %}
-                  {% assign flavor_values = flavor_option.values | uniq %}
-                  {% assign flavor_count = flavor_values | size %}
-                {% endif %}
-
-                {% assign variant_count = product.variants | size %}
-                {% assign flavor_text = '' %}
-                {% if flavor_count > 1 %}
-                  {% assign flavor_label = flavor_count | pluralize: 'flavor option', 'flavor options' %}
-                  {% assign flavor_text = flavor_count | append: ' ' | append: flavor_label %}
-                {% elsif variant_count > 1 %}
-                  {% assign flavor_text = 'Available in multiple flavors' %}
-                {% endif %}
-
-                <article class="fpd-card" data-tags="{{ fpd_tag_handles }}" data-title="{{ product.title | escape }}">
-                  <a class="fpd-card__media" href="{{ product.url }}" aria-label="View {{ product.title | escape }}">
-                    {% if product.featured_image %}
-                      <img src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy" width="800" height="600">
-                    {% endif %}
-                  </a>
+                <article class="fpd-card" data-product-card>
+                  <a class="fpd-card__media" href="{{ product.url }}"><img src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy" width="800" height="600"></a>
                   <div class="fpd-card__content">
                     <div class="fpd-card__body">
                       <h2 class="fpd-card__title"><a href="{{ product.url }}">{{ product.title | escape }}</a></h2>
-                      {% if card_description != blank %}
-                        <p class="fpd-card__excerpt">{{ card_description }}</p>
-                      {% endif %}
+                      <p class="fpd-card__excerpt">{{ product.description | strip_html | truncate: 120, '…' }}</p>
                     </div>
                     <div class="fpd-card__footer">
-                      <div class="fpd-card__meta">
-                        <span class="fpd-price">{{ product.price | money }}</span>
-                        {% if flavor_text != blank %}
-                          <span class="fpd-flavor-text">{{ flavor_text }}</span>
-                          {% if flavor_count > 1 %}
-                            <div class="fpd-flavor-chips" aria-hidden="true">
-                              {% for flavor_value in flavor_values limit: 3 %}
-                                {% assign flavor_key = flavor_value | strip | downcase %}
-                                {% case flavor_key %}
-                                  {% when 'egg' %}{% assign chip_color = '#F6D36F' %}
-                                  {% when 'spinach' %}{% assign chip_color = '#9BCB6A' %}
-                                  {% when 'tomato' %}{% assign chip_color = '#E86C5D' %}
-                                  {% when 'basil' %}{% assign chip_color = '#6FBF73' %}
-                                  {% when 'garlic' %}{% assign chip_color = '#F3E2B3' %}
-                                  {% when 'beet' %}{% assign chip_color = '#D15A8D' %}
-                                  {% when 'squid ink' %}{% assign chip_color = '#1F2D3D' %}
-                                  {% when 'lemon' %}{% assign chip_color = '#F9E27D' %}
-                                  {% when 'truffle' %}{% assign chip_color = '#C9B08F' %}
-                                  {% when 'pepper' %}{% assign chip_color = '#CF6F4B' %}
-                                  {% else %}{% assign chip_color = '#D7C9B8' %}
-                                {% endcase %}
-                                <span class="fpd-flavor-chip" style="--chip-color: {{ chip_color }};" title="{{ flavor_value | escape }}"></span>
-                              {% endfor %}
-                            </div>
-                          {% endif %}
-                        {% endif %}
-                      </div>
-                      {% assign default_variant = product.first_available_variant %}
-                      {% if default_variant %}
-                        <form method="post" action="/cart/add" class="fpd-quick-add-form">
-                          <input type="hidden" name="id" value="{{ default_variant.id }}">
-                          <button type="submit" class="fpd-add" aria-label="Add {{ product.title | escape }} to cart">
-                            <svg class="fpd-add__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                              <path d="M12 5v14m-7-7h14"/>
-                            </svg>
-                            <span>Add to Cart</span>
-                          </button>
-                        </form>
+                      {% if has_flavors %}
+                        <div class="fpd-variant-selector">
+                          <label class="fpd-flavor-label">Flavor: <span class="fpd-selected-flavor-name" data-flavor-name>{{ product.first_available_variant.title | escape }}</span></label>
+                          <div class="fpd-flavor-swatches" data-swatches>
+                            {% for variant in product.variants %}
+                              <button class="fpd-flavor-swatch {% if forloop.first %}is-selected{% endif %}" data-variant-id="{{ variant.id }}" data-variant-title="{{ variant.title | escape }}" aria-label="Select {{ variant.title | escape }} flavor">
+                                {%- if variant.image -%}
+                                  <img class="fpd-flavor-swatch-img" src="{{ variant.image | img_url: '56x56' }}" alt="{{ variant.title | escape }}" loading="lazy" width="28" height="28">
+                                {%- else -%}
+                                  {%- assign flavor_key = variant.title | strip | downcase -%}
+                                  {%- case flavor_key -%}
+                                    {%- when 'egg (traditional)' -%}{%- assign chip_color = '#F6D36F' -%}
+                                    {%- when 'spinach' -%}{%- assign chip_color = '#9BCB6A' -%}
+                                    {%- when 'tomato basil' -%}{%- assign chip_color = '#E86C5D' -%}
+                                    {%- else -%}{%- assign chip_color = '#D7C9B8' -%}
+                                  {%- endcase -%}
+                                  <div class="fpd-flavor-swatch--color" style="--chip-color: {{ chip_color }}; width: 100%; height: 100%;"></div>
+                                {%- endif -%}
+                              </button>
+                            {% endfor %}
+                            {% if product.variants.size > 4 %}
+                              <button class="fpd-flavor-swatch fpd-swatch-more" data-show-more>+{{ product.variants.size | minus: 4 }}</button>
+                            {% endif %}
+                          </div>
+                        </div>
                       {% endif %}
+                      <div class="fpd-card__purchase-row">
+                        <span class="fpd-price">{{ product.price | money }}</span>
+                        <form method="post" action="/cart/add">
+                          <input type="hidden" name="id" value="{{ product.first_available_variant.id }}" data-variant-input>
+                          <button type="submit" class="fpd-add"><svg class="fpd-add__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 5v14m-7-7h14"/></svg> <span>Add to Cart</span></button>
+                        </form>
+                      </div>
                     </div>
                   </div>
-                  {% if flavor_count > 1 %}
-                    <div class="fpd-card__flavor-overlay" aria-hidden="true">View Flavors →</div>
-                  {% endif %}
                 </article>
               {% endfor %}
             </div>
-
-            {% if paginate.pages > 1 %}
-              <div class="fpd-pagination">
-                {% include 'pagination-control' %}
-              </div>
-            {% endif %}
+            {% if paginate.pages > 1 %}<div class="fpd-pagination">{% include 'pagination-control' %}</div>{% endif %}
           {% endif %}
         </main>
       </div>
@@ -581,17 +226,34 @@
   </div>
 
   <script>
-    (function() {
-      const container = document.querySelector('.fpd-collection-wrapper');
-      if (!container) return;
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('[data-product-card]').forEach(card => {
+        const swatchContainer = card.querySelector('[data-swatches]');
+        if (!swatchContainer) return;
+        
+        const flavorNameEl = card.querySelector('[data-flavor-name]');
+        const variantInput = card.querySelector('[data-variant-input]');
 
-      const sortSelect = container.querySelector('#fpd-sort-select');
+        swatchContainer.addEventListener('click', (event) => {
+          const swatch = event.target.closest('.fpd-flavor-swatch');
+          if (!swatch) return;
+          event.preventDefault();
 
+          if (swatch.hasAttribute('data-show-more')) {
+            swatchContainer.classList.add('is-expanded');
+            return;
+          }
+
+          swatchContainer.querySelector('.is-selected')?.classList.remove('is-selected');
+          swatch.classList.add('is-selected');
+
+          variantInput.value = swatch.dataset.variantId;
+          if (flavorNameEl) flavorNameEl.textContent = swatch.dataset.variantTitle;
+        });
+      });
+      
+      const sortSelect = document.querySelector('#fpd-sort-select');
       if (sortSelect) {
-        const currentSort = sortSelect.dataset.currentSort;
-        if (currentSort && sortSelect.value !== currentSort) {
-          sortSelect.value = currentSort;
-        }
         sortSelect.addEventListener('change', (event) => {
           const url = new URL(window.location.href);
           url.searchParams.set('sort_by', event.target.value);
@@ -599,7 +261,7 @@
           window.location.assign(url.toString());
         });
       }
-    })();
+    });
   </script>
 
   {%- endpaginate -%}
