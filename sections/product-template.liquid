@@ -605,7 +605,10 @@
                 <label>Flavor: <span class="fpd-selected-flavor" data-flavor-name>{{ initial_variant.title | escape }}</span></label>
                 <div class="fpd-flavor-swatches" data-swatches>
                   {% for variant in product.variants %}
-                    {% assign is_selected = variant.id == initial_variant.id %}
+                    {% assign is_selected = false %}
+                    {% if variant.id == initial_variant.id %}
+                      {% assign is_selected = true %}
+                    {% endif %}
                     <button type="button" class="fpd-flavor-swatch{% if is_selected %} is-selected{% endif %}" data-variant-id="{{ variant.id }}" data-variant-title="{{ variant.title | escape }}" data-variant-available="{{ variant.available }}" data-variant-price="{{ variant.price | money }}" data-variant-price-raw="{{ variant.price | divided_by: 1.0 }}" data-variant-compare="{{ variant.compare_at_price | money }}" data-variant-compare-raw="{{ variant.compare_at_price | divided_by: 1.0 }}" data-variant-sku="{{ variant.sku }}" data-variant-inventory-management="{{ variant.inventory_management }}" data-variant-inventory-quantity="{{ variant.inventory_quantity }}"{% if variant.image %} data-variant-image-id="{{ variant.image.id }}" data-variant-image="{{ variant.image | product_img_url: '1024x1024' }}" data-variant-image-thumb="{{ variant.image | product_img_url: '220x' }}" data-variant-image-alt="{{ variant.image.alt | default: variant.title | escape }}"{% endif %} aria-label="Select {{ variant.title | escape }}">
                       {% if variant.image %}
                         <img class="fpd-flavor-swatch-img" src="{{ variant.image | product_img_url: '64x64' }}" alt="{{ variant.title | escape }}" loading="lazy">
