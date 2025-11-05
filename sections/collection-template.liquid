@@ -52,8 +52,47 @@
     .fpd-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--gutter); }
     .fpd-card { background: var(--surface-background); border-radius: var(--border-radius); box-shadow: 0 8px 24px rgba(24,22,20,.06), 0 1px 0 rgba(24,22,20,.03); display: flex; flex-direction: column; overflow: hidden; transition: transform 200ms ease, box-shadow 200ms ease; }
     .fpd-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(24, 22, 20, 0.1); }
-    .fpd-card__media { display: block; aspect-ratio: 4/3; background: #F1E9DD; }
+    .fpd-card__media { position: relative; display: block; aspect-ratio: 4/3; background: #F1E9DD; overflow: hidden; }
     .fpd-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 300ms ease; }
+    .fpd-card__loader {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(251, 250, 247, 0.92), rgba(241, 233, 221, 0.78));
+      backdrop-filter: blur(2px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 180ms ease;
+      will-change: opacity;
+    }
+    .fpd-card__loader.is-active { opacity: 1; }
+    .fpd-card__loader-ring {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: var(--brand-primary);
+      border-right-color: var(--brand-secondary);
+      position: relative;
+      animation: fpd-loader-spin 900ms linear infinite;
+      box-shadow: 0 6px 18px rgba(124, 44, 29, 0.18);
+    }
+    .fpd-card__loader-ring::before {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 0 0 1px rgba(207, 166, 80, 0.3) inset;
+    }
+    @keyframes fpd-loader-spin {
+      to { transform: rotate(360deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .fpd-card__loader-ring { animation-duration: 1400ms; }
+    }
     .fpd-card:hover .fpd-card__media img { transform: scale(1.05); }
     .fpd-card__content { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
     .fpd-card__body { flex-grow: 1; }
@@ -178,6 +217,9 @@
 
                 <article class="fpd-card" data-product-card>
                   <a class="fpd-card__media" href="{{ product.url }}">
+                    <div class="fpd-card__loader" data-card-loader aria-hidden="true">
+                      <div class="fpd-card__loader-ring"></div>
+                    </div>
                     <img
                       src="{{ product.featured_image | img_url: '800x' }}"
                       alt="{{ product.featured_image.alt | default: product.title | escape }}"
@@ -251,20 +293,73 @@
 
         const flavorNameEl = card.querySelector('[data-flavor-name]');
         const variantInput = card.querySelector('[data-variant-input]');
+        const normaliseSrc = (value) => (value ? value.replace(/&amp;/g, '&') : value);
         const mediaImg = card.querySelector('.fpd-card__media img');
-        const defaultMediaSrc = mediaImg ? mediaImg.getAttribute('data-default-src') || mediaImg.getAttribute('src') : null;
+        const loaderOverlay = card.querySelector('[data-card-loader]');
+        const defaultMediaSrc = mediaImg ? normaliseSrc(mediaImg.getAttribute('data-default-src') || mediaImg.getAttribute('src')) : null;
         const defaultMediaAlt = mediaImg ? mediaImg.getAttribute('data-default-alt') || mediaImg.getAttribute('alt') : null;
         const selectedVariantAtLoad = variantInput.value;
 
-        const updateCardMedia = (swatch) => {
+        let pendingMediaHandler = null;
+
+        const setLoaderState = (isActive) => {
+          if (!loaderOverlay) return;
+          loaderOverlay.classList.toggle('is-active', Boolean(isActive));
+        };
+
+        const clearPendingMediaHandler = () => {
+          if (!pendingMediaHandler || !mediaImg) return;
+          mediaImg.removeEventListener('load', pendingMediaHandler);
+          mediaImg.removeEventListener('error', pendingMediaHandler);
+          pendingMediaHandler = null;
+        };
+
+        const applyImageSource = (src, alt, { withLoader = true } = {}) => {
           if (!mediaImg) return;
-          if (swatch && swatch.dataset.variantImage) {
-            mediaImg.src = swatch.dataset.variantImage;
-            mediaImg.alt = swatch.dataset.variantImageAlt || defaultMediaAlt || '';
-          } else if (defaultMediaSrc) {
-            mediaImg.src = defaultMediaSrc;
-            if (defaultMediaAlt) mediaImg.alt = defaultMediaAlt;
+
+          if (alt) mediaImg.alt = alt;
+
+          const targetSrc = normaliseSrc(src);
+          const currentSrc = normaliseSrc(mediaImg.getAttribute('src'));
+
+          clearPendingMediaHandler();
+
+          if (!targetSrc) {
+            setLoaderState(false);
+            return;
           }
+
+          if (currentSrc === targetSrc) {
+            setLoaderState(false);
+            return;
+          }
+
+          if (withLoader) {
+            setLoaderState(true);
+            pendingMediaHandler = () => {
+              setLoaderState(false);
+              clearPendingMediaHandler();
+            };
+            mediaImg.addEventListener('load', pendingMediaHandler);
+            mediaImg.addEventListener('error', pendingMediaHandler);
+          } else {
+            setLoaderState(false);
+          }
+
+          mediaImg.setAttribute('src', targetSrc);
+
+          if (withLoader && mediaImg.complete && mediaImg.naturalWidth > 0) {
+            pendingMediaHandler?.();
+          }
+        };
+
+        const updateCardMedia = (swatch, options = {}) => {
+          if (!mediaImg) return;
+          const variantImageSrc = swatch?.dataset.variantImage;
+          const nextSrc = variantImageSrc ? normaliseSrc(variantImageSrc) : defaultMediaSrc;
+          const nextAlt = swatch?.dataset.variantImageAlt || (swatch ? swatch.dataset.variantTitle : null) || defaultMediaAlt || '';
+          const shouldAnimate = options.withLoader !== false && Boolean(variantImageSrc);
+          applyImageSource(nextSrc, nextAlt, { withLoader: shouldAnimate });
         };
 
         // Set initial selected state based on the variant loaded with the page
@@ -272,7 +367,7 @@
         swatches.forEach(sw => {
           if (sw.dataset.variantId === selectedVariantAtLoad) {
             sw.classList.add('is-selected');
-            updateCardMedia(sw);
+            updateCardMedia(sw, { withLoader: false });
           } else {
             sw.classList.remove('is-selected');
           }
@@ -293,7 +388,7 @@
 
           variantInput.value = swatch.dataset.variantId;
           if (flavorNameEl) flavorNameEl.textContent = swatch.dataset.variantTitle;
-          updateCardMedia(swatch);
+          updateCardMedia(swatch, { withLoader: true });
         });
       });
       
