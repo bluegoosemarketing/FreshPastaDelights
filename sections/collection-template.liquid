@@ -177,7 +177,17 @@
                 {%- assign selected_variant = product.selected_or_first_available_variant | default: product.first_available_variant -%}
 
                 <article class="fpd-card" data-product-card>
-                  <a class="fpd-card__media" href="{{ product.url }}"><img src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy" width="800" height="600"></a>
+                  <a class="fpd-card__media" href="{{ product.url }}">
+                    <img
+                      src="{{ product.featured_image | img_url: '800x' }}"
+                      alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                      loading="lazy"
+                      width="800"
+                      height="600"
+                      data-default-src="{{ product.featured_image | img_url: '800x' }}"
+                      data-default-alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                    >
+                  </a>
                   <div class="fpd-card__content">
                     <div class="fpd-card__body">
                       <h2 class="fpd-card__title"><a href="{{ product.url }}">{{ product.title | escape }}</a></h2>
@@ -193,7 +203,7 @@
                               {%- if variant.id == selected_variant.id -%}
                                 {%- assign is_selected = true -%}
                               {%- endif -%}
-                              <button class="fpd-flavor-swatch {% if is_selected %}is-selected{% endif %}" data-variant-id="{{ variant.id }}" data-variant-title="{{ variant.title | escape }}" aria-label="Select {{ variant.title | escape }} flavor">
+                              <button class="fpd-flavor-swatch {% if is_selected %}is-selected{% endif %}" data-variant-id="{{ variant.id }}" data-variant-title="{{ variant.title | escape }}"{% if variant.image %} data-variant-image="{{ variant.image | img_url: '800x' }}" data-variant-image-alt="{{ variant.image.alt | default: variant.title | escape }}"{% endif %} aria-label="Select {{ variant.title | escape }} flavor">
                                 {%- if variant.image -%}
                                   <img class="fpd-flavor-swatch-img" src="{{ variant.image | img_url: '56x56' }}" alt="{{ variant.title | escape }}" loading="lazy">
                                 {%- else -%}
@@ -238,16 +248,31 @@
       document.querySelectorAll('[data-product-card]').forEach(card => {
         const swatchContainer = card.querySelector('[data-swatches]');
         if (!swatchContainer) return;
-        
+
         const flavorNameEl = card.querySelector('[data-flavor-name]');
         const variantInput = card.querySelector('[data-variant-input]');
+        const mediaImg = card.querySelector('.fpd-card__media img');
+        const defaultMediaSrc = mediaImg ? mediaImg.getAttribute('data-default-src') || mediaImg.getAttribute('src') : null;
+        const defaultMediaAlt = mediaImg ? mediaImg.getAttribute('data-default-alt') || mediaImg.getAttribute('alt') : null;
         const selectedVariantAtLoad = variantInput.value;
+
+        const updateCardMedia = (swatch) => {
+          if (!mediaImg) return;
+          if (swatch && swatch.dataset.variantImage) {
+            mediaImg.src = swatch.dataset.variantImage;
+            mediaImg.alt = swatch.dataset.variantImageAlt || defaultMediaAlt || '';
+          } else if (defaultMediaSrc) {
+            mediaImg.src = defaultMediaSrc;
+            if (defaultMediaAlt) mediaImg.alt = defaultMediaAlt;
+          }
+        };
 
         // Set initial selected state based on the variant loaded with the page
         const swatches = swatchContainer.querySelectorAll('.fpd-flavor-swatch');
         swatches.forEach(sw => {
           if (sw.dataset.variantId === selectedVariantAtLoad) {
             sw.classList.add('is-selected');
+            updateCardMedia(sw);
           } else {
             sw.classList.remove('is-selected');
           }
@@ -268,6 +293,7 @@
 
           variantInput.value = swatch.dataset.variantId;
           if (flavorNameEl) flavorNameEl.textContent = swatch.dataset.variantTitle;
+          updateCardMedia(swatch);
         });
       });
       
