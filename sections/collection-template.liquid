@@ -207,6 +207,7 @@
       flex-direction: column;
       overflow: hidden;
       transition: transform 200ms ease, box-shadow 200ms ease;
+      position: relative;
     }
     .fpd-card:hover {
       transform: translateY(-4px);
@@ -267,8 +268,8 @@
       border-top: 1px solid var(--border-color);
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      gap: 12px;
+      align-items: flex-start;
+      gap: 16px;
     }
     .fpd-price {
       font-weight: 700;
@@ -276,7 +277,35 @@
       letter-spacing: 0.2px;
       color: var(--text-heading);
     }
-    
+
+    .fpd-card__meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .fpd-flavor-text {
+      font-size: 14px;
+      color: var(--text-body);
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+
+    .fpd-flavor-chips {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .fpd-flavor-chip {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--chip-color, var(--brand-secondary));
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    }
+
     /* --- Aesthetic Add to Cart Button (Outline Style) --- */
     .fpd-add {
       display: inline-flex;
@@ -294,6 +323,7 @@
       cursor: pointer;
       transition: all 150ms ease;
       -webkit-tap-highlight-color: transparent;
+      flex-shrink: 0;
     }
     .fpd-add:hover,
     .fpd-add:focus-visible {
@@ -312,6 +342,25 @@
     .fpd-add__icon {
       width: 16px;
       height: 16px;
+    }
+
+    .fpd-card__flavor-overlay {
+      position: absolute;
+      inset: auto 0 0 0;
+      padding: 14px 20px;
+      background: linear-gradient(0deg, rgba(124, 44, 29, 0.9), rgba(124, 44, 29, 0.76));
+      color: #FFFFFF;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+      letter-spacing: 0.3px;
+      transform: translateY(100%);
+      transition: transform 220ms ease;
+      pointer-events: none;
+    }
+
+    .fpd-card:hover .fpd-card__flavor-overlay {
+      transform: translateY(0);
     }
 
     /* --- Pagination & Empty State --- */
@@ -427,7 +476,37 @@
               {% for product in collection.products %}
                 {%- assign fpd_tag_handles = product.tags | join: ',' | handleize | replace: '-_','-' -%}
                 {%- assign card_description = product.description | strip_html | truncate: 150, '…' -%}
-                
+                {% assign options_count = product.options_with_values | size %}
+                {% assign flavor_option = nil %}
+                {% if options_count > 0 %}
+                  {% for option in product.options_with_values %}
+                    {% assign option_name_downcase = option.name | downcase %}
+                    {% if option_name_downcase contains 'flavor' or option_name_downcase contains 'flavour' %}
+                      {% assign flavor_option = option %}
+                      {% break %}
+                    {% endif %}
+                  {% endfor %}
+                  {% if flavor_option == nil %}
+                    {% assign flavor_option = product.options_with_values | first %}
+                  {% endif %}
+                {% endif %}
+
+                {% assign flavor_values = '' %}
+                {% assign flavor_count = 0 %}
+                {% if flavor_option %}
+                  {% assign flavor_values = flavor_option.values | uniq %}
+                  {% assign flavor_count = flavor_values | size %}
+                {% endif %}
+
+                {% assign variant_count = product.variants | size %}
+                {% assign flavor_text = '' %}
+                {% if flavor_count > 1 %}
+                  {% assign flavor_label = flavor_count | pluralize: 'flavor option', 'flavor options' %}
+                  {% assign flavor_text = flavor_count | append: ' ' | append: flavor_label %}
+                {% elsif variant_count > 1 %}
+                  {% assign flavor_text = 'Available in multiple flavors' %}
+                {% endif %}
+
                 <article class="fpd-card" data-tags="{{ fpd_tag_handles }}" data-title="{{ product.title | escape }}">
                   <a class="fpd-card__media" href="{{ product.url }}" aria-label="View {{ product.title | escape }}">
                     {% if product.featured_image %}
@@ -442,7 +521,33 @@
                       {% endif %}
                     </div>
                     <div class="fpd-card__footer">
-                      <span class="fpd-price">{{ product.price | money }}</span>
+                      <div class="fpd-card__meta">
+                        <span class="fpd-price">{{ product.price | money }}</span>
+                        {% if flavor_text != blank %}
+                          <span class="fpd-flavor-text">{{ flavor_text }}</span>
+                          {% if flavor_count > 1 %}
+                            <div class="fpd-flavor-chips" aria-hidden="true">
+                              {% for flavor_value in flavor_values limit: 3 %}
+                                {% assign flavor_key = flavor_value | strip | downcase %}
+                                {% case flavor_key %}
+                                  {% when 'egg' %}{% assign chip_color = '#F6D36F' %}
+                                  {% when 'spinach' %}{% assign chip_color = '#9BCB6A' %}
+                                  {% when 'tomato' %}{% assign chip_color = '#E86C5D' %}
+                                  {% when 'basil' %}{% assign chip_color = '#6FBF73' %}
+                                  {% when 'garlic' %}{% assign chip_color = '#F3E2B3' %}
+                                  {% when 'beet' %}{% assign chip_color = '#D15A8D' %}
+                                  {% when 'squid ink' %}{% assign chip_color = '#1F2D3D' %}
+                                  {% when 'lemon' %}{% assign chip_color = '#F9E27D' %}
+                                  {% when 'truffle' %}{% assign chip_color = '#C9B08F' %}
+                                  {% when 'pepper' %}{% assign chip_color = '#CF6F4B' %}
+                                  {% else %}{% assign chip_color = '#D7C9B8' %}
+                                {% endcase %}
+                                <span class="fpd-flavor-chip" style="--chip-color: {{ chip_color }};" title="{{ flavor_value | escape }}"></span>
+                              {% endfor %}
+                            </div>
+                          {% endif %}
+                        {% endif %}
+                      </div>
                       {% assign default_variant = product.first_available_variant %}
                       {% if default_variant %}
                         <form method="post" action="/cart/add" class="fpd-quick-add-form">
@@ -457,6 +562,9 @@
                       {% endif %}
                     </div>
                   </div>
+                  {% if flavor_count > 1 %}
+                    <div class="fpd-card__flavor-overlay" aria-hidden="true">View Flavors →</div>
+                  {% endif %}
                 </article>
               {% endfor %}
             </div>
