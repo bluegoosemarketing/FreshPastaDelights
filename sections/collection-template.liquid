@@ -304,7 +304,17 @@
 
         const setLoaderState = (isActive) => {
           if (!loaderOverlay) return;
-          loaderOverlay.classList.toggle('is-active', Boolean(isActive));
+
+          if (isActive) {
+            // This is the key: we force the browser to process the element's
+            // current styles (where opacity is 0) before we add the class
+            // that triggers the transition. Reading its 'offsetHeight' is a
+            // common and reliable way to do this.
+            void loaderOverlay.offsetHeight;
+            loaderOverlay.classList.add('is-active');
+          } else {
+            loaderOverlay.classList.remove('is-active');
+          }
         };
 
         const clearPendingMediaHandler = () => {
@@ -324,22 +334,31 @@
 
           clearPendingMediaHandler();
 
-          if (!targetSrc) {
-            setLoaderState(false);
-            return;
-          }
-
-          if (currentSrc === targetSrc) {
+          // If there's no new image or the image is already displayed, do nothing.
+          if (!targetSrc || currentSrc === targetSrc) {
             setLoaderState(false);
             return;
           }
 
           if (withLoader) {
-            setLoaderState(true);
+            const startTime = performance.now();
+            setLoaderState(true); // Show loader
+
             pendingMediaHandler = () => {
-              setLoaderState(false);
+              const elapsedTime = performance.now() - startTime;
+              const minDisplayTime = 300; // Minimum time in milliseconds for the loader to be visible
+              const timeRemaining = minDisplayTime - elapsedTime;
+
+              // Ensure loader is visible for a minimum duration to avoid flicker
+              if (timeRemaining > 0) {
+                setTimeout(() => setLoaderState(false), timeRemaining);
+              } else {
+                setLoaderState(false);
+              }
+              
               clearPendingMediaHandler();
             };
+            
             mediaImg.addEventListener('load', pendingMediaHandler);
             mediaImg.addEventListener('error', pendingMediaHandler);
           } else {
@@ -347,10 +366,6 @@
           }
 
           mediaImg.setAttribute('src', targetSrc);
-
-          if (withLoader && mediaImg.complete && mediaImg.naturalWidth > 0) {
-            pendingMediaHandler?.();
-          }
         };
 
         const updateCardMedia = (swatch, options = {}) => {
