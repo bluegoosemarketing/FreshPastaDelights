@@ -160,25 +160,34 @@
       font-size: 15px;
       font-weight: 500;
       text-align: center;
+      text-decoration: none;
       cursor: pointer;
-      transition: all 160ms ease;
+      transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
     }
     .fpd-filter-button:hover {
       border-color: var(--brand-secondary);
-      color: var(--text-heading);
+      background-color: var(--brand-secondary);
+      color: #FFFFFF;
       transform: translateY(-1px);
     }
     .fpd-filter-button:focus-visible {
       outline: none;
-      border-color: var(--brand-primary);
-      box-shadow: 0 0 0 3px rgba(124, 44, 29, 0.25);
-      color: var(--text-heading);
+      border-color: var(--brand-secondary);
+      background-color: var(--brand-secondary);
+      box-shadow: 0 0 0 3px rgba(207, 166, 80, 0.35);
+      color: #FFFFFF;
       transform: translateY(-1px);
     }
     .fpd-filter-button.is-active {
       background: var(--brand-primary);
       color: #FFFFFF;
       border-color: var(--brand-primary);
+    }
+    .fpd-filter-button.is-active:hover,
+    .fpd-filter-button.is-active:focus-visible {
+      background: var(--brand-primary);
+      border-color: var(--brand-primary);
+      box-shadow: 0 0 0 3px rgba(124, 44, 29, 0.25);
     }
 
     /* --- Product Grid --- */
@@ -390,8 +399,20 @@
                 {% assign parts = category | split: '::' %}
                 {% assign label = parts[0] %}
                 {% assign handle = parts[1] %}
+                {% assign destination = routes.collections_url | append: '/' | append: handle %}
+                {% if handle == 'all' %}
+                  {% assign destination = routes.all_products_collection_url %}
+                {% endif %}
+                {% assign is_current = false %}
+                {% if handle == collection.handle %}
+                  {% assign is_current = true %}
+                {% endif %}
+                {% assign button_classes = 'fpd-filter-button' %}
+                {% if is_current %}
+                  {% assign button_classes = button_classes | append: ' is-active' %}
+                {% endif %}
                 <li>
-                  <button type="button" class="fpd-filter-button{% if forloop.first %} is-active{% endif %}" data-category="{{ handle }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ label }}</button>
+                  <a class="{{ button_classes }}" href="{{ destination }}"{% if is_current %} aria-current="page"{% endif %}>{{ label }}</a>
                 </li>
               {% endfor %}
             </ul>
@@ -456,39 +477,7 @@
       const container = document.querySelector('.fpd-collection-wrapper');
       if (!container) return;
 
-      const filterButtons = container.querySelectorAll('.fpd-filter-button');
-      const cards = container.querySelectorAll('.fpd-card');
       const sortSelect = container.querySelector('#fpd-sort-select');
-
-      function setActiveFilter(button) {
-        const category = button.dataset.category;
-        filterButtons.forEach(btn => {
-          const isActive = btn === button;
-          btn.classList.toggle('is-active', isActive);
-          btn.setAttribute('aria-pressed', isActive);
-        });
-        filterCards(category);
-      }
-
-      function filterCards(category) {
-        cards.forEach(card => {
-          if (!category || category === 'all') {
-            card.hidden = false;
-            return;
-          }
-          const tags = card.dataset.tags || '';
-          card.hidden = !tags.split(',').includes(category);
-        });
-      }
-
-      filterButtons.forEach(button => {
-        button.addEventListener('click', () => setActiveFilter(button));
-      });
-
-      const initialActiveButton = container.querySelector('.fpd-filter-button.is-active');
-      if (initialActiveButton) {
-        filterCards(initialActiveButton.dataset.category);
-      }
 
       if (sortSelect) {
         const currentSort = sortSelect.dataset.currentSort;
