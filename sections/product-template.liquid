@@ -150,8 +150,6 @@
     .fpd-flavor-chip[aria-disabled="true"] { cursor: not-allowed; opacity: 0.52; background: rgba(93, 90, 86, 0.08); }
     .fpd-flavor-chip__icon { width: 32px; height: 32px; border-radius: 12px; overflow: hidden; flex-shrink: 0; display: grid; place-items: center; background: rgba(241, 233, 221, 0.6); }
     .fpd-flavor-chip__icon img { width: 100%; height: 100%; object-fit: cover; }
-    .fpd-flavor-chip__state { position: absolute; inset: 8px auto auto 12px; width: 14px; height: 14px; border-radius: 50%; background: var(--brand-primary); display: none; }
-    .fpd-flavor-chip.is-selected .fpd-flavor-chip__state { display: block; }
     .fpd-flavor-chip[data-show-more] { font-size: 13px; font-weight: 600; padding: 10px 18px; justify-content: center; }
     .fpd-flavor-swatches:not(.is-expanded) .fpd-flavor-chip:nth-child(n+6):not([data-show-more]) { display: none; }
     
@@ -438,7 +436,6 @@
                             {% unless is_available %}aria-disabled="true"{% endunless %}
                             tabindex="{% if is_selected %}0{% else %}-1{% endif %}"
                             title="{{ variant.title | escape }}">
-                      <span class="fpd-flavor-chip__state" aria-hidden="true"></span>
                       {% if variant.image %}
                         <span class="fpd-flavor-chip__icon">
                           <img src="{{ variant.image | product_img_url: '64x64' }}" alt="" aria-hidden="true" loading="lazy">
