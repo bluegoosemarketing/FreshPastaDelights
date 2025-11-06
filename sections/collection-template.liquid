@@ -1,13 +1,11 @@
 <div class="fpd-collection-wrapper" data-section-type="collection-template">
   {%- paginate collection.products by section.settings.products_per_page -%}
   {%- capture fpd_nav_config -%}
-    link::All Products::all|
     label::Fresh Pasta|
     link::Long Pasta::long-pasta|
     link::Short Pasta::short-pasta|
     link::Filled Pasta::filled-pasta|
     link::Custom Filled Pasta::custom-filled-pasta|
-    divider::|
     label::From the Kitchen|
     link::Casserole & Lasagna::casserole-and-lasagna|
     link::Sauce::sauce
@@ -22,7 +20,7 @@
     .fpd-collection-wrapper {
       --gutter: clamp(16px, 2.5vw, 36px);
       --border-radius: 20px;
-      --border-color: #E8E6D6; /* CORRECTED: Valid hex code */
+      --border-color: #E8E6D6;
       --brand-primary: #7C2C1D;
       --brand-secondary: #CFA650;
       --text-body: #5D5A56;
@@ -51,15 +49,67 @@
     }
     .fpd-layout { display: grid; grid-template-columns: minmax(260px, 300px) 1fr; column-gap: var(--gutter); align-items: start; }
     .fpd-sidebar { position: sticky; top: clamp(64px, 10vh, 96px); }
-    .fpd-nav { background: var(--surface-background); border-radius: var(--border-radius); box-shadow: 0 8px 24px rgba(24,22,20,.06), 0 1px 0 rgba(24,22,20,.03); padding: 32px 28px; display: flex; flex-direction: column; gap: 20px; }
-    .fpd-nav__title { font-size: clamp(18px, 2vw, 20px); font-weight: 700; margin: 0; color: var(--text-heading); }
-    .fpd-nav__pills { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
-    .fpd-collection-wrapper .fpd-nav__pills li { list-style: none !important; margin: 0 !important; padding: 0 !important; }
+
+    /* --- START: FINAL POLISHED SIDEBAR NAVIGATION --- */
+    .fpd-nav {
+      background: var(--surface-background);
+      border-radius: var(--border-radius);
+      box-shadow: 0 8px 24px rgba(24,22,20,.06), 0 1px 0 rgba(24,22,20,.03);
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .fpd-nav__pills {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* This is the rule you correctly fixed. It's perfect as is. */
+    .fpd-collection-wrapper .fpd-nav__pills li { 
+      list-style: none !important; 
+    }
+
+    /* --- Adds consistent spacing BETWEEN the filter buttons --- */
+    .fpd-nav__pills > li:not(.fpd-nav__section-label) {
+      margin-bottom: 12px;
+    }
+    /* Removes margin from the very last button in the list for a clean finish */
+    .fpd-nav__pills > li:last-child {
+      margin-bottom: 0;
+    }
+
+    /* --- Polished Category Title Styling --- */
+    .fpd-nav__section-label {
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-heading);
+      padding-bottom: 12px; /* Space between text and the separator line */
+      border-bottom: 1px solid var(--border-color);
+      
+      /* [FIX for Points 1 & 3] Defines the space BELOW the separator line */
+      margin-bottom: 16px; 
+    }
+
+    /* [FIX for Point 2] Adds significant space ABOVE subsequent section titles */
+    .fpd-nav__pills > .fpd-nav__section-label:not(:first-child) {
+      margin-top: 24px;
+    }
+
+    .fpd-nav__divider { 
+      display: none; 
+    }
+    /* --- END: FINAL POLISHED SIDEBAR NAVIGATION --- */
+
     .fpd-filter-button { display: block; width: 100%; box-sizing: border-box; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 9999px; background: var(--surface-background); color: var(--text-body); font-size: 15px; font-weight: 500; text-align: center; text-decoration: none; cursor: pointer; transition: all 160ms ease; }
     .fpd-filter-button:hover { border-color: var(--brand-secondary); background-color: var(--brand-secondary); color: #FFFFFF; transform: translateY(-1px); }
     .fpd-filter-button.is-active { background: var(--brand-primary); color: #FFFFFF; border-color: var(--brand-primary); }
-    .fpd-nav__section-label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; color: rgba(43, 42, 39, 0.72); padding-inline: 4px; display: block; width: 100%; }
-    .fpd-nav__divider { height: 1px; width: 100%; background: var(--border-color); margin: 4px 0; display: block; }
 
     /* --- Product Grid & Card --- */
     .fpd-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--gutter); }
@@ -119,8 +169,6 @@
     .fpd-flavor-label { font-size: 14px; font-weight: 500; color: var(--text-body); margin-bottom: 10px; display: block; }
     .fpd-selected-flavor-name { font-weight: 700; color: var(--text-heading); }
     .fpd-flavor-swatches { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-    
-    /* --- FINAL CORRECTED SWATCH STYLES --- */
     .fpd-flavor-swatch {
       box-sizing: border-box !important;
       width: 32px !important;
@@ -177,9 +225,9 @@
     .fpd-add:hover { background-color: #612115; border-color: #612115; transform: translateY(-2px); }
 
     /* --- Responsive --- */
-    @media (max-width: 980px) { .fpd-layout { grid-template-columns: 1fr; row-gap: var(--gutter); } .fpd-sidebar { position: static; order: -1; } .fpd-nav { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; } .fpd-nav__title { width: 100%; margin-bottom: 8px; } .fpd-nav__pills { flex-direction: row; flex-wrap: wrap; gap: 12px; } }
+    @media (max-width: 980px) { .fpd-layout { grid-template-columns: 1fr; row-gap: var(--gutter); } .fpd-sidebar { position: static; order: -1; } .fpd-nav { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; } .fpd-nav__pills { flex-direction: row; flex-wrap: wrap; gap: 12px; } }
     @media (max-width: 768px) { .fpd-toolbar { flex-direction: column; align-items: flex-start; } .fpd-sort, .fpd-sort select { width: 100%; } }
-  </style>
+</style>
 
   <div class="fpd-collection">
     <div class="fpd-container">
@@ -202,7 +250,6 @@
       <div class="fpd-layout">
         <aside class="fpd-sidebar">
           <nav class="fpd-nav">
-            <h2 class="fpd-nav__title">Explore the menu</h2>
             <ul class="fpd-nav__pills">
               {% for item in fpd_nav_items %}
                 {%- assign nav_parts = item | strip | split: '::' -%}
@@ -334,10 +381,6 @@
           if (!loaderOverlay) return;
 
           if (isActive) {
-            // This is the key: we force the browser to process the element's
-            // current styles (where opacity is 0) before we add the class
-            // that triggers the transition. Reading its 'offsetHeight' is a
-            // common and reliable way to do this.
             void loaderOverlay.offsetHeight;
             loaderOverlay.classList.add('is-active');
           } else {
@@ -362,7 +405,6 @@
 
           clearPendingMediaHandler();
 
-          // If there's no new image or the image is already displayed, do nothing.
           if (!targetSrc || currentSrc === targetSrc) {
             setLoaderState(false);
             return;
@@ -370,14 +412,13 @@
 
           if (withLoader) {
             const startTime = performance.now();
-            setLoaderState(true); // Show loader
+            setLoaderState(true); 
 
             pendingMediaHandler = () => {
               const elapsedTime = performance.now() - startTime;
-              const minDisplayTime = 300; // Minimum time in milliseconds for the loader to be visible
+              const minDisplayTime = 300;
               const timeRemaining = minDisplayTime - elapsedTime;
 
-              // Ensure loader is visible for a minimum duration to avoid flicker
               if (timeRemaining > 0) {
                 setTimeout(() => setLoaderState(false), timeRemaining);
               } else {
@@ -405,7 +446,6 @@
           applyImageSource(nextSrc, nextAlt, { withLoader: shouldAnimate });
         };
 
-        // Set initial selected state based on the variant loaded with the page
         const swatches = swatchContainer.querySelectorAll('.fpd-flavor-swatch');
         swatches.forEach(sw => {
           if (sw.dataset.variantId === selectedVariantAtLoad) {
