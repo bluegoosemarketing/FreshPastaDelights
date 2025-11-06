@@ -33,6 +33,8 @@
       font-family: 'Montserrat', sans-serif;
       background: var(--page-background);
       color: var(--text-body);
+      width: 100%;
+      overflow-x: hidden;
     }
 
     /* --- REVISED (Patch B) --- */
@@ -44,7 +46,6 @@
       display: grid;
       gap: clamp(24px, 5vw, 64px);
       overflow-x: hidden;
-      overflow-x: clip;
     }
 
     .fpd-product__header {
@@ -350,6 +351,11 @@
   /* --- END: Definitive Overflow Fix --- */
 
   .fpd-add-to-cart__confirmation { inset: auto auto 0 50%; }
+
+  .fpd-product__thumbs {
+    margin-inline: 0;
+    padding-inline: clamp(4px, 4vw, 12px);
+  }
 }
 </style>
 
