@@ -189,23 +189,23 @@
     .fpd-flavor-chip[data-show-more] { font-size: 13px; font-weight: 600; padding: 10px 18px; justify-content: center; }
     .fpd-flavor-swatches:not(.is-expanded) .fpd-flavor-chip:nth-child(n+6):not([data-show-more]) { display: none; }
     
-    /* --- START: FINAL QUANTITY SELECTOR STYLES (WITH VISIBLE SYMBOLS) --- */
+    /* --- START: CUSTOM QUANTITY SELECTOR --- */
     .fpd-quantity-row {
       display: block;
       margin-top: 16px;
     }
 
     .fpd-quantity {
-      display: grid;
-      width: fit-content;
-      max-width: 100%;
-      grid-template-columns: 48px 72px auto 48px;
+      --qty-button-size: 48px;
+      display: inline-grid;
+      grid-template-columns: var(--qty-button-size) minmax(64px, 1fr) auto var(--qty-button-size);
       align-items: stretch;
       border: 1.5px solid var(--border-color);
       border-radius: var(--border-radius);
       overflow: hidden;
       background: #fff;
-      min-height: 48px;
+      min-height: var(--qty-button-size);
+      max-width: 100%;
     }
 
     .fpd-quantity > *:not(:first-child) {
@@ -217,37 +217,30 @@
       box-sizing: border-box !important;
     }
 
-    /* Un-hide + / - text that the theme tries to visually hide on icon buttons */
-    .fpd-product__form .fpd-quantity button {
-  appearance: none;
-  border: none;
-  background: transparent;
-  width: 48px !important;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  user-select: none;
-  padding: 0;
-  transition: background 140ms ease;
-  font-weight: 700;
+    .fpd-quantity__button {
+      appearance: none;
+      border: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      background: transparent;
+      cursor: pointer;
+      user-select: none;
+      transition: background 140ms ease, color 140ms ease;
+    }
 
-  /* let ::after draw the glyph; keep text neutral */
-  font-family: inherit !important;
-  font-size: 0 !important;                /* CHANGED: was 20px */
-  line-height: 1 !important;
-  color: var(--text-heading) !important;
-  text-indent: 0 !important;
-  letter-spacing: normal !important;
-  background-image: none !important;
-}
+    .fpd-quantity__button svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-heading);
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
 
-
-    /* Kill theme icon-font overlays but keep ::after free for our fallback */
-.fpd-product__form .fpd-quantity button::before { content: none !important; }
-
-
-    .fpd-quantity button:hover,
-    .fpd-quantity button:focus-visible {
+    .fpd-quantity__button:hover,
+    .fpd-quantity__button:focus-visible {
       background: rgba(124, 44, 29, 0.08);
       outline: none;
     }
@@ -262,6 +255,11 @@
       font-family: inherit;
       line-height: 1;
       padding: 0 8px;
+      background: transparent;
+    }
+
+    .fpd-quantity input:focus-visible {
+      outline: none;
     }
 
     .fpd-quantity__unit {
@@ -274,7 +272,7 @@
       background: #fff;
       white-space: nowrap;
     }
-    /* --- END: FINAL QUANTITY SELECTOR STYLES (WITH VISIBLE SYMBOLS) --- */
+    /* --- END: CUSTOM QUANTITY SELECTOR --- */
 
     .fpd-add-to-cart {
       display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--brand-primary); color: #fff; font-size: 16px; font-weight: 700; padding: 0 32px; border-radius: var(--border-radius); border: 1.5px solid var(--brand-primary); cursor: pointer; transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease; min-height: 48px; position: relative;
@@ -565,10 +563,19 @@
             {% endif %}
             <div class="fpd-quantity-row">
               <div class="fpd-quantity" data-quantity data-step="{{ quantity_step }}" data-min="{{ quantity_minimum }}">
-                <button type="button" data-qty-decrease aria-label="Decrease quantity">-</button>
+                <button type="button" class="fpd-quantity__button" data-qty-decrease aria-label="Decrease quantity">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <line x1="6" y1="12" x2="18" y2="12" />
+                  </svg>
+                </button>
                 <input id="quantity" name="quantity" value="{{ quantity_minimum }}" inputmode="numeric" pattern="[0-9]*" aria-label="Quantity" />
                 <span class="fpd-quantity__unit">{{ weight_unit_abbr }}</span>
-                <button type="button" data-qty-increase aria-label="Increase quantity">+</button>
+                <button type="button" class="fpd-quantity__button" data-qty-increase aria-label="Increase quantity">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <line x1="12" y1="6" x2="12" y2="18" />
+                    <line x1="6" y1="12" x2="18" y2="12" />
+                  </svg>
+                </button>
               </div>
             </div>
 
