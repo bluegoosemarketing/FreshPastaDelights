@@ -92,65 +92,56 @@
     .fpd-product__main-media:hover img { transform: scale(1.04); }
 
     /* --- START: BULLETPROOF IMAGE GALLERY STYLES --- */
-.fpd-product__thumbs {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
-  gap: 12px;
-}
+    .fpd-product__thumbs {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+      gap: 12px;
+    }
 
-/*
-  This is the final, most aggressive selector and rule set.
-  It resets every possible sizing and spacing property to ensure
-  the thumbnail button CANNOT overflow its grid column.
-*/
-.fpd-product__media .fpd-product__thumbs button.fpd-thumb {
-  /* --- CORE LAYOUT RESET --- */
-  width: 100% !important;
-  min-width: 100% !important;  /* CRITICAL: Prevents theme from setting a minimum pixel width */
-  max-width: 100% !important;  /* CRITICAL: Prevents theme from allowing it to grow */
-  height: auto !important;
-  flex-shrink: 1 !important;   /* For safety in case a flex rule is interfering */
-  box-sizing: border-box !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  /* --- END RESET --- */
+    .fpd-product__media .fpd-product__thumbs button.fpd-thumb {
+      width: 100% !important;
+      min-width: 100% !important;
+      max-width: 100% !important;
+      height: auto !important;
+      flex-shrink: 1 !important;
+      box-sizing: border-box !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: 3px solid transparent;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      background-color: transparent;
+      cursor: pointer;
+      transition: transform 180ms ease, border-color 180ms ease;
+      display: grid;
+      grid-template: 1fr / 1fr;
+      position: relative;
+      aspect-ratio: 1 / 1;
+    }
 
-  /* Visual styles */
-  border: 3px solid transparent;
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  background-color: transparent;
-  cursor: pointer;
-  transition: transform 180ms ease, border-color 180ms ease;
-  display: grid;
-  grid-template: 1fr / 1fr;
-  position: relative;
-  aspect-ratio: 1 / 1;
-}
+    .fpd-product__thumbs button.fpd-thumb::before {
+      content: none;
+    }
 
-.fpd-product__thumbs button.fpd-thumb::before {
-  content: none;
-}
+    .fpd-product__thumbs button.fpd-thumb img {
+      grid-area: 1 / 1;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
+      object-position: center;
+      background-color: #F1E9DD;
+      border-radius: calc(var(--border-radius) - 6px);
+      transition: transform 200ms ease;
+    }
 
-.fpd-product__thumbs button.fpd-thumb img {
-  grid-area: 1 / 1;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: contain;
-  object-position: center;
-  background-color: #F1E9DD;
-  border-radius: calc(var(--border-radius) - 6px);
-  transition: transform 200ms ease;
-}
+    .fpd-product__thumbs button.fpd-thumb:hover img {
+      transform: scale(1.05);
+    }
 
-.fpd-product__thumbs button.fpd-thumb:hover img {
-  transform: scale(1.05);
-}
-
-.fpd-product__thumbs button.fpd-thumb.is-active {
-  border-color: var(--brand-primary);
-}
-/* --- END: BULLETPROOF IMAGE GALLERY STYLES --- */
+    .fpd-product__thumbs button.fpd-thumb.is-active {
+      border-color: var(--brand-primary);
+    }
+    /* --- END: BULLETPROOF IMAGE GALLERY STYLES --- */
 
     .fpd-product__info {
       background: var(--surface-background);
@@ -198,36 +189,36 @@
     .fpd-flavor-chip[data-show-more] { font-size: 13px; font-weight: 600; padding: 10px 18px; justify-content: center; }
     .fpd-flavor-swatches:not(.is-expanded) .fpd-flavor-chip:nth-child(n+6):not([data-show-more]) { display: none; }
     
-    /* --- START: BULLETPROOF QUANTITY SELECTOR STYLES --- */
-.fpd-quantity-row {
-  display: block;
-  margin-top: 16px;
-}
+    /* --- START: FINAL QUANTITY SELECTOR STYLES (WITH VISIBLE SYMBOLS) --- */
+    .fpd-quantity-row {
+      display: block;
+      margin-top: 16px;
+    }
 
-.fpd-quantity {
-  display: grid;
-  width: fit-content;
-  max-width: 100%;
-  grid-template-columns: 48px 72px auto 48px;
-  align-items: stretch;
-  border: 1.5px solid var(--border-color);
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  background: #fff;
-  min-height: 48px;
-}
+    .fpd-quantity {
+      display: grid;
+      width: fit-content;
+      max-width: 100%;
+      grid-template-columns: 48px 72px auto 48px;
+      align-items: stretch;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      background: #fff;
+      min-height: 48px;
+    }
 
-.fpd-quantity > *:not(:first-child) {
-  border-left: 1px solid var(--border-color);
-}
+    .fpd-quantity > *:not(:first-child) {
+      border-left: 1px solid var(--border-color);
+    }
 
-.fpd-quantity > * {
-  height: 100% !important;
-  box-sizing: border-box !important;
-}
+    .fpd-quantity > * {
+      height: 100% !important;
+      box-sizing: border-box !important;
+    }
 
-/* This more specific selector will override the theme's text-hiding rule */
-.fpd-product__form .fpd-quantity button {
+    /* Un-hide + / - text that the theme tries to visually hide on icon buttons */
+    .fpd-product__form .fpd-quantity button {
   appearance: none;
   border: none;
   background: transparent;
@@ -235,44 +226,55 @@
   display: grid;
   place-items: center;
   cursor: pointer;
-  color: var(--text-heading) !important; /* Force the color to be visible */
-  font-size: 20px !important;           /* Force the font-size to be visible */
-  font-weight: 700;
-  line-height: 1;
-  transition: background 140ms ease;
   user-select: none;
   padding: 0;
+  transition: background 140ms ease;
+  font-weight: 700;
+
+  /* let ::after draw the glyph; keep text neutral */
+  font-family: inherit !important;
+  font-size: 0 !important;                /* CHANGED: was 20px */
+  line-height: 1 !important;
+  color: var(--text-heading) !important;
+  text-indent: 0 !important;
+  letter-spacing: normal !important;
+  background-image: none !important;
 }
 
-.fpd-quantity button:hover,
-.fpd-quantity button:focus-visible {
-  background: rgba(124, 44, 29, 0.08);
-  outline: none;
-}
 
-.fpd-quantity input {
-  border: none !important;
-  width: 100% !important;
-  text-align: center;
-  font-size: 16px !important;
-  font-weight: 600;
-  color: var(--text-heading);
-  font-family: inherit;
-  line-height: 1;
-  padding: 0 8px;
-}
+    /* Kill theme icon-font overlays but keep ::after free for our fallback */
+.fpd-product__form .fpd-quantity button::before { content: none !important; }
 
-.fpd-quantity__unit {
-  display: grid;
-  place-items: center;
-  padding: 0 16px;
-  font-size: 14px;
-  font-weight: 600;
-  color: rgba(93, 90, 86, 0.9);
-  background: #fff;
-  white-space: nowrap;
-}
-/* --- END: BULLETPROOF QUANTITY SELECTOR STYLES --- */
+
+    .fpd-quantity button:hover,
+    .fpd-quantity button:focus-visible {
+      background: rgba(124, 44, 29, 0.08);
+      outline: none;
+    }
+
+    .fpd-quantity input {
+      border: none !important;
+      width: 100% !important;
+      text-align: center;
+      font-size: 16px !important;
+      font-weight: 600;
+      color: var(--text-heading);
+      font-family: inherit;
+      line-height: 1;
+      padding: 0 8px;
+    }
+
+    .fpd-quantity__unit {
+      display: grid;
+      place-items: center;
+      padding: 0 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(93, 90, 86, 0.9);
+      background: #fff;
+      white-space: nowrap;
+    }
+    /* --- END: FINAL QUANTITY SELECTOR STYLES (WITH VISIBLE SYMBOLS) --- */
 
     .fpd-add-to-cart {
       display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--brand-primary); color: #fff; font-size: 16px; font-weight: 700; padding: 0 32px; border-radius: var(--border-radius); border: 1.5px solid var(--brand-primary); cursor: pointer; transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease; min-height: 48px; position: relative;
@@ -326,6 +328,40 @@
       .fpd-add-to-cart { width: 100%; }
       .fpd-add-to-cart__confirmation { inset: auto auto 0 50%; }
     }
+
+    /* Absolute fallback: paint symbols via ::after so theme can't hide them */
+.fpd-quantity [data-qty-decrease],
+.fpd-quantity [data-qty-increase] {
+  /* if theme sets font-size:0 or color:transparent, we ignore by drawing with ::after */
+  position: relative;
+  font-size: 0 !important;                 /* neutralize any conflicting font-size tricks */
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor !important;
+  text-indent: 0 !important;
+  clip: auto !important;
+  clip-path: none !important;
+  overflow: visible !important;
+}
+
+.fpd-quantity [data-qty-decrease]::after,
+.fpd-quantity [data-qty-increase]::after {
+  content: "";                              /* init: set by the next two rules */
+  display: block;
+  font-family: inherit !important;
+  font-weight: 700 !important;
+  font-size: 20px !important;
+  line-height: 1 !important;
+  color: var(--text-heading) !important;
+  -webkit-text-fill-color: var(--text-heading) !important;
+  text-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+  pointer-events: none;
+}
+
+.fpd-quantity [data-qty-decrease]::after { content: "-"; }
+.fpd-quantity [data-qty-increase]::after { content: "+"; }
+
   </style>
 
   <div class="fpd-product" data-product-root data-product-id="{{ product.id }}">
@@ -529,10 +565,10 @@
             {% endif %}
             <div class="fpd-quantity-row">
               <div class="fpd-quantity" data-quantity data-step="{{ quantity_step }}" data-min="{{ quantity_minimum }}">
-                <button type="button" data-qty-decrease aria-label="Decrease quantity">−</button>
+                <button type="button" data-qty-decrease aria-label="Decrease quantity">-</button>
                 <input id="quantity" name="quantity" value="{{ quantity_minimum }}" inputmode="numeric" pattern="[0-9]*" aria-label="Quantity" />
                 <span class="fpd-quantity__unit">{{ weight_unit_abbr }}</span>
-                <button type="button" data-qty-increase aria-label="Increase quantity">＋</button>
+                <button type="button" data-qty-increase aria-label="Increase quantity">+</button>
               </div>
             </div>
 
