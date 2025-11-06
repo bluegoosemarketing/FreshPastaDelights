@@ -91,7 +91,6 @@
     .fpd-product__main-media img.is-loading { opacity: 0.5; }
     .fpd-product__main-media:hover img { transform: scale(1.04); }
 
-    /* --- START: BULLETPROOF IMAGE GALLERY STYLES --- */
     .fpd-product__thumbs {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
@@ -99,67 +98,37 @@
     }
 
     .fpd-product__media .fpd-product__thumbs button.fpd-thumb {
-      width: 100% !important;
-      min-width: 100% !important;
-      max-width: 100% !important;
-      height: auto !important;
-      flex-shrink: 1 !important;
-      box-sizing: border-box !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      border: 3px solid transparent;
-      border-radius: var(--border-radius);
-      overflow: hidden;
-      background-color: transparent;
-      cursor: pointer;
-      transition: transform 180ms ease, border-color 180ms ease;
-      display: grid;
-      grid-template: 1fr / 1fr;
-      position: relative;
-      aspect-ratio: 1 / 1;
+      width: 100% !important; min-width: 100% !important; max-width: 100% !important;
+      height: auto !important; flex-shrink: 1 !important; box-sizing: border-box !important;
+      margin: 0 !important; padding: 0 !important; border: 3px solid transparent;
+      border-radius: var(--border-radius); overflow: hidden; background-color: transparent;
+      cursor: pointer; transition: transform 180ms ease, border-color 180ms ease;
+      display: grid; grid-template: 1fr / 1fr; position: relative; aspect-ratio: 1 / 1;
     }
 
-    .fpd-product__thumbs button.fpd-thumb::before {
-      content: none;
-    }
+    .fpd-product__thumbs button.fpd-thumb::before { content: none; }
 
     .fpd-product__thumbs button.fpd-thumb img {
-      grid-area: 1 / 1;
-      width: 100% !important;
-      height: 100% !important;
-      object-fit: contain;
-      object-position: center;
-      background-color: #F1E9DD;
-      border-radius: calc(var(--border-radius) - 6px);
-      transition: transform 200ms ease;
+      grid-area: 1 / 1; width: 100% !important; height: 100% !important;
+      object-fit: contain; object-position: center; background-color: #F1E9DD;
+      border-radius: calc(var(--border-radius) - 6px); transition: transform 200ms ease;
     }
 
-    .fpd-product__thumbs button.fpd-thumb:hover img {
-      transform: scale(1.05);
-    }
-
-    .fpd-product__thumbs button.fpd-thumb.is-active {
-      border-color: var(--brand-primary);
-    }
-    /* --- END: BULLETPROOF IMAGE GALLERY STYLES --- */
+    .fpd-product__thumbs button.fpd-thumb:hover img { transform: scale(1.05); }
+    .fpd-product__thumbs button.fpd-thumb.is-active { border-color: var(--brand-primary); }
 
     .fpd-product__info {
-      background: var(--surface-background);
-      border-radius: var(--border-radius);
+      background: var(--surface-background); border-radius: var(--border-radius);
       box-shadow: 0 14px 40px rgba(24, 22, 20, 0.08), 0 1px 0 rgba(24, 22, 20, 0.04);
-      padding: clamp(32px, 4vw, 44px);
-      display: flex;
-      flex-direction: column;
+      padding: clamp(32px, 4vw, 44px); display: flex; flex-direction: column;
       gap: clamp(16px, 2.5vw, 28px);
     }
 
     .fpd-product__title { font-size: clamp(32px, 5vw, 48px); font-weight: 700; color: var(--text-heading); margin: 0; }
     .fpd-product__subtitle { font-size: clamp(16px, 2.2vw, 19px); line-height: 1.5; color: rgba(43, 42, 39, 0.78); margin: -6px 0 0; }
-
     .fpd-product__price { display: flex; align-items: center; gap: 14px; font-weight: 700; color: var(--text-heading); font-size: clamp(26px, 3vw, 32px); margin-top: 8px; }
     .fpd-product__price del { font-size: clamp(16px, 2vw, 18px); color: rgba(45, 42, 39, 0.55); font-weight: 600; }
     .fpd-price-note { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; background: rgba(207, 166, 80, 0.16); font-size: 13px; font-weight: 600; color: var(--brand-primary); }
-
     .fpd-product__meta { display: flex; flex-wrap: wrap; gap: 12px 20px; font-size: 14px; font-weight: 500; color: rgba(93, 90, 86, 0.85); }
     .fpd-product__meta a { color: inherit; }
     .fpd-product__see-more { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--brand-primary); text-decoration: none; }
@@ -170,10 +139,7 @@
     .fpd-option-block label { font-size: 15px; font-weight: 600; color: var(--text-heading); }
     .fpd-selected-flavor { font-size: 14px; font-weight: 500; color: rgba(93, 90, 86, 0.85); margin-top: -4px; }
     .fpd-flavor-swatches { display: flex; flex-wrap: wrap; gap: 12px; }
-
-    .fpd-flavor-chip {
-      position: relative; display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px; border-radius: calc(var(--border-radius) - 4px); border: 1.5px solid var(--border-color); background: rgba(255, 255, 255, 0.9); font-size: 14px; font-weight: 600; color: var(--text-heading); cursor: pointer; transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease, transform 160ms ease; min-height: 44px;
-    }
+    .fpd-flavor-chip { position: relative; display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px; border-radius: calc(var(--border-radius) - 4px); border: 1.5px solid var(--border-color); background: rgba(255, 255, 255, 0.9); font-size: 14px; font-weight: 600; color: var(--text-heading); cursor: pointer; transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease, transform 160ms ease; min-height: 44px; }
     .fpd-flavor-chip:hover,
     .fpd-flavor-chip:focus-visible { border-color: rgba(124, 44, 29, 0.55); box-shadow: 0 8px 18px rgba(124, 44, 29, 0.18); outline: none; transform: translateY(-1px); }
     .fpd-flavor-chip.is-selected { background: rgba(124, 44, 29, 0.12); border-color: var(--brand-primary); box-shadow: inset 0 0 0 1px rgba(124, 44, 29, 0.18), 0 10px 24px rgba(124, 44, 29, 0.16); }
@@ -189,90 +155,86 @@
     .fpd-flavor-chip[data-show-more] { font-size: 13px; font-weight: 600; padding: 10px 18px; justify-content: center; }
     .fpd-flavor-swatches:not(.is-expanded) .fpd-flavor-chip:nth-child(n+6):not([data-show-more]) { display: none; }
     
-    /* --- START: CUSTOM QUANTITY SELECTOR --- */
-    .fpd-quantity-row {
-      display: block;
-      margin-top: 16px;
+    /* --- START: POLISHED QUANTITY SELECTOR --- */
+    .fpd-quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Increased gap for breathing room */
+  margin-top: 24px; /* Adds breathing room above the selector */
+}
+    
+    .fpd-quantity-selector__button {
+      appearance: none; -webkit-appearance: none; border: 1.5px solid var(--border-color);
+      margin: 0; padding: 0; background: #fff; cursor: pointer;
+      user-select: none; transition: all 140ms ease; color: var(--text-heading);
+      display: flex; align-items: center; justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: var(--border-radius);
     }
 
-    .fpd-quantity {
-      --qty-button-size: 48px;
-      display: inline-grid;
-      grid-template-columns: var(--qty-button-size) minmax(64px, 1fr) auto var(--qty-button-size);
-      align-items: stretch;
+    .fpd-quantity-selector__button:hover,
+    .fpd-quantity-selector__button:focus-visible {
+      background: rgba(124, 44, 29, 0.08);
+      border-color: rgba(124, 44, 29, 0.5);
+      outline: none;
+      transform: translateY(-1px);
+    }
+
+    .fpd-quantity-selector__button:disabled {
+      cursor: not-allowed;
+      color: rgba(93, 90, 86, 0.45);
+      background: rgba(93, 90, 86, 0.05);
+      border-color: var(--border-color);
+      transform: none;
+    }
+    
+    .fpd-quantity-selector__button svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+    }
+    
+    .fpd-quantity-selector__input-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center; /* Center the content */
       border: 1.5px solid var(--border-color);
       border-radius: var(--border-radius);
-      overflow: hidden;
       background: #fff;
-      min-height: var(--qty-button-size);
-      max-width: 100%;
+      height: 48px;
+      padding: 0 18px; /* Increased padding */
+      flex-grow: 1;
+      min-width: 100px; /* Set a min-width for proportion */
     }
 
-    .fpd-quantity > *:not(:first-child) {
-      border-left: 1px solid var(--border-color);
-    }
-
-    .fpd-quantity > * {
-      height: 100% !important;
-      box-sizing: border-box !important;
-    }
-
-    .fpd-quantity__button {
-      appearance: none;
-      border: none;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      place-items: center;
-      background: transparent;
-      cursor: pointer;
-      user-select: none;
-      transition: background 140ms ease, color 140ms ease;
-    }
-
-    .fpd-quantity__button svg {
-      width: 18px;
-      height: 18px;
-      stroke: var(--text-heading);
-      stroke-width: 2.2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .fpd-quantity__button:hover,
-    .fpd-quantity__button:focus-visible {
-      background: rgba(124, 44, 29, 0.08);
-      outline: none;
-    }
-
-    .fpd-quantity input {
-      border: none !important;
-      width: 100% !important;
-      text-align: center;
+    .fpd-quantity-selector__input {
+      border: none !important; 
+      width: 100% !important; 
+      flex-grow: 1;
+      max-width: 50px; /* Constrain input width */
+      text-align: center; 
       font-size: 16px !important;
-      font-weight: 600;
-      color: var(--text-heading);
+      font-weight: 700; /* Bolder font */
+      color: var(--text-heading); 
       font-family: inherit;
-      line-height: 1;
-      padding: 0 8px;
+      line-height: 1; 
+      padding: 0; 
       background: transparent;
     }
-
-    .fpd-quantity input:focus-visible {
+    
+    .fpd-quantity-selector__input:focus-visible {
       outline: none;
     }
-
-    .fpd-quantity__unit {
-      display: grid;
-      place-items: center;
-      padding: 0 16px;
+    
+    .fpd-quantity-selector__unit {
       font-size: 14px;
       font-weight: 600;
       color: rgba(93, 90, 86, 0.9);
-      background: #fff;
       white-space: nowrap;
+      margin-left: 8px; /* Space between number and unit */
     }
-    /* --- END: CUSTOM QUANTITY SELECTOR --- */
+    /* --- END: POLISHED QUANTITY SELECTOR --- */
 
     .fpd-add-to-cart {
       display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--brand-primary); color: #fff; font-size: 16px; font-weight: 700; padding: 0 32px; border-radius: var(--border-radius); border: 1.5px solid var(--brand-primary); cursor: pointer; transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease; min-height: 48px; position: relative;
@@ -287,7 +249,7 @@
     .fpd-tag-list { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; list-style: none; }
     .fpd-tag-list a { display: inline-flex; align-items: center; justify-content: center; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border-color); background: rgba(241, 233, 221, 0.65); font-size: 13px; font-weight: 600; color: var(--text-heading); text-decoration: none; transition: background 160ms ease, transform 160ms ease; }
     .fpd-tag-list a:hover { background: #fff; transform: translateY(-1px); }
-    .fpd-quantity-hint { font-size: 13px; color: rgba(93, 90, 86, 0.75); margin: -6px 0 0; }
+    .fpd-quantity-hint { font-size: 13px; color: rgba(93, 90, 86, 0.75); margin: 6px 0 0; }
     .fpd-social { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: rgba(93, 90, 86, 0.65); }
     .fpd-social summary { list-style: none; }
     .fpd-social summary::-webkit-details-marker { display: none; }
@@ -321,46 +283,10 @@
       .fpd-product__price { flex-wrap: wrap; gap: 10px; }
       .fpd-product__price .fpd-price-note { order: 2; }
       .fpd-flavor-chip { flex: 1 1 calc(50% - 12px); justify-content: flex-start; }
-      .fpd-quantity { width: 100%; }
-      .fpd-quantity-row { flex-wrap: wrap; }
       .fpd-add-to-cart { width: 100%; }
       .fpd-add-to-cart__confirmation { inset: auto auto 0 50%; }
     }
-
-    /* Absolute fallback: paint symbols via ::after so theme can't hide them */
-.fpd-quantity [data-qty-decrease],
-.fpd-quantity [data-qty-increase] {
-  /* if theme sets font-size:0 or color:transparent, we ignore by drawing with ::after */
-  position: relative;
-  font-size: 0 !important;                 /* neutralize any conflicting font-size tricks */
-  color: inherit !important;
-  -webkit-text-fill-color: currentColor !important;
-  text-indent: 0 !important;
-  clip: auto !important;
-  clip-path: none !important;
-  overflow: visible !important;
-}
-
-.fpd-quantity [data-qty-decrease]::after,
-.fpd-quantity [data-qty-increase]::after {
-  content: "";                              /* init: set by the next two rules */
-  display: block;
-  font-family: inherit !important;
-  font-weight: 700 !important;
-  font-size: 20px !important;
-  line-height: 1 !important;
-  color: var(--text-heading) !important;
-  -webkit-text-fill-color: var(--text-heading) !important;
-  text-shadow: none !important;
-  filter: none !important;
-  transform: none !important;
-  pointer-events: none;
-}
-
-.fpd-quantity [data-qty-decrease]::after { content: "-"; }
-.fpd-quantity [data-qty-increase]::after { content: "+"; }
-
-  </style>
+</style>
 
   <div class="fpd-product" data-product-root data-product-id="{{ product.id }}">
     <header class="fpd-product__header">
@@ -561,23 +487,25 @@
             {% elsif quantity_step == 1 and increment_unit_hint == 'lbs' %}
               {% assign increment_unit_hint = 'lb' %}
             {% endif %}
-            <div class="fpd-quantity-row">
-              <div class="fpd-quantity" data-quantity data-step="{{ quantity_step }}" data-min="{{ quantity_minimum }}">
-                <button type="button" class="fpd-quantity__button" data-qty-decrease aria-label="Decrease quantity">
-                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <line x1="6" y1="12" x2="18" y2="12" />
-                  </svg>
+            
+            <!-- START: NEW, ROBUST QUANTITY SELECTOR HTML -->
+            <div class="fpd-quantity-selector" data-quantity data-step="{{ quantity_step }}" data-min="{{ quantity_minimum }}">
+                <button type="button" class="fpd-quantity-selector__button" data-qty-decrease aria-label="Decrease quantity">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M5 12h14" />
+                    </svg>
                 </button>
-                <input id="quantity" name="quantity" value="{{ quantity_minimum }}" inputmode="numeric" pattern="[0-9]*" aria-label="Quantity" />
-                <span class="fpd-quantity__unit">{{ weight_unit_abbr }}</span>
-                <button type="button" class="fpd-quantity__button" data-qty-increase aria-label="Increase quantity">
-                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <line x1="12" y1="6" x2="12" y2="18" />
-                    <line x1="6" y1="12" x2="18" y2="12" />
-                  </svg>
+                <div class="fpd-quantity-selector__input-wrapper">
+                    <input id="quantity" class="fpd-quantity-selector__input" name="quantity" value="{{ quantity_minimum }}" min="{{ quantity_minimum }}" step="{{ quantity_step }}" type="text" inputmode="numeric" pattern="[0-9]*" aria-label="Quantity" />
+                    <span class="fpd-quantity-selector__unit">{{ weight_unit_abbr }}</span>
+                </div>
+                <button type="button" class="fpd-quantity-selector__button" data-qty-increase aria-label="Increase quantity">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M12 5v14m-7-7h14" />
+                    </svg>
                 </button>
-              </div>
             </div>
+            <!-- END: NEW, ROBUST QUANTITY SELECTOR HTML -->
 
             {% if product.tags contains 'per-lb' %}
               <p class="fpd-quantity-hint">Minimum order {{ quantity_minimum }} {{ weight_unit_hint }} · increments of {{ quantity_step }} {{ increment_unit_hint }}.</p>
@@ -627,7 +555,6 @@
     {% if product.description != blank %}
       <section class="fpd-long-description user-content{% if settings.lightbox_imgs %} lightboximages{% endif %}" data-long-description>
         {{ product.description }}
-
         {% if section.settings.prod_show_tags and product.tags.size > 0 %}
           <h3>Tags</h3>
           <ul class="fpd-tag-list">
@@ -682,6 +609,12 @@
       const thumbs = Array.from(productRoot.querySelectorAll('[data-thumb]'));
 
       let addToCartConfirmationTimer = null;
+      
+      const updateQuantityButtonStates = () => {
+        if (!qtyInput || !qtyDecrease) return;
+        const currentValue = parseInt(qtyInput.value, 10);
+        qtyDecrease.disabled = isNaN(currentValue) || currentValue <= quantityMin;
+      };
 
       const showBackorderMessage = (variant) => {
         if (!backorderBanner || !variant) return;
@@ -690,7 +623,7 @@
         const isBackorder = variant.inventory_management === 'shopify' && !Number.isNaN(inventoryQty) && inventoryQty < 1;
         if (isBackorder) {
           backorderBanner.hidden = false;
-          backorderMessage.textContent = `${variant.title} {{ 'products.product.backorder' | t }}`;
+          backorderMessage.textContent = `${variant.title} is on backorder.`;
         } else {
           backorderBanner.hidden = true;
           backorderMessage.textContent = '';
@@ -702,7 +635,7 @@
         if (!variant || !variant.available) {
           addToCartButton.setAttribute('disabled', 'disabled');
           addToCartButton.setAttribute('aria-busy', 'false');
-          addToCartText.textContent = "{{ 'products.product.sold_out' | t }}";
+          addToCartText.textContent = "Sold Out";
           addToCartButton.classList.remove('is-loading');
           if (addToCartConfirmation) {
             addToCartConfirmation.classList.remove('is-visible');
@@ -713,7 +646,7 @@
         addToCartButton.removeAttribute('disabled');
         addToCartButton.setAttribute('aria-busy', 'false');
         addToCartButton.classList.remove('is-loading');
-        addToCartText.textContent = originalAddToCartText || "{{ 'products.product.add_to_cart' | t }}";
+        addToCartText.textContent = originalAddToCartText || "Add to Cart";
       };
 
       const showAddToCartConfirmation = () => {
@@ -760,6 +693,7 @@
         if (!qtyInput) return;
         const normalized = snapQuantity(value, direction);
         qtyInput.value = String(normalized);
+        updateQuantityButtonStates();
         return normalized;
       };
 
@@ -779,13 +713,13 @@
       const updatePriceArea = (variant) => {
         if (!variant) return;
         if (priceEl) {
-          const formattedPrice = formatMoney(variant.price) || variant.price_formatted || variant.price;
+          const formattedPrice = formatMoney(variant.price);
           if (formattedPrice) priceEl.textContent = formattedPrice;
         }
         if (compareEl) {
           const hasCompare = variant.compare_at_price && variant.compare_at_price > variant.price;
           if (hasCompare) {
-            const formattedCompare = formatMoney(variant.compare_at_price) || variant.compare_at_price_formatted || variant.compare_at_price;
+            const formattedCompare = formatMoney(variant.compare_at_price);
             compareEl.textContent = formattedCompare;
             compareEl.hidden = false;
           } else {
@@ -835,22 +769,8 @@
       });
 
       const findVariantById = (id) => {
-        if (!id) return null;
-        if (productData?.variants) {
-          return productData.variants.find(variant => String(variant.id) === String(id));
-        }
-        const swatch = swatchContainer?.querySelector(`[data-variant-id="${id}"]`);
-        if (!swatch) return null;
-        return {
-          id,
-          price: Number(swatch.dataset.variantPriceRaw || 0),
-          compare_at_price: Number(swatch.dataset.variantCompareRaw || 0),
-          available: swatch.dataset.variantAvailable === 'true',
-          sku: swatch.dataset.variantSku || '',
-          title: swatch.dataset.variantTitle || '',
-          inventory_management: swatch.dataset.variantInventoryManagement || null,
-          inventory_quantity: swatch.dataset.variantInventoryQuantity === '' ? null : Number(swatch.dataset.variantInventoryQuantity)
-        };
+        if (!id || !productData?.variants) return null;
+        return productData.variants.find(variant => String(variant.id) === String(id));
       };
 
       if (qtyIncrease && qtyInput) {
@@ -872,11 +792,16 @@
       }
 
       if (qtyInput) {
-        qtyInput.addEventListener('input', sanitizeQuantityInput);
+        qtyInput.addEventListener('input', () => {
+          sanitizeQuantityInput();
+          updateQuantityButtonStates();
+        });
         qtyInput.addEventListener('blur', () => {
           setQuantityValue(parseQuantityValue());
         });
       }
+      
+      updateQuantityButtonStates();
 
       const updateSwatchSelection = (target) => {
         if (!swatchContainer || !target) return;
@@ -932,21 +857,20 @@
             flavorLabel.textContent = swatch.dataset.variantTitle || '';
           }
 
-          if (swatch.dataset.variantImage) {
-            setMainImage(swatch.dataset.variantImage, swatch.dataset.variantImageAlt || swatch.dataset.variantTitle);
-            activateThumbByImageId(swatch.dataset.variantImageId);
-          }
-
           const variant = findVariantById(variantId);
           if (variant) {
             updatePriceArea(variant);
             setAddToCartState(variant);
             showBackorderMessage(variant);
-            if (compareEl && variant.compare_at_price) {
-              compareEl.dataset.comparePrice = variant.compare_at_price;
+            const variantImageId = swatch.dataset.variantImageId;
+            if (variantImageId) {
+                const thumb = productRoot.querySelector(`[data-thumb][data-image-id="${variantImageId}"]`);
+                if(thumb) {
+                    setMainImage(thumb.dataset.full, thumb.dataset.alt);
+                    activateThumbByImageId(variantImageId);
+                }
             }
           }
-
           swatch.focus();
         });
 
@@ -1010,7 +934,7 @@
             addToCartButton.classList.remove('is-loading');
             addToCartButton.removeAttribute('disabled');
             addToCartButton.setAttribute('aria-busy', 'false');
-            addToCartText.textContent = originalAddToCartText || "{{ 'products.product.add_to_cart' | t }}";
+            addToCartText.textContent = originalAddToCartText || "Add to Cart";
             showAddToCartConfirmation();
             document.dispatchEvent(new CustomEvent('fpd:cart:item-added', {
               detail: {
@@ -1023,7 +947,7 @@
             addToCartButton.classList.remove('is-loading');
             addToCartButton.removeAttribute('aria-busy');
             addToCartButton.removeAttribute('disabled');
-            addToCartText.textContent = originalAddToCartText || "{{ 'products.product.add_to_cart' | t }}";
+            addToCartText.textContent = originalAddToCartText || "Add to Cart";
             if (typeof form.submit === 'function') {
               form.submit();
             }
@@ -1064,43 +988,8 @@
         "label": "Show 'See more (type)'"
       },
       {
-        "type": "radio",
-        "id": "prod_gall_thumbs_under",
-        "label": "Thumbnail position",
-        "options": [
-          {
-            "value": "beside",
-            "label": "Beside main image"
-          },
-          {
-            "value": "under",
-            "label": "Underneath main image"
-          }
-        ],
-        "default": "beside"
-      },
-      {
-        "type": "select",
-        "id": "prod_desc_pos",
-        "label": "Description position",
-        "options": [
-          {
-            "value": "beside",
-            "label": "Beside main image, under price"
-          },
-          {
-            "value": "below",
-            "label": "Underneath image and price"
-          }
-        ]
-      },
-      {
         "type": "header",
         "content": "Related products"
-      },
-      {
-        "type": "paragraph",
-        "content": "Show other products from the same collection, underneath the product details"
       },
       {
         "type": "checkbox",
