@@ -198,6 +198,8 @@
       align-items: center;
       gap: 12px; /* Increased gap for breathing room */
       margin-top: 24px; /* Adds breathing room above the selector */
+      width: 100%; /* Allow the selector to respect the form width */
+      flex-wrap: wrap; /* Prevent overflow on narrow screens */
     }
     
     .fpd-quantity-selector__button {
@@ -207,6 +209,7 @@
       display: flex; align-items: center; justify-content: center;
       width: 48px;
       height: 48px;
+      flex: 0 0 48px; /* Maintain consistent button width within flex wrapping */
       border-radius: var(--border-radius);
     }
 
@@ -241,8 +244,9 @@
       background: #fff;
       height: 48px;
       padding: 0 18px; /* Increased padding */
-      flex-grow: 1;
-      min-width: 100px; /* Set a min-width for proportion */
+      flex: 1 1 140px; /* Grow to fill space but shrink when needed */
+      min-width: 0; /* Permit shrinking within narrow containers */
+      box-sizing: border-box; /* Ensure padding is included in flex-basis */
     }
 
     .fpd-quantity-selector__input {
