@@ -1,20 +1,18 @@
 <div class="fpd-collection-wrapper" data-section-type="collection-template">
   {%- paginate collection.products by section.settings.products_per_page -%}
   {%- capture fpd_nav_config -%}
-    [
-      {"label":"All Products","handle":"all","type":"link"},
-      {"label":"Fresh Pasta","type":"label"},
-      {"label":"Long Pasta","handle":"long-pasta","type":"link"},
-      {"label":"Short Pasta","handle":"short-pasta","type":"link"},
-      {"label":"Filled Pasta","handle":"filled-pasta","type":"link"},
-      {"label":"Custom Filled Pasta","handle":"custom-filled-pasta","type":"link"},
-      {"type":"divider"},
-      {"label":"From the Kitchen","type":"label"},
-      {"label":"Casserole & Lasagna","handle":"casserole-and-lasagna","type":"link"},
-      {"label":"Sauce","handle":"sauce","type":"link"}
-    ]
+    link::All Products::all|
+    label::Fresh Pasta|
+    link::Long Pasta::long-pasta|
+    link::Short Pasta::short-pasta|
+    link::Filled Pasta::filled-pasta|
+    link::Custom Filled Pasta::custom-filled-pasta|
+    divider::|
+    label::From the Kitchen|
+    link::Casserole & Lasagna::casserole-and-lasagna|
+    link::Sauce::sauce
   {%- endcapture -%}
-  {%- assign fpd_nav_items = fpd_nav_config | strip | parse_json -%}
+  {%- assign fpd_nav_items = fpd_nav_config | strip | split: '|' -%}
   {%- assign current_sort = collection.sort_by | default: collection.default_sort_by -%}
 
   <style>
@@ -207,16 +205,26 @@
             <h2 class="fpd-nav__title">Explore the menu</h2>
             <ul class="fpd-nav__pills">
               {% for item in fpd_nav_items %}
-                {%- assign nav_item_type = item.type | default: 'link' -%}
+                {%- assign nav_parts = item | strip | split: '::' -%}
+                {%- assign nav_item_type = nav_parts[0] | default: 'link' -%}
                 {% case nav_item_type %}
                   {% when 'label' %}
-                    <li class="fpd-nav__section-label" role="presentation">{{ item.label }}</li>
+                    {%- assign nav_label = nav_parts[1] | default: '' -%}
+                    {% if nav_label != '' %}
+                      <li class="fpd-nav__section-label" role="presentation">{{ nav_label }}</li>
+                    {% endif %}
                   {% when 'divider' %}
                     <li class="fpd-nav__divider" role="separator" aria-hidden="true"></li>
                   {% else %}
-                    {%- assign destination = routes.collections_url | append: '/' | append: item.handle -%}
-                    {%- if item.handle == 'all' -%}{%- assign destination = routes.all_products_collection_url -%}{%- endif -%}
-                    <li><a class="fpd-filter-button {% if item.handle == collection.handle %}is-active{% endif %}" href="{{ destination }}"{% if item.handle == collection.handle %} aria-current="page"{% endif %}>{{ item.label }}</a></li>
+                    {%- assign nav_label = nav_parts[1] | default: '' -%}
+                    {%- assign nav_handle = nav_parts[2] | default: '' -%}
+                    {%- assign destination = routes.collections_url | append: '/' | append: nav_handle -%}
+                    {%- if nav_handle == 'all' -%}
+                      {%- assign destination = routes.all_products_collection_url -%}
+                    {%- endif -%}
+                    {% if nav_label != '' and destination != '' %}
+                      <li><a class="fpd-filter-button {% if nav_handle == collection.handle %}is-active{% endif %}" href="{{ destination }}"{% if nav_handle == collection.handle %} aria-current="page"{% endif %}>{{ nav_label }}</a></li>
+                    {% endif %}
                 {% endcase %}
               {% endfor %}
             </ul>
