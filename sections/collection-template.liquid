@@ -225,8 +225,35 @@
     .fpd-add:hover { background-color: #612115; border-color: #612115; transform: translateY(-2px); }
 
     /* --- Responsive --- */
-    @media (max-width: 980px) { .fpd-layout { grid-template-columns: 1fr; row-gap: var(--gutter); } .fpd-sidebar { position: static; order: -1; } .fpd-nav { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; } .fpd-nav__pills { flex-direction: row; flex-wrap: wrap; gap: 12px; } }
-    @media (max-width: 768px) { .fpd-toolbar { flex-direction: column; align-items: flex-start; } .fpd-sort, .fpd-sort select { width: 100%; } }
+    @media (max-width: 980px) {
+      .fpd-layout { grid-template-columns: 1fr; row-gap: var(--gutter); }
+      .fpd-sidebar { position: static; order: -1; }
+      .fpd-nav { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; }
+      .fpd-nav__pills { flex-direction: row; flex-wrap: wrap; gap: 12px; justify-content: center; }
+      .fpd-nav__section-label {
+        flex: 0 0 100%;
+      }
+    }
+    @media (max-width: 768px) {
+      .fpd-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .fpd-sort {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .fpd-sort label {
+        flex: 0 0 auto;
+        white-space: nowrap;
+      }
+      .fpd-sort select {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+    }
 </style>
 
   <div class="fpd-collection">
