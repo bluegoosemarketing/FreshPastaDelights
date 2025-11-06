@@ -1,7 +1,20 @@
 <div class="fpd-collection-wrapper" data-section-type="collection-template">
   {%- paginate collection.products by section.settings.products_per_page -%}
-  {%- assign fpd_category_string = "All::all|Long Pasta::long-pasta|Short Pasta::short-pasta|Stuffed Pasta::stuffed-pasta|Sauces::sauces|Bundles::bundles" -%}
-  {%- assign fpd_categories = fpd_category_string | split: '|' -%}
+  {%- capture fpd_nav_config -%}
+    [
+      {"label":"All Products","handle":"all","type":"link"},
+      {"label":"Fresh Pasta","type":"label"},
+      {"label":"Long Pasta","handle":"long-pasta","type":"link"},
+      {"label":"Short Pasta","handle":"short-pasta","type":"link"},
+      {"label":"Filled Pasta","handle":"filled-pasta","type":"link"},
+      {"label":"Custom Filled Pasta","handle":"custom-filled-pasta","type":"link"},
+      {"type":"divider"},
+      {"label":"From the Kitchen","type":"label"},
+      {"label":"Casserole & Lasagna","handle":"casserole-and-lasagna","type":"link"},
+      {"label":"Sauce","handle":"sauce","type":"link"}
+    ]
+  {%- endcapture -%}
+  {%- assign fpd_nav_items = fpd_nav_config | strip | parse_json -%}
   {%- assign current_sort = collection.sort_by | default: collection.default_sort_by -%}
 
   <style>
@@ -47,6 +60,8 @@
     .fpd-filter-button { display: block; width: 100%; box-sizing: border-box; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 9999px; background: var(--surface-background); color: var(--text-body); font-size: 15px; font-weight: 500; text-align: center; text-decoration: none; cursor: pointer; transition: all 160ms ease; }
     .fpd-filter-button:hover { border-color: var(--brand-secondary); background-color: var(--brand-secondary); color: #FFFFFF; transform: translateY(-1px); }
     .fpd-filter-button.is-active { background: var(--brand-primary); color: #FFFFFF; border-color: var(--brand-primary); }
+    .fpd-nav__section-label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; color: rgba(43, 42, 39, 0.72); padding-inline: 4px; display: block; width: 100%; }
+    .fpd-nav__divider { height: 1px; width: 100%; background: var(--border-color); margin: 4px 0; display: block; }
 
     /* --- Product Grid & Card --- */
     .fpd-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--gutter); }
@@ -191,13 +206,18 @@
           <nav class="fpd-nav">
             <h2 class="fpd-nav__title">Explore the menu</h2>
             <ul class="fpd-nav__pills">
-              {% for category in fpd_categories %}
-                {%- assign parts = category | split: '::' -%}
-                {%- assign label = parts[0] -%}
-                {%- assign handle = parts[1] -%}
-                {%- assign destination = routes.collections_url | append: '/' | append: handle -%}
-                {%- if handle == 'all' %}{%- assign destination = routes.all_products_collection_url -%}{% endif -%}
-                <li><a class="fpd-filter-button {% if handle == collection.handle %}is-active{% endif %}" href="{{ destination }}"{% if handle == collection.handle %} aria-current="page"{% endif %}>{{ label }}</a></li>
+              {% for item in fpd_nav_items %}
+                {%- assign nav_item_type = item.type | default: 'link' -%}
+                {% case nav_item_type %}
+                  {% when 'label' %}
+                    <li class="fpd-nav__section-label" role="presentation">{{ item.label }}</li>
+                  {% when 'divider' %}
+                    <li class="fpd-nav__divider" role="separator" aria-hidden="true"></li>
+                  {% else %}
+                    {%- assign destination = routes.collections_url | append: '/' | append: item.handle -%}
+                    {%- if item.handle == 'all' -%}{%- assign destination = routes.all_products_collection_url -%}{%- endif -%}
+                    <li><a class="fpd-filter-button {% if item.handle == collection.handle %}is-active{% endif %}" href="{{ destination }}"{% if item.handle == collection.handle %} aria-current="page"{% endif %}>{{ item.label }}</a></li>
+                {% endcase %}
               {% endfor %}
             </ul>
           </nav>
