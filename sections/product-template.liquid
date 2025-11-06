@@ -37,13 +37,13 @@
 
     /* --- REVISED (Patch B) --- */
     .fpd-product {
-      width: 100%;
-      max-width: clamp(1040px, 90vw, 1360px);
+      width: min(100%, clamp(1040px, 90vw, 1360px));
       margin: 0 auto;
       padding: clamp(24px, 4vw, 72px) clamp(16px, 3vw, 48px);
       box-sizing: border-box;
       display: grid;
       gap: clamp(24px, 5vw, 64px);
+      overflow-x: hidden;
       overflow-x: clip;
     }
 
