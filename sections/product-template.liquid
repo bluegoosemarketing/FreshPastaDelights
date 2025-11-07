@@ -317,15 +317,84 @@
     .fpd-tag-list a { display: inline-flex; align-items: center; justify-content: center; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border-color); background: rgba(241, 233, 221, 0.65); font-size: 13px; font-weight: 600; color: var(--text-heading); text-decoration: none; transition: background 160ms ease, transform 160ms ease; }
     .fpd-tag-list a:hover { background: #fff; transform: translateY(-1px); }
     .fpd-quantity-hint { font-size: 13px; color: rgba(93, 90, 86, 0.75); margin: 6px 0 0; }
-    .fpd-social { position: relative; display: inline-flex; flex-direction: column; align-items: flex-start; font-size: 13px; font-weight: 600; color: rgba(93, 90, 86, 0.7); gap: 0; margin-top: 18px; }
-    .fpd-social summary { list-style: none; }
-    .fpd-social summary::-webkit-details-marker { display: none; }
-    .fpd-social__trigger { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; padding: 6px 12px; border-radius: 999px; transition: background 160ms ease, box-shadow 160ms ease, color 160ms ease; color: rgba(93, 90, 86, 0.9); }
-    .fpd-social__trigger:hover { background: rgba(241, 233, 221, 0.4); color: var(--brand-primary); }
-    .fpd-social__trigger:focus-visible { outline: 2px solid rgba(200, 16, 46, 0.35); outline-offset: 2px; }
-    .fpd-social[open] .fpd-social__trigger { background: rgba(241, 233, 221, 0.9); box-shadow: 0 12px 28px rgba(24, 22, 20, 0.12); color: var(--brand-primary); }
-    .fpd-social__panel { display: none; margin-top: 12px; padding: 16px; background: #fff; border-radius: 18px; box-shadow: 0 16px 40px rgba(24, 22, 20, 0.12); min-width: min(240px, 80vw); max-width: min(320px, 90vw); }
-    .fpd-social[open] .fpd-social__panel { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    
+    /* --- REVISED: Social Share Button Placement & Style --- */
+    .fpd-form-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end; /* Align share button to the right */
+      gap: 16px; /* Space between form and share button */
+    }
+
+    .fpd-social {
+      position: relative;
+      display: inline-flex;
+      /* Remove all original layout styles */
+      margin-top: 0; 
+      gap: 0;
+      flex-direction: column; 
+      align-items: flex-end; /* Align panel to the right */
+    }
+
+    .fpd-social summary {
+      list-style: none;
+    }
+    .fpd-social summary::-webkit-details-marker {
+      display: none;
+    }
+    
+    .fpd-social__trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 999px;
+      transition: background 160ms ease, color 160ms ease;
+      color: var(--text-body); /* Subtle color */
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .fpd-social__trigger:hover {
+      background: rgba(93, 90, 86, 0.08);
+      color: var(--text-heading);
+    }
+    
+    .fpd-social__trigger svg {
+      width: 18px;
+      height: 18px;
+      color: var(--text-heading); /* SVG color */
+    }
+
+    .fpd-social[open] .fpd-social__trigger {
+      background: rgba(93, 90, 86, 0.12);
+      box-shadow: none;
+      color: var(--text-heading);
+    }
+
+    .fpd-social__panel {
+      position: absolute;
+      top: calc(100% + 8px); /* Position below the button */
+      right: 0;
+      z-index: 10;
+      display: none;
+      margin-top: 0;
+      padding: 16px;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 16px 40px rgba(24, 22, 20, 0.12);
+      min-width: min(240px, 80vw);
+      max-width: min(320px, 90vw);
+    }
+    
+    .fpd-social[open] .fpd-social__panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    
     .fpd-social__panel .sharing { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 14px; margin: 0; text-align: center; }
     .fpd-social__panel .sharing .label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(93, 90, 86, 0.65); }
     .fpd-social__panel ul { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin: 0; padding: 0; list-style: none; }
@@ -374,6 +443,7 @@
       .fpd-add-to-cart { width: 100%; box-sizing: border-box; }
       .fpd-add-to-cart__confirmation { inset: auto auto 0 50%; }
       .fpd-product__thumbs { margin-inline: 0; padding-inline: clamp(4px, 4vw, 12px); }
+      .fpd-form-actions { align-items: stretch; } /* Make share button full width on mobile */
     }
 </style>
 
@@ -482,138 +552,146 @@
         {% endif %}
 
         <div class="fpd-product__form" data-product-form>
-          <form class="form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{ product.id }}" data-enable-history-state="true">
-            <input type="hidden" name="id" value="{{ initial_variant.id }}" data-variant-input>
-            <noscript>
-              <label for="variant-select-{{ section.id }}">{{ 'products.product.product_variants' | t }}</label>
-              <select id="variant-select-{{ section.id }}" name="id">
-                {% for variant in product.variants %}
-                  <option value="{{ variant.id }}" {% if variant.id == initial_variant.id %}selected{% endif %}>{{ variant.title | escape }}</option>
-                {% endfor %}
-              </select>
-            </noscript>
+          <!-- NEW WRAPPER for Form + Share Button -->
+          <div class="fpd-form-actions">
+            <form class="form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{ product.id }}" data-enable-history-state="true" style="display: contents;">
+              <div style="display: contents;">
+                <input type="hidden" name="id" value="{{ initial_variant.id }}" data-variant-input>
+                <noscript>
+                  <label for="variant-select-{{ section.id }}">{{ 'products.product.product_variants' | t }}</label>
+                  <select id="variant-select-{{ section.id }}" name="id">
+                    {% for variant in product.variants %}
+                      <option value="{{ variant.id }}" {% if variant.id == initial_variant.id %}selected{% endif %}>{{ variant.title | escape }}</option>
+                    {% endfor %}
+                  </select>
+                </noscript>
 
-            {% assign has_flavors = false %}
-            {% if product.variants.size > 1 or product.variants.first.title != 'Default Title' %}
-              {% assign has_flavors = true %}
-            {% endif %}
+                {% assign has_flavors = false %}
+                {% if product.variants.size > 1 or product.variants.first.title != 'Default Title' %}
+                  {% assign has_flavors = true %}
+                {% endif %}
 
-            {% if has_flavors %}
-              <div class="fpd-option-block" data-variant-swatches>
-                <label id="fpd-flavor-label-{{ section.id }}">Flavor</label>
-                <p class="fpd-selected-flavor" data-flavor-name>{{ initial_variant.title | escape }}</p>
-                <div class="fpd-flavor-swatches" data-swatches role="radiogroup" aria-labelledby="fpd-flavor-label-{{ section.id }}">
-                  {% for variant in product.variants %}
-                    {% assign is_selected = false %}
-                    {% if variant.id == initial_variant.id %}{% assign is_selected = true %}{% endif %}
-                    {% assign is_available = variant.available %}
-                    <button type="button"
-                            class="fpd-flavor-chip{% if is_selected %} is-selected{% endif %}"
-                            data-variant-id="{{ variant.id }}"
-                            data-variant-title="{{ variant.title | escape }}"
-                            data-variant-available="{{ variant.available }}"
-                            data-variant-price="{{ variant.price | money }}"
-                            data-variant-price-raw="{{ variant.price | divided_by: 1.0 }}"
-                            data-variant-compare="{{ variant.compare_at_price | money }}"
-                            data-variant-compare-raw="{{ variant.compare_at_price | divided_by: 1.0 }}"
-                            data-variant-sku="{{ variant.sku }}"
-                            data-variant-inventory-management="{{ variant.inventory_management }}"
-                            data-variant-inventory-quantity="{{ variant.inventory_quantity }}"
-                            {% if variant.image %}
-                              data-variant-image-id="{{ variant.image.id }}"
-                              data-variant-image="{{ variant.image | product_img_url: '1024x1024' }}"
-                              data-variant-image-thumb="{{ variant.image | product_img_url: '220x' }}"
-                              data-variant-image-alt="{{ variant.image.alt | default: variant.title | escape }}"
+                {% if has_flavors %}
+                  <div class="fpd-option-block" data-variant-swatches>
+                    <label id="fpd-flavor-label-{{ section.id }}">Flavor</label>
+                    <p class="fpd-selected-flavor" data-flavor-name>{{ initial_variant.title | escape }}</p>
+                    <div class="fpd-flavor-swatches" data-swatches role="radiogroup" aria-labelledby="fpd-flavor-label-{{ section.id }}">
+                      {% for variant in product.variants %}
+                        {% assign is_selected = false %}
+                        {% if variant.id == initial_variant.id %}{% assign is_selected = true %}{% endif %}
+                        {% assign is_available = variant.available %}
+                        <button type="button"
+                                class="fpd-flavor-chip{% if is_selected %} is-selected{% endif %}"
+                                data-variant-id="{{ variant.id }}"
+                                data-variant-title="{{ variant.title | escape }}"
+                                data-variant-available="{{ variant.available }}"
+                                data-variant-price="{{ variant.price | money }}"
+                                data-variant-price-raw="{{ variant.price | divided_by: 1.0 }}"
+                                data-variant-compare="{{ variant.compare_at_price | money }}"
+                                data-variant-compare-raw="{{ variant.compare_at_price | divided_by: 1.0 }}"
+                                data-variant-sku="{{ variant.sku }}"
+                                data-variant-inventory-management="{{ variant.inventory_management }}"
+                                data-variant-inventory-quantity="{{ variant.inventory_quantity }}"
+                                {% if variant.image %}
+                                  data-variant-image-id="{{ variant.image.id }}"
+                                  data-variant-image="{{ variant.image | product_img_url: '1024x1024' }}"
+                                  data-variant-image-thumb="{{ variant.image | product_img_url: '220x' }}"
+                                  data-variant-image-alt="{{ variant.image.alt | default: variant.title | escape }}"
+                                {% endif %}
+                                role="radio"
+                                aria-checked="{% if is_selected %}true{% else %}false{% endif %}"
+                                {% unless is_available %}aria-disabled="true"{% endunless %}
+                                tabindex="{% if is_selected %}0{% else %}-1{% endif %}"
+                                title="{{ variant.title | escape }}">
+                          {% if variant.image %}
+                            <span class="fpd-flavor-chip__icon">
+                              <img src="{{ variant.image | product_img_url: '64x64' }}" alt="" aria-hidden="true" loading="lazy">
+                            </span>
+                          {% else %}
+                            {% assign flavor_key = variant.title | strip | downcase %}
+                            {% case flavor_key %}
+                              {% when 'egg (traditional)' %}{% assign chip_color = '#F6D36F' %}
+                              {% when 'spinach' %}{% assign chip_color = '#9BCB6A' %}
+                              {% when 'tomato basil' %}{% assign chip_color = '#E86C5D' %}
+                              {% when 'squid ink' %}{% assign chip_color = '#1F1F1F' %}
+                              {% when 'truffle' %}{% assign chip_color = '#C0A572' %}
+                              {% else %}{% assign chip_color = '#D7C9B8' %}
+                            {% endcase %}
+                            <span class="fpd-flavor-chip__indicator" style="--chip-color: {{ chip_color }};"></span>
+                          {% endif %}
+                          <span class="fpd-flavor-chip__meta">
+                            <span class="fpd-flavor-chip__label">{{ variant.title | escape }}</span>
+                            {% if variant.metafields.custom.flavor_note != blank %}
+                              <span class="fpd-flavor-chip__hint">{{ variant.metafields.custom.flavor_note }}</span>
                             {% endif %}
-                            role="radio"
-                            aria-checked="{% if is_selected %}true{% else %}false{% endif %}"
-                            {% unless is_available %}aria-disabled="true"{% endunless %}
-                            tabindex="{% if is_selected %}0{% else %}-1{% endif %}"
-                            title="{{ variant.title | escape }}">
-                      {% if variant.image %}
-                        <span class="fpd-flavor-chip__icon">
-                          <img src="{{ variant.image | product_img_url: '64x64' }}" alt="" aria-hidden="true" loading="lazy">
-                        </span>
-                      {% else %}
-                        {% assign flavor_key = variant.title | strip | downcase %}
-                        {% case flavor_key %}
-                          {% when 'egg (traditional)' %}{% assign chip_color = '#F6D36F' %}
-                          {% when 'spinach' %}{% assign chip_color = '#9BCB6A' %}
-                          {% when 'tomato basil' %}{% assign chip_color = '#E86C5D' %}
-                          {% when 'squid ink' %}{% assign chip_color = '#1F1F1F' %}
-                          {% when 'truffle' %}{% assign chip_color = '#C0A572' %}
-                          {% else %}{% assign chip_color = '#D7C9B8' %}
-                        {% endcase %}
-                        <span class="fpd-flavor-chip__indicator" style="--chip-color: {{ chip_color }};"></span>
+                          </span>
+                        </button>
+                      {% endfor %}
+                      {% if product.variants.size > 6 %}
+                        <button type="button" class="fpd-flavor-chip" data-show-more>+{{ product.variants.size | minus: 6 }}</button>
                       {% endif %}
-                      <span class="fpd-flavor-chip__meta">
-                        <span class="fpd-flavor-chip__label">{{ variant.title | escape }}</span>
-                        {% if variant.metafields.custom.flavor_note != blank %}
-                          <span class="fpd-flavor-chip__hint">{{ variant.metafields.custom.flavor_note }}</span>
-                        {% endif %}
-                      </span>
+                    </div>
+                  </div>
+
+                  <hr class="fpd-form-divider" />
+                {% endif %}
+
+                {% assign quantity_step = product.metafields.custom.quantity_increment | default: 1 %}
+                {% assign quantity_minimum = product.metafields.custom.quantity_minimum | default: 1 %}
+                {% assign weight_unit = product.metafields.custom.weight_unit | default: 'lb' %}
+                {% assign weight_unit_abbr = product.metafields.custom.weight_unit_abbreviation | default: 'lbs' %}
+                {% assign weight_unit_hint = weight_unit %}
+                {% if quantity_minimum > 1 and weight_unit_hint == 'lb' %}{% assign weight_unit_hint = 'lbs' %}{% endif %}
+                {% if quantity_minimum == 1 and weight_unit_hint == 'lbs' %}{% assign weight_unit_hint = 'lb' %}{% endif %}
+                {% assign increment_unit_hint = weight_unit_hint %}
+                {% if quantity_step > 1 and increment_unit_hint == 'lb' %}{% assign increment_unit_hint = 'lbs' %}{% elsif quantity_step == 1 and increment_unit_hint == 'lbs' %}{% assign increment_unit_hint = 'lb' %}{% endif %}
+                
+                <div class="fpd-quantity-selector" data-quantity data-step="{{ quantity_step }}" data-min="{{ quantity_minimum }}">
+                    <button type="button" class="fpd-quantity-selector__button" data-qty-decrease aria-label="Decrease quantity">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M5 12h14" />
+                        </svg>
                     </button>
-                  {% endfor %}
-                  {% if product.variants.size > 6 %}
-                    <button type="button" class="fpd-flavor-chip" data-show-more>+{{ product.variants.size | minus: 6 }}</button>
-                  {% endif %}
+                    <div class="fpd-quantity-selector__input-wrapper">
+                        <input id="quantity" class="fpd-quantity-selector__input" name="quantity" value="{{ quantity_minimum }}" min="{{ quantity_minimum }}" step="{{ quantity_step }}" type="text" inputmode="numeric" pattern="[0-9]*" aria-label="Quantity" />
+                        <span class="fpd-quantity-selector__unit">{{ weight_unit_abbr }}</span>
+                    </div>
+                    <button type="button" class="fpd-quantity-selector__button" data-qty-increase aria-label="Increase quantity">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M12 5v14m-7-7h14" />
+                        </svg>
+                    </button>
+                </div>
+
+                {% if product.tags contains 'per-lb' %}
+                  <p class="fpd-quantity-hint">Minimum order {{ quantity_minimum }} {{ weight_unit_hint }} · increments of {{ quantity_step }} {{ increment_unit_hint }}.</p>
+                {% endif %}
+
+                <button type="submit" class="fpd-add-to-cart" data-add-to-cart>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M3 3h3l1.7 9.5a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6l1.1-6.5H6"/><path d="M10 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/><path d="M17 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg>
+                  <span data-add-to-cart-text>{{ 'products.product.add_to_cart' | t }}</span>
+                  <span class="fpd-add-to-cart__confirmation" data-add-to-cart-confirmation aria-live="polite">Added!</span>
+                </button>
+
+                <div class="fpd-backorder" data-backorder hidden>
+                  <span data-backorder-message></span>
                 </div>
               </div>
+            </form>
 
-              <hr class="fpd-form-divider" />
-            {% endif %}
-
-            {% assign quantity_step = product.metafields.custom.quantity_increment | default: 1 %}
-            {% assign quantity_minimum = product.metafields.custom.quantity_minimum | default: 1 %}
-            {% assign weight_unit = product.metafields.custom.weight_unit | default: 'lb' %}
-            {% assign weight_unit_abbr = product.metafields.custom.weight_unit_abbreviation | default: 'lbs' %}
-            {% assign weight_unit_hint = weight_unit %}
-            {% if quantity_minimum > 1 and weight_unit_hint == 'lb' %}{% assign weight_unit_hint = 'lbs' %}{% endif %}
-            {% if quantity_minimum == 1 and weight_unit_hint == 'lbs' %}{% assign weight_unit_hint = 'lb' %}{% endif %}
-            {% assign increment_unit_hint = weight_unit_hint %}
-            {% if quantity_step > 1 and increment_unit_hint == 'lb' %}{% assign increment_unit_hint = 'lbs' %}{% elsif quantity_step == 1 and increment_unit_hint == 'lbs' %}{% assign increment_unit_hint = 'lb' %}{% endif %}
-            
-            <div class="fpd-quantity-selector" data-quantity data-step="{{ quantity_step }}" data-min="{{ quantity_minimum }}">
-                <button type="button" class="fpd-quantity-selector__button" data-qty-decrease aria-label="Decrease quantity">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M5 12h14" />
-                    </svg>
-                </button>
-                <div class="fpd-quantity-selector__input-wrapper">
-                    <input id="quantity" class="fpd-quantity-selector__input" name="quantity" value="{{ quantity_minimum }}" min="{{ quantity_minimum }}" step="{{ quantity_step }}" type="text" inputmode="numeric" pattern="[0-9]*" aria-label="Quantity" />
-                    <span class="fpd-quantity-selector__unit">{{ weight_unit_abbr }}</span>
-                </div>
-                <button type="button" class="fpd-quantity-selector__button" data-qty-increase aria-label="Increase quantity">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M12 5v14m-7-7h14" />
-                    </svg>
-                </button>
-            </div>
-
-            {% if product.tags contains 'per-lb' %}
-              <p class="fpd-quantity-hint">Minimum order {{ quantity_minimum }} {{ weight_unit_hint }} · increments of {{ quantity_step }} {{ increment_unit_hint }}.</p>
-            {% endif %}
-
-            <button type="submit" class="fpd-add-to-cart" data-add-to-cart>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M3 3h3l1.7 9.5a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6l1.1-6.5H6"/><path d="M10 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/><path d="M17 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg>
-              <span data-add-to-cart-text>{{ 'products.product.add_to_cart' | t }}</span>
-              <span class="fpd-add-to-cart__confirmation" data-add-to-cart-confirmation aria-live="polite">Added!</span>
-            </button>
-
-            <div class="fpd-backorder" data-backorder hidden>
-              <span data-backorder-message></span>
-            </div>
-          </form>
-
-          <details class="fpd-social">
-            <summary class="fpd-social__trigger">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M18 8a3 3 0 1 0-6 0 3 3 0 0 0 6 0z"/><path d="M9 12a3 3 0 1 0-6 0 3 3 0 0 0 6 0z"/><path d="M21 16a3 3 0 1 0-6 0 3 3 0 0 0 6 0z"/><path d="M7.3 11l3.4-1.5"/><path d="M13.3 9.5l3.4 1.5"/><path d="M13.3 14.5l3.4-1.5"/></svg>
-              <span>{{ 'general.social.share' | t | default: 'Share' }}</span>
-            </summary>
-            <div class="fpd-social__panel">
-              {% include 'social-sharing' %}
-            </div>
-          </details>
+            <details class="fpd-social">
+              <summary class="fpd-social__trigger">
+                <!-- NEW SVG ICON with currentColor for CSS styling -->
+                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M20 5.75a3.25 3.25 0 0 1-5.532 2.314L9.31 10.906a3.245 3.245 0 0 1-.001 2.192l5.156 2.84a3.25 3.25 0 1 1-.922 1.775l-5.478-3.017a3.25 3.25 0 1 1 .004-5.389l5.474-3.018A3.25 3.25 0 1 1 20 5.75z"></path>
+                </svg>
+                <span>{{ 'general.social.share' | t | default: 'Share' }}</span>
+              </summary>
+              <div class="fpd-social__panel">
+                {% include 'social-sharing' %}
+              </div>
+            </details>
+          </div>
         </div>
       </section>
     </div>
