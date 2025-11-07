@@ -18,18 +18,23 @@
   {% assign initial_variant = product.selected_or_first_available_variant %}
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Lora:wght@500;700&family=Montserrat:wght@500;700&display=swap');
 
     .fpd-product-wrapper {
       --gutter: clamp(16px, 2.5vw, 40px);
       --border-radius: 20px;
       --border-color: #E8E6D6;
-      --brand-primary: #7C2C1D;
+
+      /* --- UPDATED: Italian Theme Colors --- */
+      --brand-primary-red: #C8102E;
+      --brand-accent-green: #007F3D;
+      --brand-primary: var(--brand-primary-red);
       --brand-secondary: #CFA650;
       --text-body: #5D5A56;
       --text-heading: #2B2A27;
       --surface-background: #FFFFFF;
-      --page-background: #FBFAF7;
+      --page-background: #F8F6F2;
+
       font-family: 'Montserrat', sans-serif;
       background: var(--page-background);
       color: var(--text-body);
@@ -137,14 +142,20 @@
     .fpd-product__thumbs button.fpd-thumb.is-active { border-color: var(--brand-primary); }
 
     .fpd-product__info {
-  background: var(--surface-background); border-radius: var(--border-radius);
-  box-shadow: 0 14px 40px rgba(24, 22, 20, 0.08), 0 1px 0 rgba(24, 22, 20, 0.04);
-  padding: clamp(32px, 4vw, 44px); display: flex; flex-direction: column;
-  gap: clamp(16px, 2.5vw, 28px);
-  min-width: 0; /* Prevents this column from overflowing its grid parent */
-}
+      background: var(--surface-background); border-radius: var(--border-radius);
+      box-shadow: 0 14px 40px rgba(24, 22, 20, 0.08), 0 1px 0 rgba(24, 22, 20, 0.04);
+      padding: clamp(32px, 4vw, 44px); display: flex; flex-direction: column;
+      gap: clamp(16px, 2.5vw, 28px);
+      min-width: 0; /* Prevents this column from overflowing its grid parent */
+    }
 
-    .fpd-product__title { font-size: clamp(32px, 5vw, 48px); font-weight: 700; color: var(--text-heading); margin: 0; }
+    .fpd-product__title {
+      font-family: 'Lora', serif; /* UPDATED Typography */
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 700;
+      color: var(--text-heading);
+      margin: 0;
+    }
     .fpd-product__subtitle { font-size: clamp(16px, 2.2vw, 19px); line-height: 1.5; color: rgba(43, 42, 39, 0.78); margin: -6px 0 0; }
     .fpd-product__price { display: flex; align-items: center; gap: 14px; font-weight: 700; color: var(--text-heading); font-size: clamp(26px, 3vw, 32px); margin-top: 8px; }
     .fpd-product__price del { font-size: clamp(16px, 2vw, 18px); color: rgba(45, 42, 39, 0.55); font-weight: 600; }
@@ -155,37 +166,53 @@
     .fpd-product__see-more svg { width: 16px; height: 16px; }
     .fpd-product__description { font-size: 16px; line-height: 1.75; }
     .fpd-product__form {
-  display: grid;
-  gap: 24px;
-  min-width: 0; /* Allows the entire form to shrink */
-}
+      display: grid;
+      gap: 24px;
+      min-width: 0; /* Allows the entire form to shrink */
+    }
     .fpd-option-block {
-  display: grid;
-  gap: 12px;
-  max-width: 100%; /* CRITICAL: Prevents the block from growing wider than its parent container */
-  box-sizing: border-box; /* Ensures padding is included within the 100% width */
-}
+      display: grid;
+      gap: 12px;
+      max-width: 100%; /* CRITICAL: Prevents the block from growing wider than its parent container */
+      box-sizing: border-box; /* Ensures padding is included within the 100% width */
+    }
     .fpd-option-block label { font-size: 15px; font-weight: 600; color: var(--text-heading); }
     .fpd-selected-flavor { font-size: 14px; font-weight: 500; color: rgba(93, 90, 86, 0.85); margin-top: -4px; }
     .fpd-flavor-swatches { display: flex; flex-wrap: wrap; gap: 12px; }
     .fpd-flavor-chip { position: relative; display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px; border-radius: calc(var(--border-radius) - 4px); border: 1.5px solid var(--border-color); background: rgba(255, 255, 255, 0.9); font-size: 14px; font-weight: 600; color: var(--text-heading); cursor: pointer; transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease, transform 160ms ease; min-height: 44px; }
-    .fpd-flavor-chip:hover,
-    .fpd-flavor-chip:focus-visible { border-color: rgba(124, 44, 29, 0.55); box-shadow: 0 8px 18px rgba(124, 44, 29, 0.18); outline: none; transform: translateY(-1px); }
-    .fpd-flavor-chip.is-selected { background: rgba(124, 44, 29, 0.12); border-color: var(--brand-primary); box-shadow: inset 0 0 0 1px rgba(124, 44, 29, 0.18), 0 10px 24px rgba(124, 44, 29, 0.16); }
+    
+    .fpd-flavor-chip:hover:not(.is-selected),
+.fpd-flavor-chip:focus-visible:not(.is-selected) {
+  border-color: var(--brand-accent-green) !important;
+  background: var(--surface-background) !important; /* Override theme's blue hover */
+  box-shadow: 0 8px 18px rgba(0, 127, 61, 0.18);
+  outline: none;
+  transform: translateY(-1px);
+}
+    
+    /* --- UPDATED: Signature Interactive Border --- */
+    .fpd-flavor-chip.is-selected {
+      border-color: transparent;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transform: translateY(-1px);
+      background: linear-gradient(var(--surface-background), var(--surface-background)) padding-box,
+                  linear-gradient(to right, var(--brand-accent-green), var(--brand-primary-red)) border-box;
+    }
+    
     .fpd-flavor-chip__indicator { width: 16px; height: 16px; border-radius: 50%; background: var(--chip-color, rgba(124, 44, 29, 0.65)); border: 1px solid rgba(43, 42, 39, 0.15); flex-shrink: 0; }
     .fpd-flavor-chip__meta {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  text-align: left;
-  min-width: 0; /* Allows the text container to shrink and wrap */
-}
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      text-align: left;
+      min-width: 0; /* Allows the text container to shrink and wrap */
+    }
     .fpd-flavor-chip__label {
-  font-weight: 600;
-  line-height: 1.2;
-  white-space: normal; /* Ensures text can wrap */
-  word-break: break-word; /* Allows long words/strings to break */
-}
+      font-weight: 600;
+      line-height: 1.2;
+      white-space: normal; /* Ensures text can wrap */
+      word-break: break-word; /* Allows long words/strings to break */
+    }
     .fpd-flavor-chip__hint { font-size: 12px; font-weight: 500; color: rgba(93, 90, 86, 0.72); }
     .fpd-flavor-chip[aria-disabled="true"] { cursor: not-allowed; opacity: 0.52; background: rgba(93, 90, 86, 0.08); }
     .fpd-flavor-chip__icon { width: 32px; height: 32px; border-radius: 12px; overflow: hidden; flex-shrink: 0; display: grid; place-items: center; background: rgba(241, 233, 221, 0.6); }
@@ -194,100 +221,101 @@
     .fpd-flavor-swatches:not(.is-expanded) .fpd-flavor-chip:nth-child(n+6):not([data-show-more]) { display: none; }
     
     /* --- START: POLISHED QUANTITY SELECTOR --- */
-    .fpd-quantity-selector {
-      display: flex;
-      align-items: center;
-      gap: 12px; /* Increased gap for breathing room */
-      margin-top: 24px; /* Adds breathing room above the selector */
-      width: 100%; /* Allow the selector to respect the form width */
-      flex-wrap: wrap; /* Prevent overflow on narrow screens */
-    }
-    
-    .fpd-quantity-selector__button {
-      appearance: none; -webkit-appearance: none; border: 1.5px solid var(--border-color);
-      margin: 0; padding: 0; background: #fff; cursor: pointer;
-      user-select: none; transition: all 140ms ease; color: var(--text-heading);
-      display: flex; align-items: center; justify-content: center;
-      width: 48px;
-      height: 48px;
-      flex: 0 0 48px; /* Maintain consistent button width within flex wrapping */
-      border-radius: var(--border-radius);
-    }
+.fpd-quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+  width: 100%;
+  flex-wrap: nowrap; /* Prevents wrapping on mobile */
+}
 
-    .fpd-quantity-selector__button:hover,
-    .fpd-quantity-selector__button:focus-visible {
-      background: rgba(124, 44, 29, 0.08);
-      border-color: rgba(124, 44, 29, 0.5);
-      outline: none;
-      transform: translateY(-1px);
-    }
+.fpd-quantity-selector__button {
+  appearance: none; -webkit-appearance: none; border: 1.5px solid var(--border-color);
+  margin: 0; padding: 0; background: #fff; cursor: pointer;
+  user-select: none; transition: all 140ms ease; color: var(--text-heading);
+  display: flex; align-items: center; justify-content: center;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px; /* Fixed width */
+  border-radius: var(--border-radius);
+}
 
-    .fpd-quantity-selector__button:disabled {
-      cursor: not-allowed;
-      color: rgba(93, 90, 86, 0.45);
-      background: rgba(93, 90, 86, 0.05);
-      border-color: var(--border-color);
-      transform: none;
-    }
-    
-    .fpd-quantity-selector__button svg {
-      width: 20px;
-      height: 20px;
-      stroke: currentColor;
-    }
-    
-    .fpd-quantity-selector__input-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center; /* Center the content */
-      border: 1.5px solid var(--border-color);
-      border-radius: var(--border-radius);
-      background: #fff;
-      height: 48px;
-      padding: 0 18px; /* Increased padding */
-      flex: 1 1 140px; /* Grow to fill space but shrink when needed */
-      min-width: 0; /* Permit shrinking within narrow containers */
-      box-sizing: border-box; /* Ensure padding is included in flex-basis */
-    }
+.fpd-quantity-selector__button:hover,
+.fpd-quantity-selector__button:focus-visible {
+  background: rgba(124, 44, 29, 0.08);
+  border-color: rgba(124, 44, 29, 0.5);
+  outline: none;
+  transform: translateY(-1px);
+}
 
-    .fpd-quantity-selector__input {
-      border: none !important; 
-      width: 100% !important; 
-      flex-grow: 1;
-      max-width: 50px; /* Constrain input width */
-      text-align: center; 
-      font-size: 16px !important;
-      font-weight: 700; /* Bolder font */
-      color: var(--text-heading); 
-      font-family: inherit;
-      line-height: 1; 
-      padding: 0; 
-      background: transparent;
-    }
-    
-    .fpd-quantity-selector__input:focus-visible {
-      outline: none;
-    }
-    
-    .fpd-quantity-selector__unit {
-      font-size: 14px;
-      font-weight: 600;
-      color: rgba(93, 90, 86, 0.9);
-      white-space: nowrap;
-      margin-left: 8px; /* Space between number and unit */
-    }
-    /* --- END: POLISHED QUANTITY SELECTOR --- */
+.fpd-quantity-selector__button:disabled {
+  cursor: not-allowed;
+  color: rgba(93, 90, 86, 0.45);
+  background: rgba(93, 90, 86, 0.05);
+  border-color: var(--border-color);
+  transform: none;
+}
+
+.fpd-quantity-selector__button svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+}
+
+.fpd-quantity-selector__input-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background: #fff;
+  height: 48px;
+  padding: 0 16px;
+  flex: 0 1 120px; /* Does NOT grow, but can shrink. More compact base width. */
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.fpd-quantity-selector__input {
+  border: none !important; 
+  width: 100% !important; 
+  flex: 1 1 auto;
+  min-width: 30px;
+  max-width: 50px;
+  text-align: center; 
+  font-size: 16px !important;
+  font-weight: 700;
+  color: var(--text-heading); 
+  font-family: inherit;
+  line-height: 1; 
+  padding: 0; 
+  background: transparent;
+}
+
+.fpd-quantity-selector__input:focus-visible {
+  outline: none;
+}
+
+.fpd-quantity-selector__unit {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(93, 90, 86, 0.9);
+  white-space: nowrap;
+  margin-left: 6px;
+}
+/* --- END: POLISHED QUANTITY SELECTOR --- */
 
     .fpd-add-to-cart {
       display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--brand-primary); color: #fff; font-size: 16px; font-weight: 700; padding: 0 32px; border-radius: var(--border-radius); border: 1.5px solid var(--brand-primary); cursor: pointer; transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease; min-height: 48px; position: relative;
     }
-    .fpd-add-to-cart:hover { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(124, 44, 29, 0.24); background: #612115; }
+    .fpd-add-to-cart:hover { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(200, 16, 46, 0.24); background: #A30D24; border-color: #A30D24; }
     .fpd-add-to-cart.is-loading { pointer-events: none; opacity: 0.72; }
-    .fpd-add-to-cart:focus-visible { outline: 3px solid rgba(124, 44, 29, 0.4); outline-offset: 2px; }
+    .fpd-add-to-cart:focus-visible { outline: 3px solid rgba(200, 16, 46, 0.4); outline-offset: 2px; }
     .fpd-add-to-cart[disabled] { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
-    .fpd-add-to-cart__confirmation { position: absolute; inset: calc(100% + 6px) auto auto 50%; transform: translateX(-50%); font-size: 13px; font-weight: 600; background: rgba(124, 44, 29, 0.1); color: var(--brand-primary); padding: 4px 10px; border-radius: 999px; opacity: 0; transition: opacity 160ms ease; pointer-events: none; }
+    .fpd-add-to-cart__confirmation { position: absolute; inset: calc(100% + 6px) auto auto 50%; transform: translateX(-50%); font-size: 13px; font-weight: 600; background: rgba(200, 16, 46, 0.1); color: var(--brand-primary); padding: 4px 10px; border-radius: 999px; opacity: 0; transition: opacity 160ms ease; pointer-events: none; }
     .fpd-add-to-cart__confirmation.is-visible { opacity: 1; }
-    .fpd-backorder { font-size: 14px; font-weight: 500; color: var(--brand-primary); background: rgba(124, 44, 29, 0.08); border-radius: 12px; padding: 10px 14px; }
+    .fpd-backorder { font-size: 14px; font-weight: 500; color: var(--brand-primary); background: rgba(200, 16, 46, 0.08); border-radius: 12px; padding: 10px 14px; }
     .fpd-tag-list { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; list-style: none; }
     .fpd-tag-list a { display: inline-flex; align-items: center; justify-content: center; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border-color); background: rgba(241, 233, 221, 0.65); font-size: 13px; font-weight: 600; color: var(--text-heading); text-decoration: none; transition: background 160ms ease, transform 160ms ease; }
     .fpd-tag-list a:hover { background: #fff; transform: translateY(-1px); }
@@ -297,8 +325,7 @@
     .fpd-social summary::-webkit-details-marker { display: none; }
     .fpd-social__trigger { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; padding: 6px 12px; border-radius: 999px; transition: background 160ms ease, box-shadow 160ms ease, color 160ms ease; color: rgba(93, 90, 86, 0.9); }
     .fpd-social__trigger:hover { background: rgba(241, 233, 221, 0.4); color: var(--brand-primary); }
-    .fpd-social__trigger svg { width: 18px; height: 18px; }
-    .fpd-social__trigger:focus-visible { outline: 2px solid rgba(124, 44, 29, 0.35); outline-offset: 2px; }
+    .fpd-social__trigger:focus-visible { outline: 2px solid rgba(200, 16, 46, 0.35); outline-offset: 2px; }
     .fpd-social[open] .fpd-social__trigger { background: rgba(241, 233, 221, 0.9); box-shadow: 0 12px 28px rgba(24, 22, 20, 0.12); color: var(--brand-primary); }
     .fpd-social__panel { display: none; margin-top: 12px; padding: 16px; background: #fff; border-radius: 18px; box-shadow: 0 16px 40px rgba(24, 22, 20, 0.12); min-width: min(240px, 80vw); max-width: min(320px, 90vw); }
     .fpd-social[open] .fpd-social__panel { display: flex; flex-direction: column; align-items: center; gap: 12px; }
@@ -308,12 +335,12 @@
     .fpd-social__panel li a { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 999px; background: rgba(241, 233, 221, 0.5); transition: background 160ms ease, transform 160ms ease; outline: none; }
     .fpd-social__panel li a svg { width: 18px; height: 18px; opacity: 0.75; transition: opacity 160ms ease; }
     .fpd-social__panel li a:hover { background: rgba(241, 233, 221, 0.85); transform: translateY(-1px); }
-    .fpd-social__panel li a:focus-visible { background: rgba(241, 233, 221, 0.85); transform: translateY(-1px); outline: 2px solid rgba(124, 44, 29, 0.35); outline-offset: 2px; }
+    .fpd-social__panel li a:focus-visible { background: rgba(241, 233, 221, 0.85); transform: translateY(-1px); outline: 2px solid rgba(200, 16, 46, 0.35); outline-offset: 2px; }
     .fpd-social__panel li a:hover svg, .fpd-social__panel li a:focus-visible svg { opacity: 1; }
 
     .fpd-long-description { background: #fff; border-radius: var(--border-radius); box-shadow: 0 12px 40px rgba(24, 22, 20, 0.08); padding: clamp(32px, 5vw, 48px); line-height: 1.8; color: var(--text-body); }
     .fpd-long-description h2, .fpd-long-description h3, .fpd-long-description h4 { color: var(--text-heading); }
-    .fpd-info-callout { display: flex; align-items: flex-start; gap: 12px; margin-top: 16px; padding: 14px 18px; border-radius: calc(var(--border-radius) - 6px); background: rgba(124, 44, 29, 0.08); color: rgba(43, 42, 39, 0.9); font-size: 14px; }
+    .fpd-info-callout { display: flex; align-items: flex-start; gap: 12px; margin-top: 16px; padding: 14px 18px; border-radius: calc(var(--border-radius) - 6px); background: rgba(200, 16, 46, 0.08); color: rgba(43, 42, 39, 0.9); font-size: 14px; }
     .fpd-info-callout svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--brand-primary); }
     .fpd-accordion { border-top: 1px solid rgba(45, 42, 39, 0.1); margin-top: 24px; }
     .fpd-accordion details { padding: 18px 0; }
@@ -336,37 +363,39 @@
     @media (max-width: 720px) {
   .fpd-product { padding: clamp(24px, 6vw, 40px) clamp(16px, 4vw, 28px); }
   .fpd-product__info, .fpd-product__media { box-shadow: 0 10px 26px rgba(24, 22, 20, 0.1); }
+  .fpd-product__info { padding-left: 20px; padding-right: 20px; } /* Fixes the mobile alignment */
   .fpd-product__title { font-size: clamp(26px, 7vw, 34px); }
-  .fpd-product__price { flex-wrap: wrap; gap: 10px; }
-  .fpd-product__price .fpd-price-note { order: 2; }
+      .fpd-product__price { flex-wrap: wrap; gap: 10px; }
+      .fpd-product__price .fpd-price-note { order: 2; }
 
-  /* --- START: Definitive Overflow Fix --- */
-  .fpd-product__form,
-  .fpd-option-block {
-    min-width: 0; /* Forces grid containers to shrink */
-  }
-
-  .fpd-flavor-chip {
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: calc(50% - 6px); /* Corrected flex-basis for 2 columns with gap */
-    min-width: 0 !important; /* Overrides the rogue 120px min-width */
-    justify-content: flex-start;
-  }
-
-  .fpd-add-to-cart {
-    width: 100%;
-    box-sizing: border-box; /* Ensures padding is included in the 100% width */
-  }
-  /* --- END: Definitive Overflow Fix --- */
-
-  .fpd-add-to-cart__confirmation { inset: auto auto 0 50%; }
-
-  .fpd-product__thumbs {
-    margin-inline: 0;
-    padding-inline: clamp(4px, 4vw, 12px);
-  }
+      /* --- START: Definitive Overflow Fix --- */
+.fpd-product__form,
+.fpd-option-block {
+  min-width: 0; /* Forces grid containers to shrink */
+  padding: 0; /* Ensures no rogue horizontal padding */
 }
+
+      .fpd-flavor-chip {
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: calc(50% - 6px); /* Corrected flex-basis for 2 columns with gap */
+        min-width: 0 !important; /* Overrides the rogue 120px min-width */
+        justify-content: flex-start;
+      }
+
+      .fpd-add-to-cart {
+        width: 100%;
+        box-sizing: border-box; /* Ensures padding is included in the 100% width */
+      }
+      /* --- END: Definitive Overflow Fix --- */
+
+      .fpd-add-to-cart__confirmation { inset: auto auto 0 50%; }
+
+      .fpd-product__thumbs {
+        margin-inline: 0;
+        padding-inline: clamp(4px, 4vw, 12px);
+      }
+    }
 </style>
 
   <div class="fpd-product" data-product-root data-product-id="{{ product.id }}">
