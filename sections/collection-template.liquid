@@ -23,15 +23,15 @@
       --border-color: #E8E6D6;
       
       /* --- Italian Theme Colors --- */
-      --brand-primary-red: #C8102E; /* A rich, classic Italian red */
-      --brand-accent-green: #007F3D; /* A deep, flag-like green */
-      --brand-primary: var(--brand-primary-red); /* Aliasing for existing rules */
+      --brand-primary-red: #C8102E;
+      --brand-accent-green: #007F3D;
+      --brand-primary: var(--brand-primary-red);
 
       --brand-secondary: #CFA650;
       --text-body: #5D5A56;
       --text-heading: #2B2A27;
       --surface-background: #FFFFFF;
-      --page-background: #F8F6F2; /* A warmer, creamier background */
+      --page-background: #F8F6F2;
 
       background: var(--page-background);
       color: var(--text-body);
@@ -59,8 +59,6 @@
     }
     .fpd-layout { display: grid; grid-template-columns: minmax(260px, 300px) 1fr; column-gap: var(--gutter); align-items: start; }
     .fpd-sidebar { position: sticky; top: clamp(64px, 10vh, 96px); }
-
-    /* --- START: FINAL POLISHED SIDEBAR NAVIGATION --- */
     .fpd-nav {
       background: var(--surface-background);
       border-radius: var(--border-radius);
@@ -69,60 +67,16 @@
       display: flex;
       flex-direction: column;
     }
-
-    .fpd-nav__pills {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .fpd-collection-wrapper .fpd-nav__pills li { 
-      list-style: none !important; 
-    }
-
-    .fpd-nav__pills > li:not(.fpd-nav__section-label) {
-      margin-bottom: 12px;
-    }
-
-    .fpd-nav__pills > li:last-child {
-      margin-bottom: 0;
-    }
-
-    .fpd-nav__section-label {
-      text-align: center;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text-heading);
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border-color);
-      margin-bottom: 16px; 
-    }
-
-    .fpd-nav__pills > .fpd-nav__section-label:not(:first-child) {
-      margin-top: 24px;
-    }
-
-    .fpd-nav__divider { 
-      display: none; 
-    }
-    /* --- END: FINAL POLISHED SIDEBAR NAVIGATION --- */
-
+    .fpd-nav__pills { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; }
+    .fpd-collection-wrapper .fpd-nav__pills li { list-style: none !important; }
+    .fpd-nav__pills > li:not(.fpd-nav__section-label) { margin-bottom: 12px; }
+    .fpd-nav__pills > li:last-child { margin-bottom: 0; }
+    .fpd-nav__section-label { text-align: center; text-transform: uppercase; letter-spacing: 0.1em; font-size: 14px; font-weight: 700; color: var(--text-heading); padding-bottom: 12px; border-bottom: 1px solid var(--border-color); margin-bottom: 16px; }
+    .fpd-nav__pills > .fpd-nav__section-label:not(:first-child) { margin-top: 24px; }
+    .fpd-nav__divider { display: none; }
     .fpd-filter-button { display: block; width: 100%; box-sizing: border-box; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 9999px; background: var(--surface-background); color: var(--text-body); font-size: 15px; font-weight: 500; text-align: center; text-decoration: none; cursor: pointer; transition: all 160ms ease; }
-    .fpd-filter-button:hover {
-      border-color: var(--brand-accent-green);
-      background-color: var(--brand-accent-green);
-      color: #FFFFFF;
-      transform: translateY(-1px);
-    }
-    .fpd-filter-button.is-active {
-      background: var(--brand-primary-red);
-      color: #FFFFFF;
-      border-color: var(--brand-primary-red);
-    }
+    .fpd-filter-button:hover { border-color: var(--brand-accent-green); background-color: var(--brand-accent-green); color: #FFFFFF; transform: translateY(-1px); }
+    .fpd-filter-button.is-active { background: var(--brand-primary-red); color: #FFFFFF; border-color: var(--brand-primary-red); }
 
     /* --- Product Grid & Card --- */
     .fpd-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--gutter); }
@@ -135,50 +89,44 @@
       overflow: hidden;
       transition: transform 200ms ease, box-shadow 200ms ease;
     }
-
     .fpd-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(24, 22, 20, 0.1); }
     .fpd-card__media { position: relative; display: block; aspect-ratio: 4/3; background: #F1E9DD; overflow: hidden; }
-    .fpd-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 300ms ease; }
-    .fpd-card__loader {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, rgba(251, 250, 247, 0.92), rgba(241, 233, 221, 0.78));
-      backdrop-filter: blur(2px);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 180ms ease;
-      will-change: opacity;
-    }
-    .fpd-card__loader.is-active { opacity: 1; }
-    .fpd-card__loader-ring {
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      border: 3px solid transparent;
-      border-top-color: var(--brand-primary);
-      border-right-color: var(--brand-secondary);
-      position: relative;
-      animation: fpd-loader-spin 900ms linear infinite;
-      box-shadow: 0 6px 18px rgba(124, 44, 29, 0.18);
-    }
-    .fpd-card__loader-ring::before {
-      content: "";
-      position: absolute;
-      inset: 12px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.92);
-      box-shadow: 0 0 0 1px rgba(207, 166, 80, 0.3) inset;
-    }
-    @keyframes fpd-loader-spin {
-      to { transform: rotate(360deg); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .fpd-card__loader-ring { animation-duration: 1400ms; }
-    }
+    .fpd-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 300ms ease, opacity 200ms ease, filter 200ms ease; }
     .fpd-card:hover .fpd-card__media img { transform: scale(1.05); }
+
+    /* --- NEW: Loading Animation Styles (from Product Page) --- */
+    .fpd-card__loader {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.7);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 180ms ease-in-out;
+        z-index: 2;
+    }
+    .fpd-card__media.is-loading .fpd-card__loader {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .fpd-card__media.is-loading img {
+        opacity: 0.5;
+        filter: blur(4px);
+    }
+    .fpd-loader__spinner {
+        width: 48px;
+        height: 48px;
+        border: 4px solid var(--brand-primary);
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 800ms linear infinite;
+    }
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    /* --- END: Loading Animation Styles --- */
+
     .fpd-card__content { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
     .fpd-card__body { flex-grow: 1; }
     .fpd-card__title { font-size: clamp(18px, 2vw, 20px); font-weight: 700; margin: 0 0 12px 0; }
@@ -192,58 +140,26 @@
     .fpd-selected-flavor-name { font-weight: 700; color: var(--text-heading); }
     .fpd-flavor-swatches { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
     .fpd-flavor-swatch {
-      box-sizing: border-box !important;
-      width: 32px !important;
-      height: 32px !important;
-      min-width: 32px !important;
-      border-radius: 50% !important;
-      padding: 0;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid var(--border-color);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      transition: all 150ms ease;
-      flex-shrink: 0;
-      overflow: hidden;
+      box-sizing: border-box !important; width: 32px !important; height: 32px !important;
+      min-width: 32px !important; border-radius: 50% !important; padding: 0;
+      cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+      border: 2px solid var(--border-color); box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      transition: all 150ms ease; flex-shrink: 0; overflow: hidden;
       background-color: var(--surface-background);
     }
-    .fpd-flavor-swatch-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .fpd-flavor-swatch--color {
-      width: 100%;
-      height: 100%;
-      background-color: var(--chip-color);
-    }
-    .fpd-flavor-swatch:hover {
-      transform: scale(1.1);
-    }
-    
-    /* [FINAL POLISH] The new, elegant way to show the brand colors */
+    .fpd-flavor-swatch-img { width: 100%; height: 100%; object-fit: cover; }
+    .fpd-flavor-swatch--color { width: 100%; height: 100%; background-color: var(--chip-color); }
+    .fpd-flavor-swatch:hover { transform: scale(1.1); }
     .fpd-flavor-swatch.is-selected {
-  transform: scale(1.1);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  border-color: transparent;
-  background: linear-gradient(var(--surface-background), var(--surface-background)) padding-box,
-              linear-gradient(to right, var(--brand-accent-green), var(--brand-primary-red)) border-box;
-}
-    
-    .fpd-swatch-more {
-      background-color: #F1E9DD;
-      color: var(--text-heading);
-      font-size: 12px;
-      font-weight: 700;
+      transform: scale(1.1);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      border-color: transparent;
+      background: linear-gradient(var(--surface-background), var(--surface-background)) padding-box,
+                  linear-gradient(to right, var(--brand-accent-green), var(--brand-primary-red)) border-box;
     }
-    .fpd-flavor-swatches.is-expanded .fpd-swatch-more {
-      display: none;
-    }
-    .fpd-flavor-swatches:not(.is-expanded) .fpd-flavor-swatch:nth-child(n+5) {
-      display: none;
-    }
+    .fpd-swatch-more { background-color: #F1E9DD; color: var(--text-heading); font-size: 12px; font-weight: 700; }
+    .fpd-flavor-swatches.is-expanded .fpd-swatch-more { display: none; }
+    .fpd-flavor-swatches:not(.is-expanded) .fpd-flavor-swatch:nth-child(n+5) { display: none; }
     
     .fpd-card__purchase-row { border-top: 1px solid var(--border-color); padding-top: 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
     .fpd-price { font-weight: 700; font-size: 16px; color: var(--text-heading); }
@@ -256,29 +172,13 @@
       .fpd-sidebar { position: static; order: -1; }
       .fpd-nav { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; }
       .fpd-nav__pills { flex-direction: row; flex-wrap: wrap; gap: 12px; justify-content: center; }
-      .fpd-nav__section-label {
-        flex: 0 0 100%;
-      }
+      .fpd-nav__section-label { flex: 0 0 100%; }
     }
     @media (max-width: 768px) {
-      .fpd-toolbar {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .fpd-sort {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-      .fpd-sort label {
-        flex: 0 0 auto;
-        white-space: nowrap;
-      }
-      .fpd-sort select {
-        flex: 1 1 auto;
-        min-width: 0;
-      }
+      .fpd-toolbar { flex-direction: column; align-items: stretch; }
+      .fpd-sort { width: 100%; display: flex; align-items: center; gap: 12px; }
+      .fpd-sort label { flex: 0 0 auto; white-space: nowrap; }
+      .fpd-sort select { flex: 1 1 auto; min-width: 0; }
     }
 </style>
 
@@ -345,8 +245,9 @@
 
                 <article class="fpd-card" data-product-card>
                   <a class="fpd-card__media" href="{{ product.url }}">
+                    <!-- UPDATED: New Loader HTML -->
                     <div class="fpd-card__loader" data-card-loader aria-hidden="true">
-                      <div class="fpd-card__loader-ring"></div>
+                      <div class="fpd-loader__spinner"></div>
                     </div>
                     <img
                       src="{{ product.featured_image | img_url: '800x' }}"
@@ -421,36 +322,30 @@
 
         const flavorNameEl = card.querySelector('[data-flavor-name]');
         const variantInput = card.querySelector('[data-variant-input]');
+        const mediaContainer = card.querySelector('.fpd-card__media');
+        const mediaImg = mediaContainer?.querySelector('img');
+
+        if (!mediaContainer || !mediaImg) return;
+        
         const normaliseSrc = (value) => (value ? value.replace(/&amp;/g, '&') : value);
-        const mediaImg = card.querySelector('.fpd-card__media img');
-        const loaderOverlay = card.querySelector('[data-card-loader]');
-        const defaultMediaSrc = mediaImg ? normaliseSrc(mediaImg.getAttribute('data-default-src') || mediaImg.getAttribute('src')) : null;
-        const defaultMediaAlt = mediaImg ? mediaImg.getAttribute('data-default-alt') || mediaImg.getAttribute('alt') : null;
+        const defaultMediaSrc = normaliseSrc(mediaImg.getAttribute('data-default-src') || mediaImg.getAttribute('src'));
+        const defaultMediaAlt = mediaImg.getAttribute('data-default-alt') || mediaImg.getAttribute('alt');
         const selectedVariantAtLoad = variantInput.value;
 
         let pendingMediaHandler = null;
 
         const setLoaderState = (isActive) => {
-          if (!loaderOverlay) return;
-
-          if (isActive) {
-            void loaderOverlay.offsetHeight;
-            loaderOverlay.classList.add('is-active');
-          } else {
-            loaderOverlay.classList.remove('is-active');
-          }
+          mediaContainer.classList.toggle('is-loading', isActive);
         };
 
         const clearPendingMediaHandler = () => {
-          if (!pendingMediaHandler || !mediaImg) return;
+          if (!pendingMediaHandler) return;
           mediaImg.removeEventListener('load', pendingMediaHandler);
           mediaImg.removeEventListener('error', pendingMediaHandler);
           pendingMediaHandler = null;
         };
 
         const applyImageSource = (src, alt, { withLoader = true } = {}) => {
-          if (!mediaImg) return;
-
           if (alt) mediaImg.alt = alt;
 
           const targetSrc = normaliseSrc(src);
@@ -464,20 +359,10 @@
           }
 
           if (withLoader) {
-            const startTime = performance.now();
             setLoaderState(true); 
 
             pendingMediaHandler = () => {
-              const elapsedTime = performance.now() - startTime;
-              const minDisplayTime = 300;
-              const timeRemaining = minDisplayTime - elapsedTime;
-
-              if (timeRemaining > 0) {
-                setTimeout(() => setLoaderState(false), timeRemaining);
-              } else {
-                setLoaderState(false);
-              }
-              
+              setLoaderState(false);
               clearPendingMediaHandler();
             };
             
@@ -487,11 +372,10 @@
             setLoaderState(false);
           }
 
-          mediaImg.setAttribute('src', targetSrc);
+          mediaImg.src = targetSrc;
         };
 
         const updateCardMedia = (swatch, options = {}) => {
-          if (!mediaImg) return;
           const variantImageSrc = swatch?.dataset.variantImage;
           const nextSrc = variantImageSrc ? normaliseSrc(variantImageSrc) : defaultMediaSrc;
           const nextAlt = swatch?.dataset.variantImageAlt || (swatch ? swatch.dataset.variantTitle : null) || defaultMediaAlt || '';
@@ -503,7 +387,6 @@
         swatches.forEach(sw => {
           if (sw.dataset.variantId === selectedVariantAtLoad) {
             sw.classList.add('is-selected');
-            updateCardMedia(sw, { withLoader: false });
           } else {
             sw.classList.remove('is-selected');
           }
@@ -518,6 +401,8 @@
             swatchContainer.classList.add('is-expanded');
             return;
           }
+
+          if (swatch.classList.contains('is-selected')) return;
 
           swatchContainer.querySelector('.is-selected')?.classList.remove('is-selected');
           swatch.classList.add('is-selected');

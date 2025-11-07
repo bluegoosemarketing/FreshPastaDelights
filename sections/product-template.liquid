@@ -1,7 +1,7 @@
 <div itemscope itemtype="http://schema.org/Product" class="fpd-product-wrapper" data-section-type="product-template">
   <meta itemprop="name" content="{{ product.title }}" />
   <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
-  <meta itemprop="image" content="http:{{ product.featured_image.src | product_img_url: 'grande' | remove: 'http:' | remove: 'https:' }}" />
+  <meta itemprop="image" content="http:{{ product.featured_image.src | product_img_url: 'grande' | remove: 'http:' | remove: 'https' }}" />
 
   {% for variant in product.variants %}
     <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
@@ -102,10 +102,44 @@
       object-fit: contain;
       object-position: center;
       background: #F1E9DD;
-      transition: transform 320ms ease;
+      transition: transform 320ms ease, opacity 200ms ease;
+    }
+    
+    .fpd-product__main-media .fpd-loader {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.7);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 180ms ease-in-out;
+        z-index: 2;
+    }
+    
+    .fpd-product__main-media.is-loading .fpd-loader {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    .fpd-product__main-media.is-loading img {
+        opacity: 0.5;
+        filter: blur(4px);
+    }
+    
+    .fpd-loader__spinner {
+        width: 48px;
+        height: 48px;
+        border: 4px solid var(--brand-primary);
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 800ms linear infinite;
     }
 
-    .fpd-product__main-media img.is-loading { opacity: 0.5; }
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
     .fpd-product__main-media:hover img { transform: scale(1.04); }
 
     /* --- REVISED (Patch D) --- */
@@ -416,6 +450,9 @@
         <div class="fpd-product__media-inner">
           {% assign featured_image = initial_variant.featured_image | default: product.featured_image %}
           <figure class="fpd-product__main-media" data-main-media>
+            <div class="fpd-loader" aria-hidden="true">
+              <div class="fpd-loader__spinner"></div>
+            </div>
             {% if featured_image %}
               <img src="{{ featured_image | product_img_url: '1024x1024' }}" alt="{{ featured_image.alt | default: product.title | escape }}" data-main-image loading="lazy" width="1024" height="768" />
             {% endif %}
@@ -713,7 +750,8 @@
       const flavorLabel = form?.querySelector('[data-flavor-name]');
       const backorderBanner = form?.querySelector('[data-backorder]');
       const backorderMessage = form?.querySelector('[data-backorder-message]');
-      const mainImage = productRoot.querySelector('[data-main-image]');
+      const mainMediaContainer = productRoot.querySelector('[data-main-media]');
+      const mainImage = mainMediaContainer?.querySelector('[data-main-image]');
 
       const quantityWrapper = form?.querySelector('[data-quantity]');
       const qtyInput = quantityWrapper?.querySelector('input[name="quantity"]');
@@ -848,17 +886,19 @@
       };
 
       const setMainImage = (src, alt) => {
-        if (!mainImage) return;
+        if (!mainImage || !mainMediaContainer) return;
         if (!src) return;
-        mainImage.classList.add('is-loading');
+      
+        mainMediaContainer.classList.add('is-loading');
+      
         const temp = new Image();
         temp.onload = () => {
           mainImage.src = src;
           if (alt) mainImage.alt = alt;
-          mainImage.classList.remove('is-loading');
+          mainMediaContainer.classList.remove('is-loading');
         };
         temp.onerror = () => {
-          mainImage.classList.remove('is-loading');
+          mainMediaContainer.classList.remove('is-loading');
         };
         temp.src = src;
       };
