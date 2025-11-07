@@ -360,10 +360,15 @@
 </style>
 
   <div class="fpd-product" data-product-root data-product-id="{{ product.id }}">
+    {% assign back_collection = collection %}
+    {% if back_collection == blank and product.collections.size > 0 %}
+      {% assign back_collection = product.collections.first %}
+    {% endif %}
+
     <header class="fpd-product__header">
-      <a href="{{ collection.url | default: routes.all_products_collection_url }}" class="fpd-breadcrumb">
+      <a href="{{ back_collection.url | default: routes.all_products_collection_url }}" class="fpd-breadcrumb">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
-        <span>Back to {{ collection.title | default: 'All Products' }}</span>
+        <span>Back to {{ back_collection.title | default: 'All Products' }}</span>
       </a>
     </header>
 
