@@ -503,7 +503,8 @@
           "show_social_icons": false,
           "nav_autoexpand": true,
           "header_signup_show": true,
-          "logo_img_width": "",
+          "logo": "shopify://shop_images/Logo3-green.png",
+          "logo_img_width": "320",
           "logo_pos": "",
           "head_not_home_only": false,
           "head_not_mob_show": false,
@@ -533,28 +534,12 @@
         "settings": {
           "prod_show_tags": false,
           "prod_show_type": false,
-          "prod_gall_thumbs_under": "beside",
-          "prod_desc_pos": "beside",
           "show_related_products": false
         }
       },
       "collection-template": {
         "type": "collection-template",
-        "settings": {
-          "coll_desc_pos": "below",
-          "coll_show_sort": true,
-          "coll_show_feat": false,
-          "coll_show_tags": true,
-          "show_tagfilt_custom1": false,
-          "tagfilt_custom1_name": "",
-          "tagfilt_custom1_tags": "",
-          "show_tagfilt_custom2": false,
-          "tagfilt_custom2_name": "",
-          "tagfilt_custom2_tags": "",
-          "coll_num_per_page_int": 16,
-          "coll_gridstream_mode": "grid",
-          "coll_gridstream_toggle": true
-        }
+        "settings": {}
       },
       "cross-page-promos": {
         "type": "cross-page-promos",
@@ -707,10 +692,24 @@
               "link_url": ""
             }
           },
+          "image_egighf": {
+            "type": "image",
+            "disabled": true,
+            "settings": {
+              "title": "Slideshow",
+              "text": "Tell your story with images",
+              "position": "centre",
+              "overlay_color": "#ffffff",
+              "overlay_bg": "#464654",
+              "link_url": ""
+            }
+          },
           "1595887748256": {
             "type": "image",
+            "name": "Slide - V day",
+            "disabled": true,
             "settings": {
-              "image": "shopify://shop_images/thumbnail_07365A7C-4ED7-4BA7-998E-CFA49BAAFEB8.jpg",
+              "image": "shopify://shop_images/image0_0f7e2b1f-81f5-4388-9a36-48a4839c13e3.png",
               "title": "",
               "text": "",
               "position": "centre",
@@ -722,7 +721,7 @@
           "1590813699526": {
             "type": "image",
             "settings": {
-              "image": "shopify://shop_images/IMG_E1081.JPG",
+              "image": "shopify://shop_images/image0_79b8db7d-a041-475a-bd7e-f5fc96ac47f3.png",
               "title": "",
               "text": "",
               "position": "centre",
@@ -746,7 +745,7 @@
           "1590814134980": {
             "type": "image",
             "settings": {
-              "image": "shopify://shop_images/IMG_E1093.JPG",
+              "image": "shopify://shop_images/image0_2.png",
               "title": "",
               "text": "",
               "position": "centre",
@@ -770,6 +769,7 @@
         },
         "block_order": [
           "77389560-dc45-47bb-b492-5a17a076f062",
+          "image_egighf",
           "1595887748256",
           "1590813699526",
           "1478795901388-1",
