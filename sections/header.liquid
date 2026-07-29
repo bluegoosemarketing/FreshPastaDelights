@@ -1,6 +1,16 @@
 <style type="text/css">
   .logo img {
-    width: {{ section.settings.logo_img_width | escape }}px;
+    width: {{ section.settings.logo_width_desktop }}px;
+  }
+
+  @media only screen and (max-width: 767px) {
+    #mobile-header .logo img {
+      width: {{ section.settings.logo_width_mobile }}px;
+    }
+
+    #mobile-header .logo > a {
+      width: min(calc({{ section.settings.logo_width_mobile }}px + 10px), 58vw);
+    }
   }
 </style>
 
@@ -9,8 +19,9 @@
 {% comment %} Password/gift card template logo {% endcomment %}
 {% if section.settings.logo != blank %}
 <h1 class="logo">
-  {% capture img_size %}{{ section.settings.logo_img_width | times: 2 }}x{% endcapture %}
-  <img src="{{ section.settings.logo | img_url: img_size }}" alt="{{ settings.logo.alt | escape }}" />
+  {% capture img_size %}{{ section.settings.logo_width_desktop | times: 2 }}x{% endcapture %}
+  {% assign logo_rendered_height = section.settings.logo_width_desktop | divided_by: section.settings.logo.aspect_ratio | round %}
+  <img src="{{ section.settings.logo | img_url: img_size }}" alt="{{ section.settings.logo.alt | default: shop.name | escape }}" width="{{ section.settings.logo_width_desktop }}" height="{{ logo_rendered_height }}" />
 </h1>
 {% else %}
 <h1>{{ shop.name }}</h1>
@@ -25,8 +36,9 @@
     <div class="logo">
       <a href="/" title="{{ shop.name }}">
         {% if section.settings.logo != blank %}
-        {% capture img_size %}{{ section.settings.logo_img_width | times: 2 }}x{% endcapture %}
-        <img src="{{ section.settings.logo | img_url: img_size }}" alt="{{ settings.logo.alt | escape }}" />
+        {% capture img_size %}{{ section.settings.logo_width_desktop | times: 2 }}x{% endcapture %}
+        {% assign logo_rendered_height = section.settings.logo_width_desktop | divided_by: section.settings.logo.aspect_ratio | round %}
+        <img src="{{ section.settings.logo | img_url: img_size }}" alt="{{ section.settings.logo.alt | default: shop.name | escape }}" width="{{ section.settings.logo_width_desktop }}" height="{{ logo_rendered_height }}" />
         {% else %}
         <span class="logotext">{{ shop.name }}</span>
         {% endif %}
@@ -105,7 +117,11 @@
   {% endif %}
   {% endcapture %}
 
-  <div id="main-nav" class="nav-row {% if section.settings.nav_autoexpand %}autoexpand{% endif %}">
+  <div
+    id="main-nav"
+    class="nav-row nav-active-{{ section.settings.nav_active_style }} {% if section.settings.nav_autoexpand %}autoexpand{% endif %} {% if section.settings.sticky_nav %}fpd-sticky-nav{% endif %}"
+    style="--fpd-nav-size: {{ section.settings.nav_font_size }}px; --fpd-nav-weight: {{ section.settings.nav_font_weight }}; --fpd-nav-tracking: 0.0{{ section.settings.nav_letter_spacing }}em;"
+  >
     <div class="mobile-features">
       <form class="mobile-search" action="/search" method="get">
         <i></i>
@@ -124,13 +140,25 @@
     <div class="container cf">
       {% for block in section.blocks %}
 
-      <div class="message message-{{ forloop.index }}">
+      <div class="message message-{{ forloop.index }}" {{ block.shopify_attributes }}>
         {% if block.settings.link_url != blank %}
         <a href="{{ block.settings.link_url }}">
           {% endif %}
 
-          <h6 class="title">{{ block.settings.heading | escape }}</h6>
-          <span class="tagline">{{ block.settings.subheading | escape }}</span>
+          <span class="fpd-message__icon" aria-hidden="true">
+            {% if block.settings.icon == 'storefront' %}
+              {% render 'icon-storefront' %}
+            {% elsif block.settings.icon == 'location' %}
+              {% render 'icon-location' %}
+            {% elsif block.settings.icon == 'none' %}
+            {% else %}
+              {% render 'icon-delivery' %}
+            {% endif %}
+          </span>
+          <span class="fpd-message__copy">
+            <h6 class="title">{{ block.settings.heading | escape }}</h6>
+            <span class="tagline">{{ block.settings.subheading | escape }}</span>
+          </span>
 
           {% if block.settings.link_url != blank %}
         </a>
@@ -160,6 +188,62 @@
   {% endif %}
 </div>
 
+{% endif %}
+
+{% if section.settings.sticky_nav %}
+<script>
+  (function() {
+    var nav = document.getElementById('main-nav');
+    if (!nav || nav.dataset.fpdStickyReady === 'true') return;
+
+    nav.dataset.fpdStickyReady = 'true';
+    var placeholder = document.createElement('div');
+    placeholder.className = 'fpd-nav-placeholder';
+    placeholder.setAttribute('aria-hidden', 'true');
+    nav.parentNode.insertBefore(placeholder, nav);
+
+    var desktopQuery = window.matchMedia('(min-width: 768px)');
+    var ticking = false;
+
+    function clearFixedState() {
+      nav.classList.remove('is-fixed');
+      placeholder.classList.remove('is-active');
+      placeholder.style.height = '';
+    }
+
+    function updateStickyNav() {
+      ticking = false;
+      if (!desktopQuery.matches) {
+        clearFixedState();
+        return;
+      }
+
+      var threshold = placeholder.getBoundingClientRect().top + window.pageYOffset;
+      var shouldFix = window.pageYOffset > threshold;
+      if (shouldFix) {
+        placeholder.style.height = nav.offsetHeight + 'px';
+        placeholder.classList.add('is-active');
+        nav.classList.add('is-fixed');
+      } else {
+        clearFixedState();
+      }
+    }
+
+    function requestStickyUpdate() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(updateStickyNav);
+    }
+
+    window.addEventListener('scroll', requestStickyUpdate, { passive: true });
+    window.addEventListener('resize', requestStickyUpdate);
+    window.addEventListener('load', requestStickyUpdate);
+    if (desktopQuery.addEventListener) {
+      desktopQuery.addEventListener('change', requestStickyUpdate);
+    }
+    requestStickyUpdate();
+  })();
+</script>
 {% endif %}
 
 
@@ -197,6 +281,75 @@
         "label": "Automatically expand navigation to current page"
       },
       {
+        "type": "header",
+        "content": "Navigation style"
+      },
+      {
+        "type": "checkbox",
+        "id": "sticky_nav",
+        "label": "Keep navigation visible while scrolling",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "nav_font_size",
+        "label": "Desktop menu text size",
+        "min": 15,
+        "max": 22,
+        "step": 1,
+        "unit": "px",
+        "default": 18
+      },
+      {
+        "type": "select",
+        "id": "nav_font_weight",
+        "label": "Menu text weight",
+        "options": [
+          {
+            "value": "500",
+            "label": "Medium"
+          },
+          {
+            "value": "600",
+            "label": "Semibold"
+          },
+          {
+            "value": "700",
+            "label": "Bold"
+          }
+        ],
+        "default": "700"
+      },
+      {
+        "type": "range",
+        "id": "nav_letter_spacing",
+        "label": "Menu letter spacing",
+        "min": 0,
+        "max": 9,
+        "step": 1,
+        "default": 2
+      },
+      {
+        "type": "select",
+        "id": "nav_active_style",
+        "label": "Current page highlight",
+        "options": [
+          {
+            "value": "pill",
+            "label": "Filled pill"
+          },
+          {
+            "value": "underline",
+            "label": "Underline"
+          },
+          {
+            "value": "outline",
+            "label": "Outlined pill"
+          }
+        ],
+        "default": "pill"
+      },
+      {
         "type": "checkbox",
         "id": "header_signup_show",
         "label": "Show newsletter signup in header",
@@ -213,11 +366,24 @@
         "info": "260 x 100px (recommended)"
       },
       {
-        "type": "text",
-        "id": "logo_img_width",
-        "label": "Logo width",
-        "info": "Defined in pixels. Do not add the 'px' unit.",
-        "default": "300"
+        "type": "range",
+        "id": "logo_width_desktop",
+        "label": "Logo width — desktop",
+        "min": 180,
+        "max": 460,
+        "step": 10,
+        "unit": "px",
+        "default": 320
+      },
+      {
+        "type": "range",
+        "id": "logo_width_mobile",
+        "label": "Logo width — mobile",
+        "min": 110,
+        "max": 240,
+        "step": 10,
+        "unit": "px",
+        "default": 170
       },
       {
         "type": "select",
@@ -286,6 +452,30 @@
             "type": "text",
             "id": "subheading",
             "label": "Subheading"
+          },
+          {
+            "type": "select",
+            "id": "icon",
+            "label": "Icon",
+            "options": [
+              {
+                "value": "delivery",
+                "label": "Delivery truck"
+              },
+              {
+                "value": "storefront",
+                "label": "Storefront"
+              },
+              {
+                "value": "location",
+                "label": "Location pin"
+              },
+              {
+                "value": "none",
+                "label": "No icon"
+              }
+            ],
+            "default": "delivery"
           },
           {
             "type": "url",

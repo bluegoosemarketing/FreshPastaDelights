@@ -373,48 +373,60 @@
   "current": {
     "lightbox_imgs": true,
     "use_fullwidth_layout": false,
-    "font_col_base": "#8a8f93",
-    "font_col_link": "#3d4c4f",
-    "font_col_link_hover": "#00a2e1",
-    "font_col_heads": "#3f4b57",
-    "font_col_shoptitle": "#3f4b57",
-    "btn_col": "#00a2e1",
-    "btn_col_alt": "#00b0f3",
+    "fpd_brand_red": "#c8102e",
+    "fpd_brand_green": "#006b3c",
+    "fpd_brand_gold": "#c9a35a",
+    "fpd_surface_color": "#fffdf8",
+    "fpd_border_color": "#d9cdbb",
+    "fpd_background_texture": "plaster",
+    "fpd_texture_strength": 7,
+    "fpd_card_radius": 18,
+    "fpd_shadow_strength": 8,
+    "fpd_content_width": 1400,
+    "fpd_button_radius": 14,
+    "fpd_focus_width": 3,
+    "font_col_base": "#534b43",
+    "font_col_link": "#006b3c",
+    "font_col_link_hover": "#c8102e",
+    "font_col_heads": "#2d261f",
+    "font_col_shoptitle": "#2d261f",
+    "btn_col": "#c8102e",
+    "btn_col_alt": "#a30d24",
     "btn_col_txt": "#ffffff",
-    "bg_col": "#f2f2f2",
+    "bg_col": "#f7f1e6",
     "bg_image": "",
     "bg_method": "repeatxy",
-    "head_bg_col": "#f2f2f2",
-    "head_txt_col": "#3f4b57",
-    "head_nav_div_col": "#d1d6d9",
-    "font_col_nav": "#3f4b57",
-    "font_col_nav_hov": "#00a2e1",
-    "font_col_nav_acct": "#999999",
-    "panel_nav_bg": "#f2f2f2",
+    "head_bg_col": "#fffdf8",
+    "head_txt_col": "#2d261f",
+    "head_nav_div_col": "#d9cdbb",
+    "font_col_nav": "#2d261f",
+    "font_col_nav_hov": "#006b3c",
+    "font_col_nav_acct": "#5d534a",
+    "panel_nav_bg": "#fffdf8",
     "panel_nav_bg_gradation": "same",
-    "not_shade_bg": "#fafafa",
-    "head_not_col_bg": "#f2f2f2",
-    "head_not_col_txt1": "#3f4b57",
-    "head_not_col_txt2": "#8a8f93",
-    "prod_hov_bg": "#ffffff",
-    "prod_thumb_detail_bg": "#f2f2f2",
-    "prod_thumb_detail_col": "#3f4b57",
-    "prod_thumb_detail_col_a": "#00a2e1",
+    "not_shade_bg": "#fffdf8",
+    "head_not_col_bg": "#f0e6d5",
+    "head_not_col_txt1": "#2d261f",
+    "head_not_col_txt2": "#5d534a",
+    "prod_hov_bg": "#fffdf8",
+    "prod_thumb_detail_bg": "#fffdf8",
+    "prod_thumb_detail_col": "#534b43",
+    "prod_thumb_detail_col_a": "#006b3c",
     "prod_thumb_detail_close_img": "dark",
     "coll_col_st_txt": "#ffffff",
-    "coll_col_sale": "#1c223f",
-    "coll_col_sold": "#3f4b57",
-    "coll_col_gen": "#3f51b5",
-    "cross_page_promo_bg": "#1c223f",
-    "cross_page_promo_color": "#ffffff",
-    "foot_bg_col": "#fafafa",
-    "foot_text_col": "#3f4b57",
-    "foot_divider_col": "#d1d6d9",
-    "font_fam_base": "GWF|Cardo:400,400italic,700",
-    "font_fam_headings": "GWF|Karla:400,700",
-    "font_fam_shoptitle": "GWF|Karla:400,700",
-    "font_fam_nav": "GWF|Karla:400,700",
-    "font_fam_special": "GWF|Karla:400,700",
+    "coll_col_sale": "#c8102e",
+    "coll_col_sold": "#534b43",
+    "coll_col_gen": "#006b3c",
+    "cross_page_promo_bg": "#006b3c",
+    "cross_page_promo_color": "#fffdf8",
+    "foot_bg_col": "#2d261f",
+    "foot_text_col": "#f7f1e6",
+    "foot_divider_col": "#5b5147",
+    "font_fam_base": "GWF|Montserrat:400,700",
+    "font_fam_headings": "GWF|Lora:400,700",
+    "font_fam_shoptitle": "GWF|Lora:400,700",
+    "font_fam_nav": "GWF|Montserrat:400,700",
+    "font_fam_special": "GWF|Montserrat:400,700",
     "font_size_base_int": 18,
     "font_size_slideshow": "1",
     "prod_show_vendor": false,
@@ -437,6 +449,7 @@
     "social_custom_icon": "",
     "social_custom_url": "",
     "search_type": "product,article,page",
+    "fpd_use_theme_favicon": true,
     "favicon": "shopify://shop_images/12489592-spaghetti-on-a-fork.jpg",
     "cart_type": "drawer",
     "show_multiple_currencies": false,
@@ -480,6 +493,7 @@
             "settings": {
               "heading": "SHIPPING THROUGHOUT U.S.",
               "subheading": "LOCAL DELIVERY (20 MILE RADIUS)",
+              "icon": "delivery",
               "link_url": ""
             }
           },
@@ -488,6 +502,7 @@
             "settings": {
               "heading": "FREE IN-STORE PICK UP",
               "subheading": "AT OUR DALLAS FACTORY",
+              "icon": "storefront",
               "link_url": ""
             }
           }
@@ -502,9 +517,16 @@
           "nav_show_reg": true,
           "show_social_icons": false,
           "nav_autoexpand": true,
+          "sticky_nav": true,
+          "nav_font_size": 18,
+          "nav_font_weight": "700",
+          "nav_letter_spacing": 2,
+          "nav_active_style": "pill",
           "header_signup_show": true,
           "logo": "shopify://shop_images/Logo3-green.png",
           "logo_img_width": "320",
+          "logo_width_desktop": 320,
+          "logo_width_mobile": 170,
           "logo_pos": "",
           "head_not_home_only": false,
           "head_not_mob_show": false,
@@ -547,33 +569,37 @@
           "1478526632862": {
             "type": "icon",
             "settings": {
-              "icon": "star",
+              "icon": "wheat",
               "text": "Fresh Pasta Made Daily",
+              "subtext": "Made in our Dallas kitchen",
               "link_url": "shopify://pages/contact-us"
             }
           },
           "1478526645605": {
             "type": "icon",
             "settings": {
-              "icon": "star",
+              "icon": "ravioli",
               "text": "Handmade Ravioli",
-              "link_url": "shopify://pages/contact-us"
+              "subtext": "Filled and formed by hand",
+              "link_url": "shopify://collections/filled-pasta"
             }
           },
           "1478526647261": {
             "type": "icon",
             "settings": {
-              "icon": "star",
+              "icon": "chef-hat",
               "text": "Unique Flavors",
-              "link_url": "shopify://pages/contact-us"
+              "subtext": "Seasonal and signature recipes",
+              "link_url": "shopify://collections/all"
             }
           },
           "1478527611164": {
             "type": "icon",
             "settings": {
-              "icon": "star",
+              "icon": "pasta-fork",
               "text": "Tortellini/ Gnocchi",
-              "link_url": "shopify://products/urban-london"
+              "subtext": "Classic shapes, fresh every day",
+              "link_url": "shopify://collections/filled-pasta"
             }
           }
         },
@@ -584,7 +610,16 @@
           "1478527611164"
         ],
         "settings": {
-          "visibility": "all"
+          "visibility": "all",
+          "layout_style": "dividers",
+          "background_color": "#006b3c",
+          "text_color": "#fffdf8",
+          "accent_color": "#c9a35a",
+          "icon_background_color": "#fffdf8",
+          "icon_color": "#006b3c",
+          "icon_size": 42,
+          "heading_size": 17,
+          "vertical_padding": 36
         }
       },
       "blog-template": {

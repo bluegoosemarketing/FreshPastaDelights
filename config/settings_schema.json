@@ -24,6 +24,137 @@
     ]
   },
   {
+    "name": "FPD design system",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Global Fresh Pasta Delights controls. These settings keep the legacy theme, product pages, collection pages, header, and footer visually consistent."
+      },
+      {
+        "type": "header",
+        "content": "Brand colors"
+      },
+      {
+        "type": "color",
+        "id": "fpd_brand_red",
+        "label": "Tomato red",
+        "default": "#c8102e"
+      },
+      {
+        "type": "color",
+        "id": "fpd_brand_green",
+        "label": "Italian green",
+        "default": "#006b3c"
+      },
+      {
+        "type": "color",
+        "id": "fpd_brand_gold",
+        "label": "Warm gold",
+        "default": "#c9a35a"
+      },
+      {
+        "type": "header",
+        "content": "Surfaces"
+      },
+      {
+        "type": "color",
+        "id": "fpd_surface_color",
+        "label": "Card and panel background",
+        "default": "#fffdf8"
+      },
+      {
+        "type": "color",
+        "id": "fpd_border_color",
+        "label": "Borders and dividers",
+        "default": "#d9cdbb"
+      },
+      {
+        "type": "select",
+        "id": "fpd_background_texture",
+        "label": "Page texture",
+        "options": [
+          {
+            "value": "smooth",
+            "label": "Smooth"
+          },
+          {
+            "value": "paper",
+            "label": "Italian paper"
+          },
+          {
+            "value": "plaster",
+            "label": "Soft plaster"
+          }
+        ],
+        "default": "plaster"
+      },
+      {
+        "type": "range",
+        "id": "fpd_texture_strength",
+        "label": "Texture strength",
+        "min": 0,
+        "max": 20,
+        "step": 1,
+        "unit": "%",
+        "default": 7
+      },
+      {
+        "type": "range",
+        "id": "fpd_card_radius",
+        "label": "Card corner radius",
+        "min": 0,
+        "max": 28,
+        "step": 1,
+        "unit": "px",
+        "default": 18
+      },
+      {
+        "type": "range",
+        "id": "fpd_shadow_strength",
+        "label": "Card shadow strength",
+        "min": 0,
+        "max": 20,
+        "step": 1,
+        "unit": "%",
+        "default": 8
+      },
+      {
+        "type": "range",
+        "id": "fpd_content_width",
+        "label": "Maximum content width",
+        "min": 1100,
+        "max": 1600,
+        "step": 50,
+        "unit": "px",
+        "default": 1400
+      },
+      {
+        "type": "header",
+        "content": "Interactive elements"
+      },
+      {
+        "type": "range",
+        "id": "fpd_button_radius",
+        "label": "Button corner radius",
+        "min": 0,
+        "max": 28,
+        "step": 1,
+        "unit": "px",
+        "default": 14
+      },
+      {
+        "type": "range",
+        "id": "fpd_focus_width",
+        "label": "Keyboard focus ring width",
+        "min": 2,
+        "max": 5,
+        "step": 1,
+        "unit": "px",
+        "default": 3
+      }
+    ]
+  },
+  {
     "name": "Colors",
     "settings": [
       {
@@ -1148,10 +1279,16 @@
     "name": "Favicon",
     "settings": [
       {
+        "type": "checkbox",
+        "id": "fpd_use_theme_favicon",
+        "label": "Use the Fresh Pasta Delights fork icon",
+        "default": true
+      },
+      {
         "type": "image_picker",
         "id": "favicon",
-        "label": "Image",
-        "info": "32 x 32px .png recommended"
+        "label": "Custom favicon",
+        "info": "Used when the Fresh Pasta Delights fork icon is disabled. A square 64 x 64px PNG is recommended."
       }
     ]
   },

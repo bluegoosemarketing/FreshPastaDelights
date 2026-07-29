@@ -18,7 +18,19 @@
 {% else %}
 {% assign column_width = 'full' %}
 {% endif %}
-<div class="cross-page-promos">
+<div
+  class="cross-page-promos fpd-promos--{{ section.settings.layout_style }}"
+  style="
+    --fpd-promo-background: {{ section.settings.background_color }};
+    --fpd-promo-text: {{ section.settings.text_color }};
+    --fpd-promo-accent: {{ section.settings.accent_color }};
+    --fpd-promo-icon-background: {{ section.settings.icon_background_color }};
+    --fpd-promo-icon: {{ section.settings.icon_color }};
+    --fpd-promo-icon-size: {{ section.settings.icon_size }}px;
+    --fpd-promo-heading-size: {{ section.settings.heading_size }}px;
+    --fpd-promo-padding: {{ section.settings.vertical_padding }}px;
+  "
+>
   <div class="container cf">
     <div class="flexible-layout {% if column_width == 'quarter' %}layout-all-quarters{% endif %}">
 
@@ -33,7 +45,8 @@
           {% if block.settings.image == blank %}
           <div class="placeholder-image landscape {% if block.settings.text != blank %}dark{% endif %}">{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}</div>
           {% else %}
-          <img src="{{ block.settings.image | img_url: '680x' }}" alt="{{ block.settings.image.alt | escape }}" />
+          {% assign promo_image_height = 680 | divided_by: block.settings.image.aspect_ratio | round %}
+          <img src="{{ block.settings.image | img_url: '680x' }}" alt="{{ block.settings.image.alt | escape }}" width="680" height="{{ promo_image_height }}" loading="lazy" />
           {% endif %}
           
           {% if block.settings.text != blank %}
@@ -53,12 +66,26 @@
           
           <div class="icon-with-caption">
             <div class="icon-with-caption__icon">
-              {% capture snippet_name %}icon-{{ block.settings.icon }}{% endcapture %}
-              {% include snippet_name %}
+              {% case block.settings.icon %}
+                {% when 'pasta-fork' %}
+                  {% render 'icon-pasta-fork' %}
+                {% when 'ravioli' %}
+                  {% render 'icon-ravioli' %}
+                {% when 'wheat' %}
+                  {% render 'icon-wheat' %}
+                {% when 'chef-hat' %}
+                  {% render 'icon-chef-hat' %}
+                {% else %}
+                  {% capture snippet_name %}icon-{{ block.settings.icon }}{% endcapture %}
+                  {% include snippet_name %}
+              {% endcase %}
             </div>
             
             {% if block.settings.text != blank %}
             <h6 class="icon-with-caption__text align-center">{{ block.settings.text | escape }}</h6>
+            {% endif %}
+            {% if block.settings.subtext != blank %}
+            <p class="icon-with-caption__subtext align-center">{{ block.settings.subtext | escape }}</p>
             {% endif %}
           </div>
           
@@ -76,6 +103,98 @@
 {% endif %}
 
 <style type="text/css">
+  #shopify-section-{{ section.id }} .cross-page-promos {
+    padding-top: var(--fpd-promo-padding);
+    padding-bottom: var(--fpd-promo-padding);
+    border-top: 4px solid var(--fpd-promo-accent);
+    background: var(--fpd-promo-background);
+  }
+
+  #shopify-section-{{ section.id }} .cross-page-promos,
+  #shopify-section-{{ section.id }} .cross-page-promos a,
+  #shopify-section-{{ section.id }} .cross-page-promos h6 {
+    color: var(--fpd-promo-text);
+  }
+
+  #shopify-section-{{ section.id }} .cross-page-promos .flexible-layout {
+    align-items: stretch;
+  }
+
+  #shopify-section-{{ section.id }} .cross-page-promos .flexible-layout > div {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+  }
+
+  #shopify-section-{{ section.id }} .cross-page-promos .flexible-layout > div > a,
+  #shopify-section-{{ section.id }} .cross-page-promos .flexible-layout > div > .icon-with-caption {
+    width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .icon-with-caption {
+    display: flex;
+    height: 100%;
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 8px clamp(12px, 2vw, 28px);
+  }
+
+  #shopify-section-{{ section.id }} .icon-with-caption__icon {
+    display: grid;
+    width: calc(var(--fpd-promo-icon-size) + 28px);
+    height: calc(var(--fpd-promo-icon-size) + 28px);
+    place-items: center;
+    border: 1px solid rgb(255 255 255 / 42%);
+    border-radius: 50%;
+    background: var(--fpd-promo-icon-background);
+    color: var(--fpd-promo-icon);
+    box-shadow: 0 8px 24px rgb(45 38 31 / 16%);
+  }
+
+  #shopify-section-{{ section.id }} .icon-with-caption__icon svg {
+    width: var(--fpd-promo-icon-size);
+    height: var(--fpd-promo-icon-size);
+    fill: currentColor;
+  }
+
+  #shopify-section-{{ section.id }} .icon-with-caption__text {
+    margin: 14px 0 0;
+    font-family: var(--fpd-font-heading);
+    font-size: var(--fpd-promo-heading-size);
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  #shopify-section-{{ section.id }} .icon-with-caption__subtext {
+    max-width: 22ch;
+    margin: 7px auto 0;
+    color: var(--fpd-promo-text);
+    font-size: 13px;
+    line-height: 1.45;
+    opacity: 0.8;
+  }
+
+  #shopify-section-{{ section.id }} .fpd-promos--dividers .flexible-layout > div + div::before {
+    content: "";
+    position: absolute;
+    top: 10%;
+    bottom: 10%;
+    left: 0;
+    width: 1px;
+    background: rgb(255 255 255 / 28%);
+  }
+
+  #shopify-section-{{ section.id }} .fpd-promos--cards .icon-with-caption {
+    margin: 0 8px;
+    padding: 24px 16px;
+    border: 1px solid rgb(255 255 255 / 26%);
+    border-radius: var(--fpd-card-radius);
+    background: rgb(255 255 255 / 8%);
+  }
+
   {% for block in section.blocks %}
   {% if block.type == 'image' and block.settings.text != blank %}
   .cross-page-promos .block-id-{{ block.id }} .overlay-text .text > div {
@@ -83,6 +202,44 @@
   }
   {% endif %}
   {% endfor %}
+
+  @media (max-width: 767px) {
+    #shopify-section-{{ section.id }} .cross-page-promos {
+      padding-top: calc(var(--fpd-promo-padding) * 0.7);
+      padding-bottom: calc(var(--fpd-promo-padding) * 0.7);
+    }
+
+    #shopify-section-{{ section.id }} .cross-page-promos .flexible-layout {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0;
+    }
+
+    #shopify-section-{{ section.id }} .cross-page-promos .flexible-layout > div {
+      width: auto;
+      padding: 18px 8px;
+    }
+
+    #shopify-section-{{ section.id }} .fpd-promos--dividers .flexible-layout > div + div::before {
+      content: none;
+    }
+
+    #shopify-section-{{ section.id }} .fpd-promos--dividers .flexible-layout > div:nth-child(even) {
+      border-left: 1px solid rgb(255 255 255 / 24%);
+    }
+
+    #shopify-section-{{ section.id }} .fpd-promos--dividers .flexible-layout > div:nth-child(n + 3) {
+      border-top: 1px solid rgb(255 255 255 / 24%);
+    }
+
+    #shopify-section-{{ section.id }} .icon-with-caption {
+      padding-inline: 6px;
+    }
+
+    #shopify-section-{{ section.id }} .icon-with-caption__text {
+      font-size: max(14px, calc(var(--fpd-promo-heading-size) - 2px));
+    }
+  }
 </style>
 
 
@@ -110,6 +267,90 @@
           }
         ],
 		"default": "all"
+      },
+      {
+        "type": "header",
+        "content": "Style"
+      },
+      {
+        "type": "select",
+        "id": "layout_style",
+        "label": "Layout",
+        "options": [
+          {
+            "value": "dividers",
+            "label": "Open with dividers"
+          },
+          {
+            "value": "cards",
+            "label": "Individual cards"
+          },
+          {
+            "value": "minimal",
+            "label": "Minimal"
+          }
+        ],
+        "default": "dividers"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background",
+        "default": "#006b3c"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text",
+        "default": "#fffdf8"
+      },
+      {
+        "type": "color",
+        "id": "accent_color",
+        "label": "Top accent",
+        "default": "#c9a35a"
+      },
+      {
+        "type": "color",
+        "id": "icon_background_color",
+        "label": "Icon circle background",
+        "default": "#fffdf8"
+      },
+      {
+        "type": "color",
+        "id": "icon_color",
+        "label": "Icon",
+        "default": "#006b3c"
+      },
+      {
+        "type": "range",
+        "id": "icon_size",
+        "label": "Icon size",
+        "min": 28,
+        "max": 64,
+        "step": 2,
+        "unit": "px",
+        "default": 42
+      },
+      {
+        "type": "range",
+        "id": "heading_size",
+        "label": "Heading size",
+        "min": 14,
+        "max": 22,
+        "step": 1,
+        "unit": "px",
+        "default": 17
+      },
+      {
+        "type": "range",
+        "id": "vertical_padding",
+        "label": "Top and bottom spacing",
+        "min": 20,
+        "max": 64,
+        "step": 4,
+        "unit": "px",
+        "default": 36
       }
     ],
     "blocks": [
@@ -153,8 +394,24 @@
             "type": "select",
             "id": "icon",
             "label": "Icon",
-			"default": "star",
+			"default": "pasta-fork",
 			"options": [
+              {
+                "value": "pasta-fork",
+                "label": "Pasta fork"
+              },
+              {
+                "value": "ravioli",
+                "label": "Ravioli"
+              },
+              {
+                "value": "wheat",
+                "label": "Wheat"
+              },
+              {
+                "value": "chef-hat",
+                "label": "Chef hat"
+              },
 			  {
 				"value": "chat",
 				"label": "Chat"
@@ -209,10 +466,15 @@
 			  }
 			]
           },
-		  {
+          {
             "type": "textarea",
             "id": "text",
             "label": "Caption"
+          },
+          {
+            "type": "textarea",
+            "id": "subtext",
+            "label": "Supporting text"
           },
 		  {
             "type": "url",

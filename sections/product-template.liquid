@@ -18,24 +18,21 @@
   {% assign initial_variant = product.selected_or_first_available_variant %}
 
   <style>
-  @import url('https://fonts.googleapis.com/css2?family=Lora:wght@500;700&family=Montserrat:wght@500;700&display=swap');
-
   .fpd-product-wrapper {
     --gutter: clamp(16px, 2.5vw, 40px);
-    --border-radius: 20px;
-    --border-color: #E8E6D6;
+    --border-radius: var(--fpd-card-radius);
+    --border-color: var(--fpd-border);
 
-    /* --- UPDATED: Italian Theme Colors --- */
-    --brand-primary-red: #C8102E;
-    --brand-accent-green: #007F3D;
+    --brand-primary-red: var(--fpd-brand-red);
+    --brand-accent-green: var(--fpd-brand-green);
     --brand-primary: var(--brand-primary-red);
-    --brand-secondary: #CFA650;
-    --text-body: #5D5A56;
-    --text-heading: #2B2A27;
-    --surface-background: #FFFFFF;
-    --page-background: #F8F6F2;
+    --brand-secondary: var(--fpd-brand-gold);
+    --text-body: var(--fpd-text);
+    --text-heading: var(--fpd-heading);
+    --surface-background: var(--fpd-surface);
+    --page-background: transparent;
 
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--fpd-font-body);
     background: var(--page-background);
     color: var(--text-body);
     width: 100%;
@@ -45,7 +42,7 @@
   /* --- REVISED: Product Container Layout --- */
 .fpd-product {
   /* This now perfectly matches the collection page's .fpd-container */
-  max-width: clamp(1040px, 92vw, 1440px);
+  max-width: min(92vw, var(--fpd-content-width));
   width: 100%;
   margin: 0 auto;
   
@@ -83,7 +80,7 @@
   .fpd-product__media {
     background: var(--surface-background);
     border-radius: calc(var(--border-radius) + 6px);
-    box-shadow: 0 14px 40px rgba(24, 22, 20, 0.08), 0 1px 0 rgba(24, 22, 20, 0.04);
+    box-shadow: 0 14px 40px rgb(45 38 31 / var(--fpd-shadow-opacity)), 0 1px 0 rgb(45 38 31 / 4%);
     padding: clamp(18px, 2vw, 24px);
   }
 
@@ -193,7 +190,7 @@
   }
 
   .fpd-product__title {
-    font-family: 'Lora', serif; /* UPDATED Typography */
+    font-family: var(--fpd-font-heading);
     font-size: clamp(32px, 5vw, 48px);
     font-weight: 700;
     color: var(--text-heading);
@@ -315,7 +312,7 @@
   .fpd-add-to-cart {
     display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--brand-primary); color: #fff; font-size: 16px; font-weight: 700; padding: 0 32px; border-radius: var(--border-radius); border: 1.5px solid var(--brand-primary); cursor: pointer; transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease; min-height: 48px; position: relative;
   }
-  .fpd-add-to-cart:hover { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(200, 16, 46, 0.24); background: #A30D24; border-color: #A30D24; }
+  .fpd-add-to-cart:hover { transform: translateY(-2px); box-shadow: 0 16px 34px rgb(200 16 46 / 24%); background: var(--fpd-button-hover); border-color: var(--fpd-button-hover); }
   .fpd-add-to-cart.is-loading { pointer-events: none; opacity: 0.72; }
   .fpd-add-to-cart:focus-visible { outline: 3px solid rgba(200, 16, 46, 0.4); outline-offset: 2px; }
   .fpd-add-to-cart[disabled] { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
@@ -415,7 +412,7 @@
   .fpd-social__panel li a:focus-visible { background: rgba(241, 233, 221, 0.85); transform: translateY(-1px); outline: 2px solid rgba(200, 16, 46, 0.35); outline-offset: 2px; }
   .fpd-social__panel li a:hover svg, .fpd-social__panel li a:focus-visible svg { opacity: 1; }
 
-  .fpd-long-description { background: #fff; border-radius: var(--border-radius); box-shadow: 0 12px 40px rgba(24, 22, 20, 0.08); padding: clamp(32px, 5vw, 48px); line-height: 1.8; color: var(--text-body); }
+  .fpd-long-description { background: var(--surface-background); border-radius: var(--border-radius); box-shadow: 0 12px 40px rgb(45 38 31 / var(--fpd-shadow-opacity)); padding: clamp(32px, 5vw, 48px); line-height: 1.8; color: var(--text-body); }
   .fpd-long-description h2, .fpd-long-description h3, .fpd-long-description h4 { color: var(--text-heading); }
   .fpd-info-callout { display: flex; align-items: flex-start; gap: 12px; margin-top: 16px; padding: 14px 18px; border-radius: calc(var(--border-radius) - 6px); background: rgba(200, 16, 46, 0.08); color: rgba(43, 42, 39, 0.9); font-size: 14px; }
   .fpd-info-callout svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--brand-primary); }
@@ -616,7 +613,7 @@
                                 title="{{ variant.title | escape }}">
                           {% if variant.image %}
                             <span class="fpd-flavor-chip__icon">
-                              <img src="{{ variant.image | product_img_url: '64x64' }}" alt="" aria-hidden="true" loading="lazy">
+                              <img src="{{ variant.image | product_img_url: '64x64' }}" alt="" width="64" height="64" aria-hidden="true" loading="lazy">
                             </span>
                           {% else %}
                             {% assign flavor_key = variant.title | strip | downcase %}
