@@ -419,9 +419,9 @@
     "coll_col_gen": "#006b3c",
     "cross_page_promo_bg": "#006b3c",
     "cross_page_promo_color": "#fffdf8",
-    "foot_bg_col": "#2d261f",
+    "foot_bg_col": "#17372a",
     "foot_text_col": "#f7f1e6",
-    "foot_divider_col": "#5b5147",
+    "foot_divider_col": "#426553",
     "font_fam_base": "GWF|Montserrat:400,700",
     "font_fam_headings": "GWF|Lora:400,700",
     "font_fam_shoptitle": "GWF|Lora:400,700",
@@ -546,9 +546,18 @@
       "footer": {
         "type": "footer",
         "settings": {
+          "eyebrow": "Fatto a mano in Dallas",
+          "heading": "Fresh Pasta Delights",
+          "brand_copy": "Fresh pasta and ravioli, handcrafted with Italian spirit for memorable meals at home.",
+          "origin_text": "Dallas made • Italian inspired",
           "menu_linklist": "footer",
+          "menu_heading": "Explore",
           "show_social_icons": false,
-          "signup_show": true
+          "signup_show": true,
+          "newsletter_eyebrow": "From our kitchen",
+          "newsletter_heading": "A little taste of Italy, delivered.",
+          "newsletter_copy": "Seasonal flavors, cooking inspiration, and fresh arrivals—served occasionally.",
+          "legal_text": "Handcrafted in Dallas, Texas."
         }
       },
       "product-template": {
@@ -612,7 +621,7 @@
         "settings": {
           "visibility": "all",
           "layout_style": "dividers",
-          "background_color": "#006b3c",
+          "background_color": "#145c3d",
           "text_color": "#fffdf8",
           "accent_color": "#c9a35a",
           "icon_background_color": "#fffdf8",
@@ -816,10 +825,10 @@
       "1480591889144": {
         "type": "featured-collection",
         "settings": {
-          "title": "Featured collection",
+          "title": "Fresh from the Kitchen",
           "collection": "custom-filled-pasta",
           "use_carousel": true,
-          "background_color": "#f5f5f5"
+          "background_color": "#f3eadb"
         }
       },
       "1480591893583": {

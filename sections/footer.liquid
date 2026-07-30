@@ -1,36 +1,53 @@
-<div data-section-type="footer">
-  {% if linklists[section.settings.menu_linklist].links.size > 0 %}
-  <div class="nav-row">
-    {% include 'main-navigation' with section.settings.menu_linklist %}
-  </div><!-- /.nav-row -->
-  {% endif %}
+<footer class="fpd-footer" data-section-type="footer">
+  <div class="container fpd-footer__main">
+    <div class="fpd-footer__brand">
+      <span class="fpd-footer__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+      <h2>{{ section.settings.heading | escape }}</h2>
+      <p>{{ section.settings.brand_copy | escape }}</p>
+      <span class="fpd-footer__origin">{{ section.settings.origin_text | escape }}</span>
+    </div>
 
-  <div class="lower cf">
+    {% if linklists[section.settings.menu_linklist].links.size > 0 %}
+    <nav class="fpd-footer__nav" aria-label="Footer">
+      <h3>{{ section.settings.menu_heading | escape }}</h3>
+      <ul>
+        {% for link in linklists[section.settings.menu_linklist].links %}
+        <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+    {% endif %}
+
+    {% if section.settings.signup_show %}
+    <div class="fpd-footer__newsletter">
+      <span class="fpd-footer__eyebrow">{{ section.settings.newsletter_eyebrow | escape }}</span>
+      <h3>{{ section.settings.newsletter_heading | escape }}</h3>
+      <p>{{ section.settings.newsletter_copy | escape }}</p>
+      <div class="interact">
+        {% include 'signup-form' %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="container lower cf">
     {% if section.settings.show_social_icons %}
     {% include 'social-icons' %}
     {% endif %}
 
-    {% if section.settings.signup_show %}
-    <div class="interact">
-      {% include 'signup-form' %}
-    </div><!-- /.interact -->
-    {% endif %}
-
     <div class="copyright">
       <span class="copy">&copy; {{ "now" | date: "%Y" }} {{ shop.name | link_to: '/' }}.</span>
+      <span class="fpd-footer__legal">{{ section.settings.legal_text | escape }}</span>
+      <span class="fpd-footer__platform">{{ powered_by_link }}</span>
+    </div>
 
-      {{ 'layout.footer.theme_by_html' | t }}
-
-      {{ powered_by_link }}
-    </div><!-- /.copyright -->
-
-    <div class="payment-methods">
+    <div class="payment-methods" aria-label="Accepted payment methods">
       {% for type in shop.enabled_payment_types %}
-      <img src="{{ type | payment_type_img_url }}" />
+      <img src="{{ type | payment_type_img_url }}" alt="{{ type | replace: '_', ' ' | capitalize }}" width="38" height="24" loading="lazy" />
       {% endfor %}
     </div>
   </div>
-</div>
+</footer>
 
 
 {% schema %}
@@ -38,22 +55,76 @@
     "name": "Footer",
     "settings": [
       {
+        "type": "text",
+        "id": "eyebrow",
+        "label": "Brand eyebrow",
+        "default": "Fatto a mano in Dallas"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Brand heading",
+        "default": "Fresh Pasta Delights"
+      },
+      {
+        "type": "textarea",
+        "id": "brand_copy",
+        "label": "Brand message",
+        "default": "Fresh pasta and ravioli, handcrafted with Italian spirit for memorable meals at home."
+      },
+      {
+        "type": "text",
+        "id": "origin_text",
+        "label": "Origin line",
+        "default": "Dallas made • Italian inspired"
+      },
+      {
         "type": "link_list",
         "id": "menu_linklist",
         "label": "Menu",
-		"default": "footer"
+        "default": "footer"
       },
-	  {
+      {
+        "type": "text",
+        "id": "menu_heading",
+        "label": "Menu heading",
+        "default": "Explore"
+      },
+      {
         "type": "checkbox",
         "id": "show_social_icons",
         "label": "Show social icons",
-		"default": true
+        "default": true
       },
       {
         "type": "checkbox",
         "id": "signup_show",
         "label": "Show newsletter signup",
-		"default": true
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "newsletter_eyebrow",
+        "label": "Newsletter eyebrow",
+        "default": "From our kitchen"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_heading",
+        "label": "Newsletter heading",
+        "default": "A little taste of Italy, delivered."
+      },
+      {
+        "type": "textarea",
+        "id": "newsletter_copy",
+        "label": "Newsletter message",
+        "default": "Seasonal flavors, cooking inspiration, and fresh arrivals—served occasionally."
+      },
+      {
+        "type": "text",
+        "id": "legal_text",
+        "label": "Copyright supporting text",
+        "default": "Handcrafted in Dallas, Texas."
       }
     ]
   }

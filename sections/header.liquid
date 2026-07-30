@@ -3,7 +3,7 @@
     width: {{ section.settings.logo_width_desktop }}px;
   }
 
-  @media only screen and (max-width: 767px) {
+  @media only screen and (max-width: 1100px) {
     #mobile-header .logo img {
       width: {{ section.settings.logo_width_mobile }}px;
     }
@@ -80,6 +80,16 @@
           {% include 'social-icons' %}
           {% endif %}
 
+          {% if shop.customer_accounts_enabled %}
+            <a class="fpd-account-utility" href="{% if customer %}/account{% else %}/account/login{% endif %}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <circle cx="12" cy="8" r="3.25"></circle>
+                <path d="M5.75 19c.55-3.35 2.63-5.25 6.25-5.25s5.7 1.9 6.25 5.25"></path>
+              </svg>
+              <span>{% if customer %}{{ 'layout.customer.account' | t }}{% else %}Account{% endif %}</span>
+            </a>
+          {% endif %}
+
           <div class="cart-summary">
             <a href="/{% if template != 'cart' %}cart{% else %}checkout{% endif %}" class="cart-count {% if section.settings.use_btn_style_cart_link %}button{% endif %}">
               {{ 'layout.header.cart' | t }} ({{ cart.item_count }})
@@ -100,7 +110,7 @@
   {% if social_icons_html contains '<li>' %}<div class="mobile-social">{{ social_icons_html }}</div>{% endif %}
   
   {% if shop.customer_accounts_enabled %}
-  <ul>
+  <ul class="fpd-mobile-account-links">
     <li class="account-links">
       {% if customer %}
       <span class="your-acct"><a href="/account">{{ 'layout.customer.account' | t }}</a></span>
@@ -202,7 +212,7 @@
     placeholder.setAttribute('aria-hidden', 'true');
     nav.parentNode.insertBefore(placeholder, nav);
 
-    var desktopQuery = window.matchMedia('(min-width: 768px)');
+    var desktopQuery = window.matchMedia('(min-width: 1101px)');
     var ticking = false;
 
     function clearFixedState() {
@@ -218,7 +228,8 @@
         return;
       }
 
-      var threshold = placeholder.getBoundingClientRect().top + window.pageYOffset;
+      var anchor = placeholder.classList.contains('is-active') ? placeholder : nav;
+      var threshold = anchor.getBoundingClientRect().top + window.pageYOffset;
       var shouldFix = window.pageYOffset > threshold;
       if (shouldFix) {
         placeholder.style.height = nav.offsetHeight + 'px';
@@ -245,6 +256,102 @@
   })();
 </script>
 {% endif %}
+
+<script>
+  (function() {
+    var nav = document.getElementById('main-nav');
+    if (!nav || nav.dataset.fpdDesktopMenuReady === 'true') return;
+
+    nav.dataset.fpdDesktopMenuReady = 'true';
+    var desktopQuery = window.matchMedia('(min-width: 1101px)');
+
+    /*
+     * The legacy theme can automatically reopen the active branch on every
+     * destination page. Keep navigation predictable: every page starts closed
+     * and the shopper opens a submenu only when they ask for it.
+     */
+    nav.classList.remove('autoexpand');
+
+    function topLevelTriggers() {
+      return nav.querySelectorAll('.tier-1 > ul > li > a.has-children');
+    }
+
+    function resetMenuState() {
+      var triggers = topLevelTriggers();
+      for (var i = 0; i < triggers.length; i += 1) {
+        triggers[i].classList.remove('expanded');
+        triggers[i].setAttribute('aria-expanded', 'false');
+        triggers[i].parentElement.classList.remove('mobile-expanded');
+        var indicator = triggers[i].querySelector('.exp span');
+        if (indicator) indicator.textContent = '+';
+      }
+
+      var tiers = nav.querySelectorAll('.multi-level-nav > div:not(.tier-1)');
+      for (var j = 0; j < tiers.length; j += 1) {
+        tiers[j].remove();
+      }
+    }
+
+    function syncExpandedState() {
+      var triggers = topLevelTriggers();
+      for (var i = 0; i < triggers.length; i += 1) {
+        triggers[i].setAttribute('aria-haspopup', 'true');
+        var isExpanded = triggers[i].classList.contains('expanded') || triggers[i].parentElement.classList.contains('mobile-expanded');
+        triggers[i].setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+      }
+    }
+
+    function decorateDesktopMenu() {
+      if (!desktopQuery.matches) return;
+      var tier = nav.querySelector('.multi-level-nav > .tier-2');
+      if (!tier || tier.querySelector('.fpd-mega-intro')) return;
+
+      var intro = document.createElement('div');
+      intro.className = 'fpd-mega-intro';
+      intro.innerHTML =
+        '<span class="fpd-mega-intro__eyebrow">Explore the collection</span>' +
+        '<strong>Fresh pasta, made in Dallas.</strong>' +
+        '<span class="fpd-mega-intro__copy">Choose a cut, shape, or filling made for memorable meals at home.</span>' +
+        '<span class="fpd-mega-intro__note">Handcrafted daily</span>';
+      tier.insertBefore(intro, tier.firstChild);
+    }
+
+    function closeDesktopMenu() {
+      if (!desktopQuery.matches) return;
+      resetMenuState();
+    }
+
+    nav.addEventListener('click', function(event) {
+      if (desktopQuery.matches && event.target.closest('.tier-2 a')) {
+        closeDesktopMenu();
+        return;
+      }
+      if (!event.target.closest('.tier-1 > ul > li > a.has-children')) return;
+      window.setTimeout(function() {
+        syncExpandedState();
+        decorateDesktopMenu();
+      }, 0);
+    });
+
+    document.addEventListener('click', function(event) {
+      if (!desktopQuery.matches || nav.contains(event.target)) return;
+      closeDesktopMenu();
+    });
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key !== 'Escape') return;
+      var activeTrigger = nav.querySelector('.tier-1 > ul > li > a.expanded');
+      closeDesktopMenu();
+      if (activeTrigger) activeTrigger.focus();
+    });
+
+    window.addEventListener('resize', function() {
+      if (desktopQuery.matches) syncExpandedState();
+    });
+    resetMenuState();
+    window.setTimeout(syncExpandedState, 0);
+  })();
+</script>
 
 
 {% schema %}
